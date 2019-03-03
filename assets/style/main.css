@@ -1,0 +1,19 @@
+
+
+/* User Home Page  */
+.user-home{
+    margin-top : 2% ;
+}
+
+/* Order Form  */
+/* Added item  */
+.order-card {
+    padding: 3% ;
+}
+
+.added-item {
+    margin: 2% 0 2% 0 ; 
+    border : 2px solid #ddd ; 
+    border-radius: 10px ;
+    padding: 1% ; 
+}
