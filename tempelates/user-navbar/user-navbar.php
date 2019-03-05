@@ -9,7 +9,7 @@
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Orders</a>
+              <a class="nav-link" href="/ITI_Cafetria/controllers/myOrders.php">My Orders</a>
             </li>
             
        
