@@ -5,10 +5,10 @@
 class dbManger
 {
 
-    private $host = '127.0.0.1';
-    private $db = 'iti_cafe';
-    private $user = 'Motaz';
-    private $pass = 'motaz';
+    private $host = 'sql2.freemysqlhosting.net';
+    private $db = 'sql2282123';
+    private $user = 'sql2282123';
+    private $pass = 'gR5%qP3%';
     private $charset = 'utf8mb4';
     private $dsn = "";
     private $pdo;
@@ -24,7 +24,7 @@ class dbManger
         try {
             $this->dsn = "mysql:host=$this->host;dbname=$this->db";
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-            echo "Success";
+            //echo "Success"; Khaled
         } catch (PDOException $e) {
             var_dump($this->pdo);
         }
@@ -79,6 +79,24 @@ class dbManger
         }
         return $orders;
 
+    }
+
+
+    // Return All Product Function  Khaled
+
+    public function allProduct (){
+        
+        $q  = $this->pdo->query( 'SELECT * FROM `products` ') ; 
+       return $q ; 
+    }
+
+
+    // Return Latest Product Function  Khaled
+
+    public function latestProduct (){
+        
+        $q  = $this->pdo->query( 'SELECT * FROM `products` LIMIT 1,3') ; 
+       return $q ; 
     }
 }
 

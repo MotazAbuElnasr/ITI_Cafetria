@@ -9,11 +9,12 @@
 /* Added item  */
 .order-card {
     padding: 3% ;
+    display: none ;
 }
 
 .added-item {
-    margin: 2% 0 2% 0 ; 
-    border : 2px solid #ddd ; 
+    margin: 2% 0 2% 0 ;
+    border : 2px solid #ddd ;
     border-radius: 10px ;
-    padding: 1% ; 
+    padding: 1% ;
 }

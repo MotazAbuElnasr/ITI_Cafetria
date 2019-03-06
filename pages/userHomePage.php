@@ -6,15 +6,10 @@
      
     <!-- Latest Product -->
     <h2> Latest Product </h2>
+    <hr />
     <div class = "row latest-product">
      
-        <div class="col-sm-3">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
-            <div class="col-sm-3">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
-            
+            <?php include  './tempelates/product/latestProduct.php' ?>
 
     </div>
 
@@ -29,12 +24,9 @@
 
         <div class="col-sm-7">
         <div class="row">
-            <div class="col-sm-6">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
-            <div class="col-sm-6">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
+            
+              <?php include  './tempelates/product/allProduct.php' ?>
+      
            
             </div>
         </div>
