@@ -65,16 +65,20 @@ class dbManger
         $orders = array();
         $stmt->execute(array($start,$end));
         $order = $stmt->fetchAll();
+
         foreach ($order as $row) {
-            if (!isSet($orders[$row['oNum']]["Products"])) {
-                $orders[$row['oNum']]['oNum'] = $row['oNum'];
-                $orders[$row['oNum']]['time'] = $row['OTime'];
-                $orders[$row['oNum']]['status'] = $row['status'];
+            $i=0;
+            if (!isSet($orders[$row['oNum']]["Products"]))
                 $orders[$row['oNum']]["Products"] = array();
-                $orders[$row['oNum']]['total'] = $row['total'];
-                array_push($orders[$row['oNum']]['Products'], (array("product" =>$row['PName'], "count" => $row['PCount'],
-                    "price"=>$row['PPrice'])));
-            }
+            $orders[$row['oNum']]['oNum'] = $row['oNum'];
+            $orders[$row['oNum']]['time'] = $row['OTime'];
+            $orders[$row['oNum']]['status'] = $row['status'];
+            $orders[$row['oNum']]['total'] = $row['total'];
+                array_push($orders[$row['oNum']]["Products"], (array("PName"=>$row["PName"],"count" => $row['PCount'],
+                    "price"=>$row['PPrice'] , "img"=>$row['img'])));
+
+
+
             // print_r($users);
         }
         return $orders;

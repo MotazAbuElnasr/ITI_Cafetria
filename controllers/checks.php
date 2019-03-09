@@ -64,7 +64,7 @@ $checks = $db->checks();
           <div class="card">
             <div class="card-header" id="heading<?="-$i-$j"?>">
               <h5 class="mb-0">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse<?="-$i-$j"?>" aria-expanded="false" aria-controls="collapse<?="-$i-$j"?>">
+                <a class="collapsed show" role="button" data-toggle="collapse" href="#collapse<?="-$i-$j"?>" aria-expanded="false" aria-controls="collapse<?="-$i-$j"?>">
                         <?= $check['OTime'] ?>
                         <?= 300 ?>
                 </a>
