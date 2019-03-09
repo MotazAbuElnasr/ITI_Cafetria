@@ -1,9 +1,10 @@
 <?php
-require_once('../classes/db.php');
-include '../tempelates/user-navbar/user-navbar.php';
-include '../tempelates/header.php';
-$db = new dbManger();
-$userId = 3;
+require_once('classes/db.php');
+include 'tempelates/userHeader.php';
+include 'tempelates/user-navbar/user-navbar.php';
+//include 'tempelates/userHeader.php';
+$db = new DbManager();
+$userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
 if (isset($_POST['submit'])) { //check if form was submitted
     $startDate = $_POST['start']; //get input text
     $endDate = $_POST['end'];
@@ -20,7 +21,7 @@ $orders = $db->userOrders($userId, $startDate, $endDate, 2);
 ?>
     <div class="container-fluid">
         <h2>My orders</h2>
-        <form name="frmSearch" method="post" action="./myOrders.php">
+        <form name="frmSearch" method="post" action="orders">
             <p class="search_input">
                 <label>start date</label>
                 <input type="date" name="start" id="start">
@@ -120,4 +121,4 @@ $orders = $db->userOrders($userId, $startDate, $endDate, 2);
     </script>
 
 
-<?php include "../tempelates/footer.php"; ?>
+<?php include "tempelates/footer.php"; ?>

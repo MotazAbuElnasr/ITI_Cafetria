@@ -2,34 +2,31 @@
 // require_once('user.php');
 // require_once('product.php');
 // require_once('order.php');
-class dbManger
+class DbManager
 {
 
-    private $host = '127.0.0.1';
-    private $db = 'iti_cafe';
-    private $user = 'Motaz';
-    private $pass = 'motaz';
+    private $host = 'sql2.freemysqlhosting.net';
+    private $db = 'sql2282123';
+    private $user = 'sql2282123';
+    private $pass = 'gR5%qP3%';
     private $charset = 'utf8mb4';
     private $dsn = "";
     private $pdo;
-
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ];
-
     public function __construct()
     {
         try {
             $this->dsn = "mysql:host=$this->host;dbname=$this->db";
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-            echo "Success";
+            //echo "Success"; Khaled
         } catch (PDOException $e) {
             var_dump($this->pdo);
         }
     }
-
     public function checks()
     {
         $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , po.price as PPrice , p.name as PName ,  po.number as PCount,p.img,p.p_id as PId 
@@ -38,8 +35,6 @@ class dbManger
         $users = array();
         $stmt->execute();
         $user = $stmt->fetchAll();
-        var_dump($user);
-
         foreach ($user as $row) {
             if (!isSet($users[$row['UId']]['Orders'][$row['ONum']]['Products']))
                 $users[$row['UId']]['Orders'][$row['ONum']]['Products'] = array();
@@ -50,7 +45,6 @@ class dbManger
         // print_r($users);
         return $users;
     }
-
     //SELECT o.o_id o.time, o.status, o.total from orders o where o.user_id = 3 Date between 2011/02/25 and 2011/02/27;
     public function userOrders($userId,$start,$end,$page)
     {
@@ -82,7 +76,64 @@ class dbManger
             // print_r($users);
         }
         return $orders;
+    }
+    // Return All Product Function  Khaled
+    public function allProduct (){
+        
+        $q  = $this->pdo->query( 'SELECT * FROM `products` ') ; 
+       return $q ; 
+    }
+
+    public function createProduct ($name,$price,$img,$category_id,$timestamp){
+        $stmt = $this->pdo->prepare("INSERT INTO products
+                    VALUES ( DEFAULT , ? , ? , ? , ? , ? )");
+        return $stmt->execute(array($name,$price,$img,$category_id,"available"));
 
     }
+
+    // Return Latest Product Function  Khaled
+
+    public function latestProduct (){
+        
+        $q  = $this->pdo->query( 'SELECT * FROM `products` LIMIT 1,3') ; 
+       return $q ; 
+    }
+
+
+    public function readCategory () {
+        $query = "SELECT
+                    cat_id, name
+                FROM
+                    categories
+                ORDER BY
+                    name";
+        $stmt = $this->pdo->prepare( $query );
+        $stmt->execute();
+        return $stmt;
+}
+//inserting user
+public function insertUser ($name,$email,$password,$img,$room){
+    $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
+            ('$name','$email' , '$password' , '$img' ,'$room')");
+    $stmt->execute();
+}
+
+public function getRooms(){
+    $query = "SELECT `room_num` FROM `rooms`";
+    $stmt = $this->pdo->prepare( $query );
+    $stmt->execute();
+    return $stmt;
+
+}
+
+
+
+
+
+
+
+
+
+
 }
 

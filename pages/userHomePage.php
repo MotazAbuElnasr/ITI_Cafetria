@@ -1,20 +1,16 @@
-<?php 
-    include './tempelates/user-navbar/user-navbar.php' ; 
+<?php
+include 'tempelates/userHeader.php';
+    include 'tempelates/user-navbar/user-navbar.php' ;
     ?>
 
     <section class = "container user-home">
      
     <!-- Latest Product -->
     <h2> Latest Product </h2>
+    <hr />
     <div class = "row latest-product">
      
-        <div class="col-sm-3">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
-            <div class="col-sm-3">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
-            
+            <?php include  'tempelates/product/latestProduct.php' ?>
 
     </div>
 
@@ -24,17 +20,14 @@
         <div class = "row">
 
         <div class = "col-sm-5">
-           <?php include  './tempelates/order-form/order-form.php'?>
+           <?php include  'tempelates/order-form/order-form.php'?>
         </div>
 
         <div class="col-sm-7">
         <div class="row">
-            <div class="col-sm-6">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
-            <div class="col-sm-6">
-              <?php include  './tempelates/product/product.php' ?>
-            </div>
+            
+              <?php include  'tempelates/product/allProduct.php' ?>
+      
            
             </div>
         </div>
