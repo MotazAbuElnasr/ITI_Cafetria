@@ -10,8 +10,18 @@ $product = new Product();
 $category = new Category();
 // set page headers
 $page_title = 'Create Product';
-include_once 'tempelates/layout_header.php';
-
+include'tempelates/layout_header.php';
+?>
+<body>
+<!-- container -->
+<div class="container">
+    <?php
+    // show page header
+    echo "<div class='page-header'>
+                <h1>{$page_title}</h1>
+            </div>";
+    ?>
+<?
 echo "<div class='right-button-margin'>";
 echo "<a href='index.php' class='btn btn-default pull-right'>Read Products</a>";
 echo '</div>';
@@ -84,6 +94,3 @@ if ($_POST) {
     </form>
 
 
-<?php
-
-?>
