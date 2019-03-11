@@ -14,9 +14,9 @@ class DbManager
     private $pdo;
 
     // private $host = 'localhost';
-    // private $db = 'cafetria';
-    // private $user = 'Shawkat';
-    // private $pass = 'root';
+    // private $db = 'iTi_Caffee';
+    // private $user = 'root';
+    // private $pass = '';
     // private $charset = 'utf8mb4';
     // private $dsn = "";
     // private $pdo;
@@ -156,5 +156,12 @@ public function getUsers(){
     }
     return $users;
     }
+  
+  public function login($email , $password){
+     
+    $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password'  " ) ; 
+    return $query ; 
+  }  
+
 }
 

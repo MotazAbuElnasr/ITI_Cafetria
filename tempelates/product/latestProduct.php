@@ -6,7 +6,7 @@ while ($product = $products->fetch()) {
 ?>
 
 
-<div class="col-sm-4">
+<div class="col-sm-3">
 <div class= "product card" >
     <img src="assets/images/coolCoffe.jpg" class="card-img-top" alt="product image">
     <div class="card-body">
