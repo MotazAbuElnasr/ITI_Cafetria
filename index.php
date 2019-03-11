@@ -44,6 +44,9 @@ switch ($request) {
     case '/admin/users' :
         require __DIR__ . '/pages/adminUsers.php';
         break;
+    case '/function' :
+        require __DIR__ . '/controllers/functions.php';
+        break;
     default:
         require __DIR__ . '/pages/404.php';
         break;

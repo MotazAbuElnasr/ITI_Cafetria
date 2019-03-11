@@ -37,7 +37,7 @@ include 'controllers/functions.php';
             <input type="date" name="start" id="start">
             <label>end date</label>
             <input type="date" name="end" id="end">
-            <Button onclick="FilterCheck()"value="filter" name="submit">Filter</Button>
+            <Button onclick="dateFilter()" value="filter" name="submit">Filter</Button>
         </p>
         
 <div class="btn-group">
@@ -45,13 +45,17 @@ include 'controllers/functions.php';
     Users
   </button>
   <div class="dropdown-menu">    
-    <button class="dropdown-item" type="button">Another action</button>
-    <button class="dropdown-item" type="button">Something else here</button>
+    <?php 
+     $users=getUsers();
+     foreach ($users as $key => $userName) {
+      echo "<button class='dropdown-item' id='$key' onclick='userFilter(event)' type='button'>$userName</button>";
+    }
+    ?>
   </div>
 </div>
 
 <div id="accordion">
-  <?=generateAccordion('','') ?>
+  <?=generateAccordion('','','') ?>
 </div>
 
     <script>
@@ -59,7 +63,7 @@ include 'controllers/functions.php';
         let start = new Date();
         start.setDate(start.getDate() - 3)
         document.getElementById("start").valueAsDate = start;
-        function FilterCheck(){
+        function dateFilter(){
           const startD = document.getElementById("start").value;
           const endD = document.getElementById("end").value;
           console.log(startD);
@@ -75,11 +79,26 @@ include 'controllers/functions.php';
                 console.log("Recieve MSG");
               }
           };
-          xmlhttp.open("GET", `controllers/functions.php?start=${startD}&end=${endD}`, true);
+          xmlhttp.open("GET", `/function?start=${startD}&end=${endD}`, true);
           xmlhttp.send();
           console.log("SEND") 
         }
-
+        function userFilter(event){
+          const idOfUser = event.target.id;
+          const accordionElement = document.getElementById("accordion");
+          let xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                while (accordionElement.firstChild) {
+                  accordionElement.removeChild(accordionElement.firstChild);
+                }
+                accordionElement.innerHTML = this.responseText;
+                console.log("Recieve MSG");
+              }
+          };
+          xmlhttp.open("GET", `/function?UID=${idOfUser}`, true);
+          xmlhttp.send();
+        }
             // let request = $.ajax({
           //   url: "checks.php",
           //   method: "GET",
