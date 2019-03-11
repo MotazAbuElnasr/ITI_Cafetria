@@ -1,12 +1,15 @@
 <?php
+require_once('classes/db.php');
+$db= new DbManager();
 if(isset($_GET['start'])&&isset($_GET['end'])){
   echo generateAccordion($_GET['start'],$_GET['end']);
 }
 
-
+function getUsers(){
+  $users = $db->getUsers();
+  return $users;
+}
 function generateAccordion($start,$end){
-  require_once ('../classes/db.php');
-  $db= new dbManger();
   $checks = $db->checks($start,$end);
 $ret =<<<EOT
   <div class="container">

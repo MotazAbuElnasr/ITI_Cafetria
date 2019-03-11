@@ -1,5 +1,6 @@
-<?php 
-    include './tempelates/user-navbar/user-navbar.php' ; 
+<?php
+include 'tempelates/userHeader.php';
+    include 'tempelates/user-navbar/user-navbar.php' ;
     ?>
 
     <section class = "container user-home">
@@ -9,7 +10,7 @@
     <hr />
     <div class = "row latest-product">
      
-            <?php include  './tempelates/product/latestProduct.php' ?>
+            <?php include  'tempelates/product/latestProduct.php' ?>
 
     </div>
 
@@ -19,13 +20,13 @@
         <div class = "row">
 
         <div class = "col-sm-5">
-           <?php include  './tempelates/order-form/order-form.php'?>
+           <?php include  'tempelates/order-form/order-form.php'?>
         </div>
 
         <div class="col-sm-7">
         <div class="row">
             
-              <?php include  './tempelates/product/allProduct.php' ?>
+              <?php include  'tempelates/product/allProduct.php' ?>
       
            
             </div>

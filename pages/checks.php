@@ -1,14 +1,17 @@
 <?php
-// require_once ('../classes/db.php');
-include '../tempelates/user-navbar/user-navbar.php';
-include '../tempelates/header.php';
-include './functions.php'
+require_once('classes/db.php');
+include 'tempelates/userHeader.php';
+include 'tempelates/user-navbar/user-navbar.php';
+include 'controllers/functions.php';
+// include '../tempelates/user-navbar/user-navbar.php';
+// include '../tempelates/header.php';
+
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 
 <style>
 
@@ -36,8 +39,19 @@ include './functions.php'
             <input type="date" name="end" id="end">
             <Button onclick="FilterCheck()"value="filter" name="submit">Filter</Button>
         </p>
+        
+<div class="btn-group">
+  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Users
+  </button>
+  <div class="dropdown-menu">    
+    <button class="dropdown-item" type="button">Another action</button>
+    <button class="dropdown-item" type="button">Something else here</button>
+  </div>
+</div>
+
 <div id="accordion">
-  <?=generateAccordion() ?>
+  <?=generateAccordion('','') ?>
 </div>
 
     <script>
@@ -58,16 +72,15 @@ include './functions.php'
                   accordionElement.removeChild(accordionElement.firstChild);
                 }
                 accordionElement.innerHTML = this.responseText;
-                console.log(this.responseText);
                 console.log("Recieve MSG");
               }
           };
-          console.log(startD)
-          console.log(endD)
-          xmlhttp.open("GET", `functions.php?start=${startD}&end=${endD}`, true);
+          xmlhttp.open("GET", `controllers/functions.php?start=${startD}&end=${endD}`, true);
           xmlhttp.send();
           console.log("SEND") 
-          // let request = $.ajax({
+        }
+
+            // let request = $.ajax({
           //   url: "checks.php",
           //   method: "GET",
           //   data: { startD , endD},
@@ -82,9 +95,7 @@ include './functions.php'
           // request.fail(function( jqXHR, textStatus ) {
           //   alert( "Request failed: " + textStatus );
           // });
-        }
-
     </script>
 
 <?php 
-include "../tempelates/footer.php"; ?>
+// include "tempelates/footer.php"; ?>
