@@ -146,7 +146,7 @@ public function getRooms(){
 }
 
 public function getUsers(){
-    $query = "SELECT `id` as UID, `name` as UName FROM users";
+    $query = "SELECT `id` as UID, `name` as UName FROM users  WHERE is_admin =0 ";
     $users = array();
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();

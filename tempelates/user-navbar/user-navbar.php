@@ -11,8 +11,6 @@
             <li class="nav-item">
               <a class="nav-link" href="orders">My Orders</a>
             </li>
-            
-       
           </ul>
           <ul class="ml-auto navbar-nav ">
               <li class="nav-item">
