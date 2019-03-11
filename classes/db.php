@@ -49,7 +49,6 @@ class DbManager
     public function userOrders($userId,$start,$end,$page)
     {
         $offset = $page >= 0 ? $page*4 : 0;
-
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
                                               o.status as status, po.price as PPrice , p.name as PName ,
                                               po.number as PCount,p.img as img FROM orders o,products p,
@@ -126,14 +125,11 @@ public function getRooms(){
 
 }
 
-
-
-
-
-
-
-
-
+public function cancelOrder ($id) {
+    $query = "DELETE FROM orders WHERE o_id = $id";
+    $stmt = $this->pdo->prepare( $query );
+    $stmt->execute();
+}
 
 }
 

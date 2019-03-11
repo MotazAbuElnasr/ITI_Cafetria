@@ -40,7 +40,8 @@ $orders = $db->userOrders($userId, $startDate, $endDate, 2);
                     <th>Action</th>
                 </tr>
                 <?php $i = 0;
-                foreach ($orders as $order) { ?>
+                foreach ($orders as $order) { var_dump($order)?>
+
                     <tr>
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -57,9 +58,9 @@ $orders = $db->userOrders($userId, $startDate, $endDate, 2);
                                         <?php echo $order["total"] ?>
                                     </td>
                                     <td>
-                                        <?php $orderNo = $order['total'];
+                                        <?php $orderNo = $order['oNum'];
                                         if ($order["status"] == "Processing") {
-                                            echo "<form action='myOrders.php' method='post'> 
+                                            echo "<form action='deleteOrder' method='post'> 
                                     <input type='hidden' name='orderNo' value='$orderNo'>
                                     <input type='submit' value='Cancel'>
                                   </form>";
