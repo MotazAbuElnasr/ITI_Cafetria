@@ -5,7 +5,7 @@
     ?>
 
     <section class = "container user-home">
-     
+
     <!-- Latest Product -->
     <h2> Latest Product </h2>
     <hr />
@@ -23,10 +23,10 @@
 
         <div class="col-sm-7">
         <div class="row">
-            
+
               <?php include  'tempelates/product/allProduct.php' ?>
-      
-           
+
+
             </div>
         </div>
 

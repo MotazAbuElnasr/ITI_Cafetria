@@ -34,11 +34,11 @@ if (isset($_POST['signIn']))
     $password = $_POST['password'] ;
     $userInfo = $db->login ($email , $password) ;
     $userName = $userInfo->fetch() ;
-    if ($userName == ""){
+    if ($userName['name'] == ""){
         echo " Sorry but this is wrong email or password " ;
     }
     else {
-        if ($userName == "admin"){
+        if ($userName['name'] == "admin"){
 
             header('Location: /admin');
         }

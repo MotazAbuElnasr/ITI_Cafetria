@@ -186,8 +186,14 @@ public function getUsers(){
 
   public function login($email , $password){
 
-    $query =  $this->pdo->query( "SELECT `name` , `id` from users where email = '$email' and password = '$password'  " ) ; 
+    $query =  $this->pdo->query( "SELECT `name` , `id` from users where email = '$email' and password = '$password'  " ) ;
     return $query ;
+  }
+
+  public function userList (){
+
+      $q  = $this->pdo->query( 'SELECT `id` , `name` FROM `users` ') ;
+     return $q ;
   }
 
 }
