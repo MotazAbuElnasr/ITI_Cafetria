@@ -22,7 +22,7 @@ include 'tempelates/header.php';
             <input class="text" type="date" name="start" id="start">
             <label>end date</label>
             <input class="text" type="date" name="end" id="end">
-            <Button class="filterBtn" onclick="checkFilter()" value="filter" name="submit">Filter</Button>
+            <Button class="filterBtn" onclick="checkFilter(null,1)" value="filter" name="submit">Filter</Button>
         </div>
   </div>
         

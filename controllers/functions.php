@@ -18,8 +18,8 @@ function getUsers(){
 
 function generateAccordion($start,$end,$uid,$page){
 $db= new DbManager();
-$checks = $db->checks($start,$end,$uid,$page);
 $allUsers = $db->checks($start,$end,'','');
+$checks = $db->checks($start,$end,$uid,$page);
 $ret=<<<EOT
 <div class="btn-group" id="userList" >
   <button type="button" class="btn dropdown-toggle text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
