@@ -48,7 +48,7 @@ class DbManager
         if(isset($uid)&&!empty($uid)){
             $userCondition = " and u.id = $uid " ;
         }
-        $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount,p.img,p.p_id as PId 
+        $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount , p.img as PImg ,p.p_id as PId 
             FROM orders o,users u,products p,products_orders po WHERE
             o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id '.$dateCondition.$userCondition);
         $users = array();
@@ -58,9 +58,10 @@ class DbManager
             if (!isSet($users[$row['UId']]['Orders'][$row['ONum']]['Products']))
                 $users[$row['UId']]['Orders'][$row['ONum']]['Products'] = array();
             $users[$row['UId']]['UName'] = $row['UName'];
+            $row['PImg']="../assets/images".$row['PImg'];
             $users[$row['UId']]['Orders'][$row['ONum']]['OTime'] = $row['OTime'];
             $users[$row['UId']]['Orders'][$row['ONum']]['OTotal'] = $row['OTotal'];
-            array_push($users[$row['UId']]['Orders'][$row['ONum']]['Products'], (array($row['PName'], $row['PCount'], $row['PPrice'])));
+            array_push($users[$row['UId']]['Orders'][$row['ONum']]['Products'], (array($row['PName'], $row['PCount'], $row['PPrice'],$row['PImg'])));
         }
         // print_r($users);
         return $users;

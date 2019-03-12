@@ -1,10 +1,10 @@
 <?php
 require_once('classes/db.php');
 if(isset($_GET['start'])&&isset($_GET['end'])){
-  echo generateAccordion($_GET['start'],$_GET['end'],'');
-}
-else if(isset($_GET['UID'])&&!empty($_GET['UID'])){
-  echo generateAccordion('','',$_GET['UID']);
+  $UID='';
+  if(isset($_GET['UID'])&&!empty($_GET['UID']))
+    $UID=$_GET['UID'];
+  echo generateAccordion($_GET['start'],$_GET['end'],$UID);
 }
 function getUsers(){
   $db = new DbManager();
@@ -15,7 +15,20 @@ function getUsers(){
 function generateAccordion($start,$end,$uid){
 $db= new DbManager();
 $checks = $db->checks($start,$end,$uid);
-$ret =<<<EOT
+$ret=<<<EOT
+<div class="btn-group" id="userList">
+  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Users
+  </button>
+  <div class="dropdown-menu"> 
+EOT;
+foreach ($checks as $key => $user) {
+  $uName=$checks[$key]['UName'];
+  $ret.= "<button class='dropdown-item' id='$key' onclick='checkFilter(event)' type='button'>$uName</button>";
+  }    
+$ret .=<<<EOT
+  </div>
+  </div>
   <div class="container">
   <div class="row">
       <div class="col-6">
@@ -80,13 +93,22 @@ $ret .= <<<EOT
   </h5>
 </div>
 <div id="collapse-$i-$j" class="collapse" data-parent="#accordion-$i" aria-labelledby="heading-$i-$j">
-  <div class="card-body">  
+<div class='row'>
 EOT;
 foreach ($check['Products'] as $product) { 
-        $ret .= "<div> <div> $product[0] </div> <div> $product[2] </div> </div>";
+        $ret .= "
+         <div class='col-sm-2'>
+          <div class= 'product card' >
+              <img src='$product[3]' class='card-img-top cardImg' alt='product image'>
+              <div class='card-body'>
+                <h5 class='card-title p-name'>$product[0]</h5>
+                <p class='card-text'>  <strong> Price </strong> : <span value ='$product[2]' class='p-price'> $product[2]</span> EGP</p>
+              </div>
+            </div>
+          </div>";
                   }
 $ret .= <<<EOT
-            </div>
+           </div>
           </div>
         </div>
 EOT;
