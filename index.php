@@ -2,6 +2,7 @@
 // header is for each page
 // body
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// echo $request;
 switch ($request) {
     //israa
     case '/' :
@@ -10,6 +11,12 @@ switch ($request) {
         //Motaz
     case '/orders' :
         require __DIR__ . '/pages/myOrders.php';
+        break;
+    case '/cancelOrder' :
+        require __DIR__ . '/controllers/cancelOrder.php';
+        break;
+    case '/generateMyOrders' :
+        require __DIR__ . '/controllers/generateMyOrders.php';
         break;
         //Khaled - Alaa
     case '/home' :
