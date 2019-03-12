@@ -66,6 +66,7 @@ body{
     font-family: 'Sniglet', cursive;
 }
 
+
 /*buttons*/
 .filter{
     margin-left: 6%;
@@ -149,6 +150,14 @@ body{
   .form-label-group input {
     height: auto;
     border-radius: 2rem;
+  }
+
+ #orderTable{
+     min-height: 400px;
+ }
+
+
+  #Pagination{
   }
   
   /* .form-label-group input:not(:placeholder-shown) {

@@ -8,7 +8,7 @@ $db = new DbManager();
 $userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
 $orders = $db->userOrders($userId, $startDate, $endDate, $page); //This will be page
 $page="
-<div class='panel-group' id='accordion'>
+<div class='panel-group' id='accordion' style='min-height: 450px'>
     <table class='table table-hover text-center table table-bordered text' id='orderTable'>
         <!--                make it with css-->
         <thead class='thead-blue'>
@@ -27,7 +27,7 @@ $page="
                                $total = $order['total'];
             $orderNo = $order['oNum'];
 $page.="
-            <tr onclick='accordionFix(event)' data-number='$i' data-toggle='collapse' data-target='#collapse$i' class='accordion-toggle'>
+            <tr onclick='accordionFix(event)' data-number='$i' data-toggle='collapse' data-target='#collapse$i' class='order accordion-toggle'>
                             <td class='align-middle'>
                                     $time
                             </td>

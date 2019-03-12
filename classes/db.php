@@ -42,7 +42,7 @@ class DbManager
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass,$this->options);
             //echo "Success"; Khaled
         } catch (PDOException $e) {
-            // echo "ERROR";/
+            // echo "ERROR";/PName
              var_dump($this->pdo);
         }
     }
@@ -74,15 +74,29 @@ class DbManager
         // print_r($users);
         return $users;
     }
-    //SELECT o.o_id o.time, o.status, o.total from orders o where o.user_id = 3 Date between 2011/02/25 and 2011/02/27;
+//pagination
+//SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
+//o.status as status, po.price as PPrice , p.name as PName ,
+//po.number as PCount,p.img as img FROM
+//(SELECT ord.o_id, ord.time, ord.total ,
+//ord.status, ord.user_id FROM orders ord limit 4 OFFSET 4 ) as o,
+//products p,
+//products_orders po WHERE o.o_id = po.order_id
+//and p.p_id = po.product_id and o.user_id = 3
+
+
+
     public function userOrders($userId,$start,$end,$page)
     {
         $dateCondition=" and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
-        $offset = $page > 1 ? $page*4 : 0;
+        $offset = $page > 0 ? ($page-1)*4 : 0;
         $limitCondition=" LIMIT 4 OFFSET $offset ";
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
                                               o.status as status, po.price as PPrice , p.name as PName ,
-                                              po.number as PCount,p.img as img FROM orders o,products p,
+                                              po.number as PCount,p.img as img FROM
+                                              (SELECT ord.o_id, ord.time, ord.total ,
+                                              ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
+                                              products p,
                                               products_orders po WHERE o.o_id = po.order_id 
                                               and p.p_id = po.product_id and o.user_id = $userId
                                               ".$dateCondition);

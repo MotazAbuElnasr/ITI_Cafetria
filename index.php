@@ -63,5 +63,4 @@ switch ($request) {
         require __DIR__ . '/pages/404.php';
         break;
 }
-// footer
 include 'tempelates/footer.php';

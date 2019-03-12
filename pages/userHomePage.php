@@ -10,11 +10,8 @@
     <h2> Latest Product </h2>
     <hr />
     <div class = "row latest-product">
-     
             <?php include  'tempelates/product/latestProduct.php' ?>
-
     </div>
-
      <hr />
 
         <!-- Our Product  -->
