@@ -30,24 +30,25 @@ $db = new DbManager() ;
 
 if (isset($_POST['signIn']))
 {
-    $email = $_POST['email'] ; 
-    $password = $_POST['password'] ; 
+    $email = $_POST['email'] ;
+    $password = $_POST['password'] ;
     $userInfo = $db->login ($email , $password) ;
-    $userName = $userInfo->fetchColumn() ; 
+    $userName = $userInfo->fetch() ;
     if ($userName == ""){
-        echo " Sorry but this is wrong email or password " ; 
+        echo " Sorry but this is wrong email or password " ;
     }
     else {
         if ($userName == "admin"){
 
             header('Location: /admin');
         }
-        else 
+        else
         header('Location: /home');
-        $_SESSION['userName'] = $userName ; 
+        $_SESSION['userName'] = $userName['name'] ;
+        $_SESSION['userId'] = $userName['id'] ;
     }
 }
-// 
+//
 // while ($product = $products->fetch()) {
 ?>
 

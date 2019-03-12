@@ -8,7 +8,7 @@ while ($product = $products->fetch()) {
 
 <div class="col-sm-4">
 <div class= "product card" >
-    <img src="assets/images/coolCoffe.jpg" class="card-img-top" alt="product image">
+    <img src= <?php echo $product['img']  ?> class="card-img-top" alt="product image">
     <div class="card-body">
       <h5 class="card-title p-name"><?php echo $product['name'] ?></h5>
       <p class="card-text">  <strong> Price </strong> : <span value = <?php echo $product['price'] ?>  class="p-price"><?php echo $product['price'] ?> </span>EGP</p>
@@ -17,4 +17,4 @@ while ($product = $products->fetch()) {
     </div>
   </div>
   </div>
-<?php } ?>
+<?php }?>
