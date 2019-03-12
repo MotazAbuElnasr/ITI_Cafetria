@@ -1,10 +1,10 @@
 <?php
 require_once('classes/db.php');
-include 'tempelates/userHeader.php';
 include 'tempelates/user-navbar/user-navbar.php';
 require_once "controllers/generateMyOrders.php"
 //include 'tempelates/userHeader.php';
 ?>
+<div id="headOrders">
     <div class="container-fluid" id="myOrders">
         <h2 class="text" id="head">Your past orders 😋 </h2>
             <p class="search_input filter text">
@@ -23,6 +23,8 @@ require_once "controllers/generateMyOrders.php"
     </div>
 
     </div>
+</div>
+
     <script>
         document.getElementById("end").valueAsDate = new Date();
         let start = new Date();

@@ -1,6 +1,9 @@
 <?php
 // header is for each page
 // body
+include 'tempelates/userHeader.php';
+session_start() ; 
+
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // echo $request;
 switch ($request) {
@@ -23,19 +26,19 @@ switch ($request) {
         require __DIR__ . '/pages/userHomePage.php';
         break;
         //Nouran
-    case '/admin/addproduct' :
+    case '/admin-addproduct' :
         require __DIR__ . '/pages/addProducts.php';
         break;
         //Israa
-    case '/admin/adduser' :
+    case '/admin-adduser' :
         require __DIR__ . '/pages/addUser.php';
         break;
         //Shawkat
-    case '/admin/checks' :
+    case '/admin-checks' :
         require __DIR__ . '/pages/checks.php';
         break;
         //Alaa
-    case '/admin/orders' :
+    case '/admin-orders' :
         require __DIR__ . '/pages/adminReceivedOrders.php';
         break;
         //khaled
@@ -49,6 +52,12 @@ switch ($request) {
         //Israa
     case '/admin/users' :
         require __DIR__ . '/pages/adminUsers.php';
+        break;
+    case '/function' :
+        require __DIR__ . '/controllers/functions.php';
+        break;
+    case '/admin' :
+        require __DIR__ . '/pages/adminHome.php';
         break;
     default:
         require __DIR__ . '/pages/404.php';

@@ -21,6 +21,15 @@ class DbManager
      private $dsn = "";
      private $pdo;
 
+
+    // private $host = 'localhost';
+    // private $db = 'iTi_Caffee';
+    // private $user = 'root';
+    // private $pass = '';
+    // private $charset = 'utf8mb4';
+    // private $dsn = "";
+    // private $pdo;
+
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -38,15 +47,19 @@ class DbManager
         }
     }
 
-    public function checks($start,$end)
+    public function checks($start,$end,$uid)
     {
         $dateCondition='';
+        $userCondition='';
         if(isset($start)&&!empty($start)&&isset($end)&&!empty($end)){
             $dateCondition=" and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
         }
+        if(isset($uid)&&!empty($uid)){
+            $userCondition = " and u.id = $uid " ;
+        }
         $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount,p.img,p.p_id as PId 
             FROM orders o,users u,products p,products_orders po WHERE
-            o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id '.$dateCondition);
+            o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id '.$dateCondition.$userCondition);
         $users = array();
         $stmt->execute();
         $user = $stmt->fetchAll();
@@ -146,14 +159,22 @@ public function cancelOrder ($id) {
 }
 
 public function getUsers(){
-    $query = "SELECT `id` as UID, `name` as UName FROM users";
+    $query = "SELECT `id` as UID, `name` as UName FROM users  WHERE is_admin =0 ";
     $users = array();
+    $stmt = $this->pdo->prepare($query);
     $stmt->execute();
     $user = $stmt->fetchAll();
     foreach ($user as $row) {
         $users[$row['UID']]=$row['UName'];
     }
     return $users;
-}
+    }
+  
+  public function login($email , $password){
+     
+    $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password'  " ) ; 
+    return $query ; 
+  }  
+
 }
 

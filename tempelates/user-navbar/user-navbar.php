@@ -9,12 +9,12 @@
               <a class="nav-link" id="homee" href="home">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="orders">My Orders</a>
+              <a class="nav-link" href="/orders">My Orders</a>
             </li>
           </ul>
           <ul class="ml-auto navbar-nav ">
               <li class="nav-item">
-                  <a class="nav-link" href="#">Welcome User</a></li>
+<!--                  <a class="nav-link" href="#">Welcome --><?php //echo $_SESSION['userName'] ?><!--</a></li>-->
           </ul>
         </div>
       </nav>
