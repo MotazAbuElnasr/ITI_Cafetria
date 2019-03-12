@@ -36,3 +36,131 @@
 .modal-footer{
     text-align: center !important;
 }
+/*navigation bar*/
+
+
+.navigation{
+ background-color: #165e93;
+}
+#iti{
+    color: #8fadff;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-weight: bold;
+;
+}
+#home, #homee{
+    color: #b3bffb; !important;
+    font-weight: bolder;
+}
+/*table head*/
+.thead-blue{
+    color: #e5ffbe;
+    background-color: #5767f3;
+}
+/*table hover*/
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    color: #6300e4;
+}
+/*my orders div*/
+#myOrders{
+    font-family: 'Sniglet', cursive;
+}
+
+/*buttons*/
+.filter{
+    margin-left: 6%;
+}
+.filterBtn{
+    display: inline-block;
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #5f78b3;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+/*the date*/
+#start,#end{
+    margin-right: 3%;
+    margin-left:1%;
+    text-align: right;
+}
+/*Your past orders*/
+#head{
+    margin-top: 7px;
+    margin-left: 5.5%;
+}
+/*every text in page*/
+.text{
+    color: #0700b5;
+}
+/*row of products*/
+.orderProducts{
+    padding: 5px;
+}
+/*data created*/
+.data{
+    text-align: center;
+    background-color: #cddaea;
+    color: darkslateblue;
+}
+
+/* login Page */ 
+
+  .card-signin {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-signin .card-title {
+    margin-bottom: 2rem;
+    font-weight: 300;
+    font-size: 1.5rem;
+  }
+  
+  .card-signin .card-body {
+    padding: 2rem;
+  }
+  
+  .form-signin {
+    width: 100%;
+  }
+  
+  .form-signin .btn {
+    font-size: 80%;
+    border-radius: 5rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
+  }
+  
+  .form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .form-label-group input {
+    height: auto;
+    border-radius: 2rem;
+  }
+  
+  /* .form-label-group input:not(:placeholder-shown) {
+    padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+    padding-bottom: calc(var(--input-padding-y) / 3);
+  }
+  
+  .form-label-group input:not(:placeholder-shown)~label {
+    padding-top: calc(var(--input-padding-y) / 3);
+    padding-bottom: calc(var(--input-padding-y) / 3);
+    font-size: 12px;
+    color: #777;
+  } */
+  
+/*  Checks Page */

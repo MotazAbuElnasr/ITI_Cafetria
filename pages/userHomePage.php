@@ -1,6 +1,7 @@
 <?php
-include 'tempelates/userHeader.php';
     include 'tempelates/user-navbar/user-navbar.php' ;
+    if ($_SESSION['userName']=="")
+    header('Location: /');
     ?>
 
     <section class = "container user-home">
@@ -9,9 +10,7 @@ include 'tempelates/userHeader.php';
     <h2> Latest Product </h2>
     <hr />
     <div class = "row latest-product">
-     
             <?php include  'tempelates/product/latestProduct.php' ?>
-
     </div>
 
      <hr />

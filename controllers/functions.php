@@ -1,10 +1,14 @@
 <?php
 require_once('classes/db.php');
+$db= new DbManager();
 if(isset($_GET['start'])&&isset($_GET['end'])){
   $UID='';
+  $page='';
   if(isset($_GET['UID'])&&!empty($_GET['UID']))
     $UID=$_GET['UID'];
-  echo generateAccordion($_GET['start'],$_GET['end'],$UID);
+  if(isset($_GET['page'])&&!empty($_GET['page']))
+    $page=$_GET['page'];
+  echo generateAccordion($_GET['start'],$_GET['end'],$UID,$page);
 }
 function getUsers(){
   $db = new DbManager();
@@ -12,25 +16,26 @@ function getUsers(){
   return $users;
 }
 
-function generateAccordion($start,$end,$uid){
+function generateAccordion($start,$end,$uid,$page){
 $db= new DbManager();
-$checks = $db->checks($start,$end,$uid);
+$checks = $db->checks($start,$end,$uid,$page);
+$allUsers = $db->checks($start,$end,'','');
 $ret=<<<EOT
-<div class="btn-group" id="userList">
-  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<div class="btn-group" id="userList" >
+  <button type="button" class="btn dropdown-toggle text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Users
   </button>
   <div class="dropdown-menu"> 
 EOT;
-foreach ($checks as $key => $user) {
-  $uName=$checks[$key]['UName'];
+foreach ($allUsers as $key => $user) {
+  $uName=$allUsers[$key]['UName'];
   $ret.= "<button class='dropdown-item' id='$key' onclick='checkFilter(event)' type='button'>$uName</button>";
   }    
 $ret .=<<<EOT
   </div>
   </div>
   <div class="container">
-  <div class="row">
+  <div class="row text-center">
       <div class="col-6">
          <h3> Name </h3>
       </div>
@@ -45,18 +50,18 @@ foreach($checks as $user){
 $total=0; 
 foreach ($user['Orders'] as $check) $total += $check['OTotal'];
 $ret .= <<<EOT
-<div class="card">
+<div class="card text-center">
   <div class="card-header" id="heading-$i">
     <h5 class="mb-0">
       <a role="button" data-toggle="collapse" href="#collapse-$i" aria-expanded="true" aria-controls="collapse-$i">
-      <div class="row">
-      <div class="col-6">
-            {$user['UName']}
-      </div>
-      <div class="col-6">
-        $total
-      </div>
-  </div>
+        <div class="row">
+          <div class="col-6">
+                {$user['UName']}
+          </div>
+          <div class="col-6">
+            $total
+          </div>
+        </div>
       </a>
     </h5>
   </div>
@@ -69,13 +74,17 @@ $ret .= <<<EOT
               Order Date
               </div>
               <div class="col-6">
-              Amount
+              Amount  
               </div>
           </div>
       </div>
 EOT;
 $j=1;
 foreach ($user['Orders'] as $check) {
+  $orderDate = strtotime($check['OTime'] );
+  // {$check['OTime']}
+
+$orderDate = date( ' m-d-Y H:i:s', $orderDate );
 $ret .= <<<EOT
 <div class="card">
 <div class="card-header" id="heading-$i-$j">
@@ -83,7 +92,7 @@ $ret .= <<<EOT
     <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-$i-$j" aria-expanded="false" aria-controls="collapse-$i-$j">
     <div class="row">
     <div class="col-6">
-    {$check['OTime']}
+    {$orderDate}    
     </div>
     <div class="col-6">
     {$check['OTotal']}

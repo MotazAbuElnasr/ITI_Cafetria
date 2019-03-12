@@ -5,21 +5,30 @@
 class DbManager
 {
 
-    private $host = 'sql2.freemysqlhosting.net';
-    private $db = 'sql2282123';
-    private $user = 'sql2282123';
-    private $pass = 'gR5%qP3%';
+//    private $host = 'sql2.freemysqlhosting.net';
+//    private $db = 'sql2282123';
+//    private $user = 'sql2282123';
+//    private $pass = 'gR5%qP3%';
+//    private $charset = 'utf8mb4';
+//    private $dsn = "";
+//    private $pdo;
+
+//      private $host = '127.0.0.1';
+//      private $db = 'iti_cafe';
+//      private $user = 'Motaz';
+//      private $pass = 'motaz';
+//      private $charset = 'utf8mb4';
+//      private $dsn = "";
+//      private $pdo;
+
+
+    private $host = 'localhost';
+    private $db = 'cafetria';
+    private $user = 'root';
+    private $pass = '';
     private $charset = 'utf8mb4';
     private $dsn = "";
     private $pdo;
-
-    // private $host = 'localhost';
-    // private $db = 'cafetria';
-    // private $user = 'Shawkat';
-    // private $pass = 'root';
-    // private $charset = 'utf8mb4';
-    // private $dsn = "";
-    // private $pdo;
 
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -38,21 +47,31 @@ class DbManager
         }
     }
 
-    public function checks($start,$end,$uid)
+    public function checks($start,$end,$uid,$page)
     {
         $dateCondition='';
         $userCondition='';
+        $limitCondition='';
         if(isset($start)&&!empty($start)&&isset($end)&&!empty($end)){
             $dateCondition=" and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
         }
         if(isset($uid)&&!empty($uid)){
             $userCondition = " and u.id = $uid " ;
         }
-        $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount , p.img as PImg ,p.p_id as PId 
-            FROM orders o,users u,products p,products_orders po WHERE
-            o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id '.$dateCondition.$userCondition);
+        if(isset($page)&&!empty($page)){
+            $offset = $page > 0 ? ($page-1)*4: 0;
+            $limitCondition=" LIMIT 4 OFFSET $offset ";
+        }
+
+
+        
+        $stmt = $this->pdo->prepare("SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount , p.img as PImg ,p.p_id as PId 
+        FROM orders o,(select u.id as id , u.name as name from users u,orders o 
+        where u.id = o.user_id  $dateCondition $limitCondition ) as u,products p,products_orders po WHERE
+        o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id".$userCondition);
         $users = array();
         $stmt->execute();
+        // var_dump($stmt);
         $user = $stmt->fetchAll();
         foreach ($user as $row) {
             if (!isSet($users[$row['UId']]['Orders'][$row['ONum']]['Products']))
@@ -69,20 +88,20 @@ class DbManager
     //SELECT o.o_id o.time, o.status, o.total from orders o where o.user_id = 3 Date between 2011/02/25 and 2011/02/27;
     public function userOrders($userId,$start,$end,$page)
     {
-        $offset = $page >= 0 ? $page*4 : 0;
-
+        $dateCondition=" and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
+        $offset = $page > 1 ? $page*4 : 0;
+        $limitCondition=" LIMIT 4 OFFSET $offset ";
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
                                               o.status as status, po.price as PPrice , p.name as PName ,
                                               po.number as PCount,p.img as img FROM orders o,products p,
                                               products_orders po WHERE o.o_id = po.order_id 
                                               and p.p_id = po.product_id and o.user_id = $userId
-                                              and o.time between ? AND ? LIMIT 0 , 4 ");
-        $orders = array();
-        $stmt->execute(array($start,$end));
-        $order = $stmt->fetchAll();
+                                              ".$dateCondition);
 
+        $orders = array();
+        $stmt->execute();
+        $order = $stmt->fetchAll();
         foreach ($order as $row) {
-            $i=0;
             if (!isSet($orders[$row['oNum']]["Products"]))
                 $orders[$row['oNum']]["Products"] = array();
             $orders[$row['oNum']]['oNum'] = $row['oNum'];
@@ -91,11 +110,9 @@ class DbManager
             $orders[$row['oNum']]['total'] = $row['total'];
                 array_push($orders[$row['oNum']]["Products"], (array("PName"=>$row["PName"],"count" => $row['PCount'],
                     "price"=>$row['PPrice'] , "img"=>$row['img'])));
-
-
-
             // print_r($users);
         }
+
         return $orders;
     }
     // Return All Product Function  Khaled
@@ -146,6 +163,12 @@ public function getRooms(){
 
 }
 
+public function cancelOrder ($id) {
+    $query = "DELETE FROM orders WHERE o_id = $id";
+    $stmt = $this->pdo->prepare( $query );
+    $stmt->execute();
+}
+
 public function getUsers(){
     $query = "SELECT `id` as UID, `name` as UName FROM users  WHERE is_admin =0 ";
     $users = array();
@@ -157,5 +180,12 @@ public function getUsers(){
     }
     return $users;
     }
+  
+  public function login($email , $password){
+     
+    $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password'  " ) ; 
+    return $query ; 
+  }  
+
 }
 
