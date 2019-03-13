@@ -161,6 +161,12 @@ body{
     border-radius: 2rem;
   }
 
+  .alert.alert-danger{
+      display: none ;
+      margin-top: 15px
+      
+  }
+
  #orderTable{
      min-height: 400px;
  }
