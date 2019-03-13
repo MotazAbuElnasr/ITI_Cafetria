@@ -1,4 +1,7 @@
 <?php
+// include admin navbar 
+include 'tempelates/adminNavbar.php' ;
+
 // include database and object files
 include_once 'classes/db.php';
 include_once 'classes/product.php';

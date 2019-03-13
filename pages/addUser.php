@@ -58,27 +58,11 @@
     ?>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Products</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Manual Order</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Checks</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+ <?php 
+   // add Admin Navbar 
+   include 'tempelates/adminNavbar.php' ;
+
+ ?>
 <div class="container-fluid">
     <h1>Add User</h1>
     <form method="post" action = "adduser">

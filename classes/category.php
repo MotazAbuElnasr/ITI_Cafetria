@@ -23,7 +23,7 @@ class Category
     }
 
     // used to read category name by its ID
-    public function readName()
+    public function readName($id)
     {
         return $this->db->readName($this->id);
     }

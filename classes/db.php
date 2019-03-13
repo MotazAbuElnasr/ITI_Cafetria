@@ -12,6 +12,15 @@ class DbManager
     private $charset = 'utf8mb4';
     private $dsn = '';
     private $pdo;
+
+    // // private $host = 'localhost';
+    // // private $db = 'iTi_Caffee';
+    // // private $user = 'root';
+    // // private $pass = '';
+    // // private $charset = 'utf8mb4';
+    // // private $dsn = "";
+    // // private $pdo;
+
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -25,15 +34,30 @@ class DbManager
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass, $this->options);
             //echo "Success"; Khaled
         } catch (PDOException $e) {
+            // echo "ERROR";/PName
             var_dump($this->pdo);
         }
     }
 
-    public function checks()
+    public function checks($start, $end, $uid, $page)
     {
-        $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , po.price as PPrice , p.name as PName ,  po.number as PCount,p.img,p.p_id as PId 
-            FROM orders o,users u,products p,products_orders po WHERE
-            o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id');
+        $dateCondition = '';
+        $userCondition = '';
+        $limitCondition = '';
+        if (isset($start) && !empty($start) && isset($end) && !empty($end)) {
+            $dateCondition = " and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
+        }
+        if (isset($uid) && !empty($uid)) {
+            $userCondition = " and u.id = $uid ";
+        }
+        if (isset($page) && !empty($page)) {
+            $offset = $page > 0 ? ($page - 1) * 4 : 0;
+            $limitCondition = " LIMIT 4 OFFSET $offset ";
+        }
+        $stmt = $this->pdo->prepare("SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount , p.img as PImg ,p.p_id as PId 
+        FROM orders o,(select u.id as id , u.name as name from users u,orders o 
+        where u.id = o.user_id  $dateCondition $limitCondition ) as u,products p,products_orders po WHERE
+        o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id".$userCondition);
         $users = array();
         $stmt->execute();
         $user = $stmt->fetchAll();
@@ -42,30 +66,44 @@ class DbManager
                 $users[$row['UId']]['Orders'][$row['ONum']]['Products'] = array();
             }
             $users[$row['UId']]['UName'] = $row['UName'];
+            $row['PImg'] = '../assets/images'.$row['PImg'];
             $users[$row['UId']]['Orders'][$row['ONum']]['OTime'] = $row['OTime'];
-            array_push($users[$row['UId']]['Orders'][$row['ONum']]['Products'], (array($row['PName'], $row['PCount'], $row['PPrice'])));
+            $users[$row['UId']]['Orders'][$row['ONum']]['OTotal'] = $row['OTotal'];
+            array_push($users[$row['UId']]['Orders'][$row['ONum']]['Products'], (array($row['PName'], $row['PCount'], $row['PPrice'], $row['PImg'])));
         }
         // print_r($users);
         return $users;
     }
 
-    //SELECT o.o_id o.time, o.status, o.total from orders o where o.user_id = 3 Date between 2011/02/25 and 2011/02/27;
+    //pagination
+    //SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
+    //o.status as status, po.price as PPrice , p.name as PName ,
+    //po.number as PCount,p.img as img FROM
+    //(SELECT ord.o_id, ord.time, ord.total ,
+    //ord.status, ord.user_id FROM orders ord limit 4 OFFSET 4 ) as o,
+    //products p,
+    //products_orders po WHERE o.o_id = po.order_id
+    //and p.p_id = po.product_id and o.user_id = 3
+
     public function userOrders($userId, $start, $end, $page)
     {
-        $offset = $page >= 0 ? $page * 4 : 0;
-
+        $dateCondition = " and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
+        $offset = $page > 0 ? ($page - 1) * 4 : 0;
+        $limitCondition = " LIMIT 4 OFFSET $offset ";
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
                                               o.status as status, po.price as PPrice , p.name as PName ,
-                                              po.number as PCount,p.img as img FROM orders o,products p,
-                                              products_orders po WHERE o.o_id = po.order_id 
+                                              po.number as PCount,p.img as img FROM
+                                              (SELECT ord.o_id, ord.time, ord.total ,
+                                              ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
+                                              products p,
+                                              products_orders po WHERE o.o_id = po.order_id
                                               and p.p_id = po.product_id and o.user_id = $userId
-                                              and o.time between ? AND ? LIMIT 0 , 4 ");
-        $orders = array();
-        $stmt->execute(array($start, $end));
-        $order = $stmt->fetchAll();
+                                              ".$dateCondition);
 
+        $orders = array();
+        $stmt->execute();
+        $order = $stmt->fetchAll();
         foreach ($order as $row) {
-            $i = 0;
             if (!isset($orders[$row['oNum']]['Products'])) {
                 $orders[$row['oNum']]['Products'] = array();
             }
@@ -75,7 +113,6 @@ class DbManager
             $orders[$row['oNum']]['total'] = $row['total'];
             array_push($orders[$row['oNum']]['Products'], (array('PName' => $row['PName'], 'count' => $row['PCount'],
                     'price' => $row['PPrice'], 'img' => $row['img'], )));
-
             // print_r($users);
         }
 
@@ -171,5 +208,40 @@ class DbManager
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $row['name'];
+    }
+
+    public function cancelOrder($id)
+    {
+        $query = "DELETE FROM orders WHERE o_id = $id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+    }
+
+    public function getUsers()
+    {
+        $query = 'SELECT `id` as UID, `name` as UName FROM users  WHERE is_admin =0 ';
+        $users = array();
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $user = $stmt->fetchAll();
+        foreach ($user as $row) {
+            $users[$row['UID']] = $row['UName'];
+        }
+
+        return $users;
+    }
+
+    public function login($email, $password)
+    {
+        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password'  ");
+
+        return $query;
+    }
+
+    public function userList()
+    {
+        $q = $this->pdo->query('SELECT `id` , `name` FROM `users` ');
+
+        return $q;
     }
 }

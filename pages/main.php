@@ -24,14 +24,14 @@ $category = new Category();
 $stmt = $db->readProducts($from_record_num, $records_per_page);
 $num = $stmt->rowCount(); // set page header
 $page_title = 'Read Products';
-include 'tempelates/userHeader.php';
-include 'tempelates/user-navbar/user-navbar.php';
+include 'tempelates/layout_header.php';
+include 'tempelates/adminNavbar.php';
 echo "<div class='right-button-margin'>";
-    echo "<a href='create_product.php' class='btn btn-default pull-right'>Create Product</a>";
+    echo "<a href='create_product.php' class='mb-4 btn btn-default pull-right'>Create Product</a>";
 echo '</div>';
 // display the products if there are any
 if ($num > 0) {
-    echo "<table class='table table-hover table-responsive table-bordered'>";
+    echo "<table class='table table-hover table-bordered'>";
     echo '<tr>';
     echo '<th>Product</th>';
     echo '<th>Price</th>';
@@ -46,13 +46,13 @@ if ($num > 0) {
         echo "<td>{$price}</td>";
         echo '<td>';
         $category->id = $cat_id;
-        $category->readName();
-        echo $category->name;
+        echo $category->readName($category->id);
         echo '</td>';
 
         echo '<td>';
         // read, edit and delete buttons
-        echo "<a href='read_one.php?id={$p_id}' class='btn btn-primary left-margin'>
+        echo "
+        <a href='read_one.php?id={$p_id}' class=' btn btn-primary left-margin'>
     <span class='glyphicon glyphicon-list'></span> Read
 </a>
  
@@ -76,7 +76,7 @@ if ($num > 0) {
     $total_rows = $db->countAll();
 
     // paging buttons here
-    include_once 'paging.php';
+    include_once 'pages/paging.php';
 
 // paging buttons will be here
 }
@@ -87,4 +87,4 @@ else {
 }
 
 // set page footer
-include 'tempelates/footer.php';
+include 'tempelates/layout_footer.php';

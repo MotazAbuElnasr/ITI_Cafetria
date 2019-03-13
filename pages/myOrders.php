@@ -1,124 +1,108 @@
 <?php
-require_once('classes/db.php');
-include 'tempelates/userHeader.php';
+require_once 'classes/db.php';
 include 'tempelates/user-navbar/user-navbar.php';
+require_once 'controllers/generateMyOrders.php';
 //include 'tempelates/userHeader.php';
-$db = new DbManager();
-$userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
-if (isset($_POST['submit'])) { //check if form was submitted
-    $startDate = $_POST['start']; //get input text
-    $endDate = $_POST['end'];
-} else {
-    $startDate = date("Y-m-d");
-    try {
-        $endDated = new DateTime();
-        $endDated->sub(new DateInterval('P3D'));
-        $endDate = $endDated->format('Y-m-d');
-    } catch (Exception $e) {
-    }
-}
-$orders = $db->userOrders($userId, $startDate, $endDate, 2);
 ?>
-    <div class="container-fluid">
-        <h2>My orders</h2>
-        <form name="frmSearch" method="post" action="orders">
-            <p class="search_input">
-                <label>start date</label>
-                <input type="date" name="start" id="start">
-                <label>end date</label>
-                <input type="date" name="end" id="end">
-                <input type="submit" value="filter" name="submit" class="">
+<div id="headOrders">
+    <div class="container-fluid" id="myOrders">
+        <h2 class="text" id="head">Your past orders 😋 </h2>
+            <p class="search_input filter text">
+                <label class="text">Start date</label>
+                <input class="text"type="date" name="start" id="start">
+                <label class="text">End date</label>
+                <input class="text"type="date" name="end" id="end">
+                <input class ="filterBtn"onclick="filterCheck()" type="submit" value="Filter" name="submit" class="">
             </p>
-        </form>
-        <div class="panel-group" id="accordion">
-            <table class="table" id="orderTable">
-                <!--                make it with css-->
-                <tr>
-                    <th>Order date</th>
-                    <th>Status</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-                <?php $i = 0;
-                foreach ($orders as $order) { ?>
-                    <tr>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    <td>
-                                        <a class="data" data-number="<?= $i ?>" id="element<?= $i ?>"
-                                           data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $i ?>">
-                                            <?php echo $order["time"] ?> </a>
-                                    </td>
-                                    <td>
-                                        <?php echo $order["status"] ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $order["total"] ?>
-                                    </td>
-                                    <td>
-                                        <?php $orderNo = $order['total'];
-                                        if ($order["status"] == "Processing") {
-                                            echo "<form action='myOrders.php' method='post'> 
-                                    <input type='hidden' name='orderNo' value='$orderNo'>
-                                    <input type='submit' value='Cancel'>
-                                  </form>";
-                                        } else {
-                                            echo "  ";
-                                        }
-                                        ?>
-                                    </td>
-                                </div>
-                            </div>
-                        </div>
-                    </tr>
-                    <?php $i++;
-                } ?>
-            </table>
-        </div>
-
-        <?php $i = 0;
-        foreach ($orders as $order) { ?>
-            <div id="collapse<?= $i ?>" data-number="<?= $i ?>" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <div class="row">
-                        <? for ($j = 0; $j < sizeof($order["Products"]); $j++) { ?>
-                            <div class="col-3">
-                                <h5><?= $order["Products"][$j]["PName"] ?></h5>
-                                <img src="<?= $order["Products"][$j]["img"] ?>">
-                                <h5> price : <?= $order["Products"][$j]["price"] ?> </h5>
-                                <h5> number : <?= $order["Products"][$j]["count"] ?> </h5>
-                            </div>
-                            <?
-                        } ?>
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-4"></div>
-                    <div class="col-4"><h4>Total order : <?= $order["total"] ?> </h4></div>
-                </div>
-            </div>
-            <? $i++;
-        } ?>
+    <div id="accordionn">
+    <?php
+        $start = date('Y-m-d', strtotime('-3 day'));
+        $end = date('Y-m-d');
+        echo generateOrders($start, $end, '1');
+        ?>
+    </div>
 
     </div>
+</div>
+    <nav aria-label="Page navigation" id = "Pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a onclick="prevPage(event)" class="page-link" style="color: dodgerblue" id="prev"> < </a></li>
+            <li class="page-item"><a class="page-link" style="color: dodgerblue" id="currentPage">1</a></li>
+            <li class="page-item"><a onclick="nextPage(event)" class="page-link" style="color: dodgerblue" id="next"> > </a></li>
+        </ul>
+    </nav>
     <script>
         document.getElementById("end").valueAsDate = new Date();
         let start = new Date();
         start.setDate(start.getDate() - 3)
         document.getElementById("start").valueAsDate = start;
-        document.querySelectorAll(".data").forEach((element) => {
-            element.addEventListener("click", (e) => {
-                let num = e.target.dataset.number;
-                document.querySelectorAll(".collapse").forEach((element) => {
-                    if (element.dataset.number !== num) {
-                        element.classList.remove("show")
+        //AJAX
+        function filterCheck(page){
+            const startD = document.getElementById("start").value;
+            const endD = document.getElementById("end").value;
+            const accordionElement = document.getElementById("accordionn");
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    while (accordionElement.firstChild) {
+                        accordionElement.removeChild(accordionElement.firstChild);
                     }
-                })
+                    accordionElement.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", `/generateMyOrders?start=${startD}&end=${endD}&page=${page}`, true);
+            xmlhttp.send();
+        }
+
+        function cancelOrder(event){
+            let id = event.target.id;
+            const startD = document.getElementById("start").value;
+            const endD = document.getElementById("end").value;
+            const accordionElement = document.getElementById("accordionn");
+            let xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    while (accordionElement.firstChild) {
+                        accordionElement.removeChild(accordionElement.firstChild);
+                    }
+                    accordionElement.innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET", `/cancelOrder?id=${id}`, true);
+            xmlhttp.send();
+            setTimeout(()=>{
+                xmlhttp.open("GET", `/generateMyOrders?start=${startD}&end=${endD}&page=1`, true);
+                xmlhttp.send();
+            },20)
+        }
+
+        function nextPage() {
+            let ordNo = document.getElementsByClassName("order").length;
+            if(ordNo!==0){
+                let currentPage = parseInt(document.getElementById("currentPage").innerText);
+                currentPage+=1;
+                document.getElementById("currentPage").innerText=`${currentPage}`;
+                filterCheck(currentPage)
+            }
+        }
+
+        function prevPage() {
+            let currentPage = parseInt(document.getElementById("currentPage").innerText);
+            if(currentPage>1){
+                currentPage-=1;
+                          document.getElementById("currentPage").innerText=`${currentPage}`;
+                filterCheck(currentPage)
+            }
+        }
+
+        function accordionFix(event) {
+            document.querySelectorAll(".data").forEach((element) => {
+                    document.querySelectorAll(".data").forEach((element) => {
+                            setTimeout(()=>{element.classList.remove("show")},10);
+                    });
             })
-        })
+        }
     </script>
-
-
-<?php include "tempelates/footer.php"; ?>
+<?php
+// include "tempelates/footer.php";
+?>
