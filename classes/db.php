@@ -204,23 +204,19 @@ public function getUsers(){
     return $query ; 
   }  
 
+  public function updateUser($name , $img , $room , $uid){
+    $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid ";
+    // $users = array();
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute();
+  }
+
+  public function deleteUser($uid){
+    $query = "DELETE FROM users WHERE `id` = $uid ";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute();
+  }
+
 }
 
-// public function updateUser(){
-//     $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid ";
-//     $users = array();
-//     $stmt = $this->pdo->prepare($query);
-//     $stmt->execute();
-//     $user = $stmt->fetchAll();
-//     foreach ($user as $row) {
-//         $users[$row['UID']]=$row['UName']=$row['img']=$row['room'];
-//     }
-//     return $users;
-//     }
-  
-//   public function login($email , $password){
-//     $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password' "); 
-//     return $query ; 
-//   }  
 
-// }

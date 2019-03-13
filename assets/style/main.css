@@ -1,7 +1,4 @@
 body{
-<<<<<<< HEAD
-    color: #f20f00; !important;
-=======
     color: #3f3327 !important;
     background: url("../images/index.jpg") fixed no-repeat;
     background-size: cover;
@@ -10,7 +7,6 @@ body{
 .btn.btn-primary {
   background-color: #3f3327 !important;
   color : #fff
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 }
 /* User Home Page  */
 .user-home{
@@ -34,12 +30,9 @@ body{
 .left-margin{
     margin:0 .5em 0 0;
 }
-<<<<<<< HEAD
-=======
 .product.card {
     margin-bottom: 20px
 }
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 
 .right-button-margin{
     margin: 0 0 1em 0;
@@ -57,14 +50,10 @@ body{
 }
 /*navigation bar*/
 .navigation{
-<<<<<<< HEAD
- background-color: #165e93;
-=======
  background-color: #3f3327;
 }
 .bg-primary{
   background-color: #3f3327 !important ;
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 }
 #iti{
     color: #8fadff;
@@ -72,13 +61,8 @@ body{
     font-weight: bold;
 ;
 }
-<<<<<<< HEAD
-#home, #homee{
-    color: #b3bffb; !important;
-=======
 #home , #homee{
     color: #b3bffb !important;
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
     font-weight: bolder;
 }
 /*table head*/
@@ -139,37 +123,18 @@ body{
     color: darkslateblue;
 }
 
-<<<<<<< HEAD
-/* login Page */ 
-=======
 /* login Page */
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 
 .card-signin {
     border: 0;
     border-radius: 1rem;
     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   }
-<<<<<<< HEAD
-  
-=======
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
   .card-signin .card-title {
     margin-bottom: 2rem;
     font-weight: 300;
     font-size: 1.5rem;
   }
-<<<<<<< HEAD
-  
-  .card-signin .card-body {
-    padding: 2rem;
-  }
-  
-  .form-signin {
-    width: 100%;
-  }
-  
-=======
 
   .card-signin .card-body {
     padding: 2rem;
@@ -179,7 +144,6 @@ body{
     width: 100%;
   }
 
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
   .form-signin .btn {
     font-size: 80%;
     border-radius: 5rem;
@@ -188,25 +152,14 @@ body{
     padding: 1rem;
     transition: all 0.2s;
   }
-<<<<<<< HEAD
-  
-=======
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
   .form-label-group {
     position: relative;
     margin-bottom: 1rem;
   }
-<<<<<<< HEAD
-  
-=======
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
   .form-label-group input {
     height: auto;
     border-radius: 2rem;
   }
-<<<<<<< HEAD
-  
-=======
 
  #orderTable{
      min-height: 400px;
@@ -216,22 +169,13 @@ body{
   #Pagination{
   }
 
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
   /* .form-label-group input:not(:placeholder-shown) {
     padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
     padding-bottom: calc(var(--input-padding-y) / 3);
   }
-<<<<<<< HEAD
-  
-=======
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
   .form-label-group input:not(:placeholder-shown)~label {
     padding-top: calc(var(--input-padding-y) / 3);
     padding-bottom: calc(var(--input-padding-y) / 3);
     font-size: 12px;
     color: #777;
   } */
-<<<<<<< HEAD
-  
-=======
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
