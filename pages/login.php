@@ -10,22 +10,10 @@
             <form class="form-signin" method = "POST">
               <div class="form-label-group">
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="email" required autofocus>
-<<<<<<< HEAD
-               
-              </div>
-
-              <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
-               
-              </div>
-
-            
-=======
               </div>
               <div class="form-label-group">
                 <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
               </div>
->>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="signIn">Sign in</button>
               <hr class="my-4">
               <a href ="pages/forgetPassword.php"> Forget Your Password ? </a>
@@ -36,40 +24,14 @@
     </div>
   </div>
 </body>
-<<<<<<< HEAD
 
 
 <?php 
-=======
-<?php
->>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
 require_once 'classes/db.php' ;
 $db = new DbManager() ;
 
 if (isset($_POST['signIn']))
 {
-<<<<<<< HEAD
-    $email = $_POST['email'] ; 
-    $password = $_POST['password'] ; 
-    $userInfo = $db->login ($email , $password) ;
-    $userName = $userInfo->fetchColumn() ; 
-    if ($userName == ""){
-        echo " Sorry but this is wrong email or password " ; 
-    }
-    else {
-        if ($userName == "admin"){
-
-            header('Location: /admin');
-        }
-        else 
-        header('Location: /home');
-        $_SESSION['userName'] = $userName ; 
-    }
-}
-// 
-// while ($product = $products->fetch()) {
-?>
-=======
     $email = $_POST['email'] ;
     $password = $_POST['password'] ;
     $userInfo = $db->login ($email , $password) ;
@@ -93,4 +55,3 @@ if (isset($_POST['signIn']))
 ?>
 
 <!--top products / -->
->>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
