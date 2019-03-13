@@ -5,7 +5,6 @@
     ?>
 
     <section class = "container user-home">
-
     <!-- Latest Product -->
     <h2> Latest Product </h2>
     <hr />

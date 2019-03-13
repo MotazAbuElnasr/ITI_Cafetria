@@ -27,27 +27,22 @@
 
 
 <?php 
-require_once 'classes/db.php' ;
-$db = new DbManager() ;
+require_once 'classes/db.php';
+$db = new DbManager();
 
-if (isset($_POST['signIn']))
-{
-    $email = $_POST['email'] ;
-    $password = $_POST['password'] ;
-    $userInfo = $db->login ($email , $password) ;
-    $userName = $userInfo->fetch() ;
-    if ($userName['name'] == ""){
-        echo " Sorry but this is wrong email or password " ;
-    }
-    else {
-        if ($userName['name'] == "admin"){
-
+if (isset($_POST['signIn'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $userInfo = $db->login($email, $password);
+    $userName = $userInfo->fetch();
+    if ($userName['name'] == '') {
+        echo ' Sorry but this is wrong email or password ';
+    } else {
+        if ($userName['name'] == 'admin') {
             header('Location: /admin-manual');
         }
-        else
-        header('Location: /home');
-        $_SESSION['userName'] = $userName['name'] ;
-        $_SESSION['userId'] = $userName['id'] ;
+        $_SESSION['userName'] = $userName['name'];
+        $_SESSION['userId'] = $userName['id'];
     }
 }
 //
