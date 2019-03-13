@@ -174,6 +174,7 @@ class DbManager
         $stmt->execute();
     }
 
+    // products Nouran
     public function getRooms()
     {
         $query = 'SELECT `room_num` FROM `rooms`';
@@ -216,6 +217,17 @@ class DbManager
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $row['name'];
+    }
+
+    public function deleteProduct($id)
+    {
+        $query = "DELETE FROM products WHERE p_id = $id";
+        $stmt = $this->pdo->prepare($query);
+        if ($result = $stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function cancelOrder($id)
