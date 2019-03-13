@@ -43,8 +43,13 @@ switch ($request) {
         require __DIR__.'/pages/adminReceivedOrders.php';
         break;
         //khaled
+<<<<<<< HEAD
     case '/admin/manual':
         require __DIR__.'/pages/adminOrder.php';
+=======
+    case '/admin-manual' :
+        require __DIR__ . '/pages/adminOrder.php';
+>>>>>>> 1e5be80223205ff6f10ab7a94176e225fb61335d
         break;
         //nouran
     case '/admin/products':

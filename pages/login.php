@@ -24,6 +24,7 @@
     </div>
   </div>
 </body>
+<<<<<<< HEAD
 <?php
 require_once 'classes/db.php';
 $db = new DbManager();
@@ -40,6 +41,27 @@ if (isset($_POST['signIn'])) {
             header('Location: /admin');
         } else {
             header('Location: /home');
+=======
+
+
+<?php 
+require_once 'classes/db.php' ;
+$db = new DbManager() ;
+
+if (isset($_POST['signIn']))
+{
+    $email = $_POST['email'] ;
+    $password = $_POST['password'] ;
+    $userInfo = $db->login ($email , $password) ;
+    $userName = $userInfo->fetch() ;
+    if ($userName['name'] == ""){
+        echo " Sorry but this is wrong email or password " ;
+    }
+    else {
+        if ($userName['name'] == "admin"){
+
+            header('Location: /admin-manual');
+>>>>>>> 1e5be80223205ff6f10ab7a94176e225fb61335d
         }
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];

@@ -38,7 +38,7 @@ $(".order-card").css({
         $("#totalPrice").val(
             parseInt($("#totalPrice").val()) - ( parseInt($(this).parent().find(".qty").val()) * parseInt ($(this).parent().find(".item-price").attr("value") ) )
         ) ;
-         $(this).parent().fadeOut() ;
+         $(this).parent().fadeOut().remove() ;
     }) ;
 
     $("#totalPrice").val(
@@ -48,6 +48,9 @@ $(".order-card").css({
     });
 
 
-
+// change Add to User in admin manual  
+$("#userId").change( function (){
+  $("#userIdForm").val($(this).val()) ; 
+})
 
   });
