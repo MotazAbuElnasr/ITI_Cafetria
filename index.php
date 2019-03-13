@@ -51,7 +51,7 @@ switch ($request) {
         require __DIR__.'/pages/adminProducts.php';
         break;
         //Israa
-    case '/admin/users':
+    case '/admin-users':
         require __DIR__.'/pages/adminUsers.php';
         break;
     case '/function':

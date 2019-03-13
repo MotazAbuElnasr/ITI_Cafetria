@@ -1,7 +1,7 @@
 <?php
     include 'tempelates/adminNavbar.php' ;
     require_once('classes/db.php');
-    include 'controllers/functions.php';
+    $db = new DbManager() ;
     if ($_SESSION['userName']=="")
     header('Location: /');
     ?>
@@ -14,8 +14,8 @@
 
     <select class='custom-select form-control' name='userId' id = "userId">";
         <option>Select User...</option>;
-        <?php $userList = $db->userList() ;
-        while ($user = $userList->fetch()) {
+        <?php $usersList = $db->getUsersList() ;
+        while ( $user = $usersList->fetch() ) {
       ?>
         <option value=<?php echo $user['id']?> > <?php echo $user['name']?></option>";
       <?php  } ?>

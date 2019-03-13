@@ -39,6 +39,10 @@ $(".order-card").css({
             parseInt($("#totalPrice").val()) - ( parseInt($(this).parent().find(".qty").val()) * parseInt ($(this).parent().find(".item-price").attr("value") ) )
         ) ;
          $(this).parent().fadeOut().remove() ;
+
+         if ( $(".items").children().length <= 1){
+           $(".order-card").fadeOut() ;
+         }
     }) ;
 
     $("#totalPrice").val(
@@ -52,5 +56,6 @@ $(".order-card").css({
 $("#userId").change( function (){
   $("#userIdForm").val($(this).val()) ; 
 })
+
 
   });
