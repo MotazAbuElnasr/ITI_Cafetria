@@ -14,11 +14,8 @@
           </ul>
           <ul class="ml-auto navbar-nav ">
               <li class="nav-item">
-<<<<<<< HEAD
 <!--                  <a class="nav-link" href="#">Welcome --><?php //echo $_SESSION['userName'] ?><!--</a></li>-->
-=======
                  <a class="nav-link" href="/">Logout</a></li>
->>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
           </ul>
         </div>
       </nav>
