@@ -42,7 +42,7 @@ if (isset($_POST['signIn']))
     else {
         if ($userName['name'] == "admin"){
 
-            header('Location: /admin');
+            header('Location: /admin-manual');
         }
         else
         header('Location: /home');

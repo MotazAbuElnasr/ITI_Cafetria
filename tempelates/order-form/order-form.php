@@ -3,7 +3,7 @@
    <form>
        <div class="fom-group items">
            
-       
+      <input id= "userIdForm"  name = "userId" style = "display:none" > 
      
     </div>
     <div class = "order-notes">
@@ -13,10 +13,16 @@
         <div class = "order-room row">
            <label class="col-sm-3">Room</label>
            <select class="custom-select col-sm-6" name = "order-room-number">
-                <option selected>Select Room Number</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+           <?php
+                    $stmt= $db->getRooms();
+                    while($room = $stmt->fetch(PDO::FETCH_ASSOC))
+                    {
+                        extract($room)
+                        ?>
+                        <option class="dropdown-item" value="<?php echo $room_num?>"> <?php echo $room_num?> </option>
+                        <?php
+                    }
+                    ?>
               </select>
         </div>
 

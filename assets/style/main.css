@@ -1,5 +1,5 @@
 body{
-    color: #3f3327; !important;
+    color: #3f3327 !important;
     background: url("../images/index.jpg") fixed no-repeat;
     background-size: cover;
 }
@@ -30,6 +30,9 @@ body{
 .left-margin{
     margin:0 .5em 0 0;
 }
+.product.card {
+    margin-bottom: 20px
+}
 
 .right-button-margin{
     margin: 0 0 1em 0;
@@ -58,8 +61,8 @@ body{
     font-weight: bold;
 ;
 }
-#home, #homee{
-    color: #b3bffb; !important;
+#home , #homee{
+    color: #b3bffb !important;
     font-weight: bolder;
 }
 /*table head*/

@@ -42,7 +42,7 @@ switch ($request) {
         require __DIR__ . '/pages/adminReceivedOrders.php';
         break;
         //khaled
-    case '/admin/manual' :
+    case '/admin-manual' :
         require __DIR__ . '/pages/adminOrder.php';
         break;
         //nouran

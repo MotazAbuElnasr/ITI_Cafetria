@@ -5,13 +5,13 @@
 class DbManager
 {
 
-   private $host = 'sql2.freemysqlhosting.net';
-   private $db = 'sql2282123';
-   private $user = 'sql2282123';
-   private $pass = 'gR5%qP3%';
-   private $charset = 'utf8mb4';
-   private $dsn = "";
-   private $pdo;
+//    private $host = 'sql2.freemysqlhosting.net';
+//    private $db = 'sql2282123';
+//    private $user = 'sql2282123';
+//    private $pass = 'gR5%qP3%';
+//    private $charset = 'utf8mb4';
+//    private $dsn = "";
+//    private $pdo;
 
 //      private $host = '127.0.0.1';
 //      private $db = 'iti_cafe';
@@ -30,13 +30,13 @@ class DbManager
     // private $dsn = "";
     // private $pdo;
 
-    // private $host = 'localhost';
-    // private $db = 'iTi_Caffee';
-    // private $user = 'root';
-    // private $pass = '';
-    // private $charset = 'utf8mb4';
-    // private $dsn = "";
-    // private $pdo;
+    private $host = 'localhost';
+    private $db = 'iTi_Caffee';
+    private $user = 'root';
+    private $pass = '';
+    private $charset = 'utf8mb4';
+    private $dsn = "";
+    private $pdo;
 
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
