@@ -5,16 +5,12 @@
     ?>
 
     <section class = "container user-home">
-     
     <!-- Latest Product -->
     <h2> Latest Product </h2>
     <hr />
     <div class = "row latest-product">
-     
             <?php include  'tempelates/product/latestProduct.php' ?>
-
     </div>
-
      <hr />
 
         <!-- Our Product  -->
@@ -26,10 +22,10 @@
 
         <div class="col-sm-7">
         <div class="row">
-            
+
               <?php include  'tempelates/product/allProduct.php' ?>
-      
-           
+
+
             </div>
         </div>
 

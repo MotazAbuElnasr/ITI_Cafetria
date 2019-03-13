@@ -10,15 +10,10 @@
             <form class="form-signin" method = "POST">
               <div class="form-label-group">
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address" name="email" required autofocus>
-               
               </div>
-
               <div class="form-label-group">
                 <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
-               
               </div>
-
-            
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="signIn">Sign in</button>
               <hr class="my-4">
               <a href ="pages/forgetPassword.php"> Forget Your Password ? </a>
@@ -32,28 +27,26 @@
 
 
 <?php 
-require_once 'classes/db.php' ;
-$db = new DbManager() ;
+require_once 'classes/db.php';
+$db = new DbManager();
 
-if (isset($_POST['signIn']))
-{
-    $email = $_POST['email'] ; 
-    $password = $_POST['password'] ; 
-    $userInfo = $db->login ($email , $password) ;
-    $userName = $userInfo->fetchColumn() ; 
-    if ($userName == ""){
-        echo " Sorry but this is wrong email or password " ; 
-    }
-    else {
-        if ($userName == "admin"){
-
-            header('Location: /admin');
+if (isset($_POST['signIn'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $userInfo = $db->login($email, $password);
+    $userName = $userInfo->fetch();
+    if ($userName['name'] == '') {
+        echo ' Sorry but this is wrong email or password ';
+    } else {
+        if ($userName['name'] == 'admin') {
+            header('Location: /admin-manual');
         }
-        else 
-        header('Location: /home');
-        $_SESSION['userName'] = $userName ; 
+        $_SESSION['userName'] = $userName['name'];
+        $_SESSION['userId'] = $userName['id'];
     }
 }
-// 
+//
 // while ($product = $products->fetch()) {
 ?>
+
+<!--top products / -->
