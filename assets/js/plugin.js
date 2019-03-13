@@ -3,11 +3,14 @@ $(document).ready(function(){
     $(".add-product-order").click(function(){
         let name = $(this).parent().find(".p-name").html() ;
         let price = $(this).parent().find(".p-price").html() ;
+        let pid = $(this).parent().find(".pId").html() ;
+
      $(".items").append(`
         <div class = "added-item row">
         <label class="col-md-5" for =${name}qty>${name} </label>
         <input class="form-control col-md-2 qty " min=1 type="number" name=${name} id=${name}qty value="1"/>
         <p class="item-price col-sm-3" value = ${price}> ${price} EGP</p>
+        <input type="text" name = "productId" value = ${pid} style="display:none"/>
         <button type="button" class="btn btn-danger rounded-circle remove-item">X</button>
     ` )
 

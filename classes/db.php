@@ -5,13 +5,13 @@
 class DbManager
 {
 
-   private $host = 'sql2.freemysqlhosting.net';
-   private $db = 'sql2282123';
-   private $user = 'sql2282123';
-   private $pass = 'gR5%qP3%';
-   private $charset = 'utf8mb4';
-   private $dsn = "";
-   private $pdo;
+//    private $host = 'sql2.freemysqlhosting.net';
+//    private $db = 'sql2282123';
+//    private $user = 'sql2282123';
+//    private $pass = 'gR5%qP3%';
+//    private $charset = 'utf8mb4';
+//    private $dsn = "";
+//    private $pdo;
 
 //      private $host = '127.0.0.1';
 //      private $db = 'iti_cafe';
@@ -22,13 +22,21 @@ class DbManager
 //      private $pdo;
 
 
-    // private $host = 'localhost';
-    // private $db = 'iTi_Caffee';
-    // private $user = 'root';
-    // private $pass = '';
-    // private $charset = 'utf8mb4';
-    // private $dsn = "";
-    // private $pdo;
+    private $host = 'localhost';
+    private $db = 'cafetria';
+    private $user = 'root';
+    private $pass = '';
+    private $charset = 'utf8mb4';
+    private $dsn = "";
+    private $pdo;
+
+    // // private $host = 'localhost';
+    // // private $db = 'iTi_Caffee';
+    // // private $user = 'root';
+    // // private $pass = '';
+    // // private $charset = 'utf8mb4';
+    // // private $dsn = "";
+    // // private $pdo;
 
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -47,19 +55,25 @@ class DbManager
         }
     }
 
-    public function checks($start,$end,$uid)
+    public function checks($start,$end,$uid,$page)
     {
         $dateCondition='';
         $userCondition='';
+        $limitCondition='';
         if(isset($start)&&!empty($start)&&isset($end)&&!empty($end)){
             $dateCondition=" and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
         }
         if(isset($uid)&&!empty($uid)){
             $userCondition = " and u.id = $uid " ;
         }
-        $stmt = $this->pdo->prepare('SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount,p.img,p.p_id as PId 
-            FROM orders o,users u,products p,products_orders po WHERE
-            o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id '.$dateCondition.$userCondition);
+        if(isset($page)&&!empty($page)){
+            $offset = $page > 0 ? ($page-1)*4: 0;
+            $limitCondition=" LIMIT 4 OFFSET $offset ";
+        }    
+        $stmt = $this->pdo->prepare("SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount , p.img as PImg ,p.p_id as PId 
+        FROM orders o,(select u.id as id , u.name as name from users u,orders o 
+        where u.id = o.user_id  $dateCondition $limitCondition ) as u,products p,products_orders po WHERE
+        o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id".$userCondition);
         $users = array();
         $stmt->execute();
         $user = $stmt->fetchAll();
@@ -67,9 +81,10 @@ class DbManager
             if (!isSet($users[$row['UId']]['Orders'][$row['ONum']]['Products']))
                 $users[$row['UId']]['Orders'][$row['ONum']]['Products'] = array();
             $users[$row['UId']]['UName'] = $row['UName'];
+            $row['PImg']="../assets/images".$row['PImg'];
             $users[$row['UId']]['Orders'][$row['ONum']]['OTime'] = $row['OTime'];
             $users[$row['UId']]['Orders'][$row['ONum']]['OTotal'] = $row['OTotal'];
-            array_push($users[$row['UId']]['Orders'][$row['ONum']]['Products'], (array($row['PName'], $row['PCount'], $row['PPrice'])));
+            array_push($users[$row['UId']]['Orders'][$row['ONum']]['Products'], (array($row['PName'], $row['PCount'], $row['PPrice'],$row['PImg'])));
         }
         // print_r($users);
         return $users;
@@ -97,7 +112,7 @@ class DbManager
                                               (SELECT ord.o_id, ord.time, ord.total ,
                                               ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
                                               products p,
-                                              products_orders po WHERE o.o_id = po.order_id 
+                                              products_orders po WHERE o.o_id = po.order_id
                                               and p.p_id = po.product_id and o.user_id = $userId
                                               ".$dateCondition);
 
@@ -120,9 +135,9 @@ class DbManager
     }
     // Return All Product Function  Khaled
     public function allProduct (){
-        
-        $q  = $this->pdo->query( 'SELECT * FROM `products` ') ; 
-       return $q ; 
+
+        $q  = $this->pdo->query( 'SELECT * FROM `products` ') ;
+       return $q ;
     }
 
     public function createProduct ($name,$price,$img,$category_id,$timestamp){
@@ -135,8 +150,8 @@ class DbManager
     // Return Latest Product Function  Khaled
 
     public function latestProduct (){
-        $q  = $this->pdo->query( 'SELECT * FROM `products` LIMIT 1,3') ; 
-       return $q ; 
+        $q  = $this->pdo->query( 'SELECT * FROM `products` LIMIT 1,3') ;
+       return $q ;
     }
 
 
@@ -183,12 +198,17 @@ public function getUsers(){
     }
     return $users;
     }
-  
+
   public function login($email , $password){
-     
-    $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password'  " ) ; 
-    return $query ; 
-  }  
+
+    $query =  $this->pdo->query( "SELECT `name` , `id` from users where email = '$email' and password = '$password'  " ) ;
+    return $query ;
+  }
+
+  public function userList (){
+
+      $q  = $this->pdo->query( 'SELECT `id` , `name` FROM `users` ') ;
+     return $q ;
+  }
 
 }
-
