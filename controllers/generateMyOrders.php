@@ -1,11 +1,13 @@
-<?
-require_once('classes/db.php');
-if(isset($_GET['start'])&&isset($_GET['end'])){
-    echo generateOrders($_GET['start'],$_GET['end'],$_GET['page']);
+<?php
+
+require_once 'classes/db.php';
+if (isset($_GET['start']) && isset($_GET['end'])) {
+    echo generateOrders($_GET['start'], $_GET['end'], $_GET['page']);
 }
-function generateOrders($startDate,$endDate,$page){
-$db = new DbManager();
-$userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
+function generateOrders($startDate, $endDate, $page)
+{
+    $db = new DbManager();
+    $userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
 $orders = $db->userOrders($userId, $startDate, $endDate, $page); //This will be page
 $page="
 <div class='panel-group' id='accordion' style='min-height: 450px'>
@@ -38,27 +40,27 @@ $page.="
                                 $total
                             </td>
                             <td class='align-middle'>";
-                                if ($order['status'] == 'Processing') {
-                                    $page.="
+        if ($order['status'] == 'Processing') {
+            $page .= "
                                     <input id='$orderNo' onclick=\"cancelOrder(event)\" type='submit' value='Cancel' class='filterBtn'>
                                   ";
-                                } else {
-                                    $page.='  ';
-                                }
-                          $page.="      
+        } else {
+            $page .= '  ';
+        }
+        $page .= "      
                             </td>
             </tr>
            <tr>
            <td colspan='4'>
            <div id='collapse$i' data-number='$i' class='accordion-body collapse data'>
             <div class='row orderProducts'>";
-                for ($j = 0; $j < sizeof($order['Products']); $j++) {
-                        $pName = $order['Products'][$j]['PName'];
-                        $pImg = $order['Products'][$j]['img'];
-                        $pPrice = $order['Products'][$j]['price'];
-                        $pCount = $order['Products'][$j]['count'];
-                        $oTotal = $order['total'];
-$page.=          "          
+        for ($j = 0; $j < sizeof($order['Products']); ++$j) {
+            $pName = $order['Products'][$j]['PName'];
+            $pImg = $order['Products'][$j]['img'];
+            $pPrice = $order['Products'][$j]['price'];
+            $pCount = $order['Products'][$j]['count'];
+            $oTotal = $order['total'];
+            $page .= "          
                     <div class='col-3'>
                         <h5>$pName</h5>
                         <img width='110px' src='$pImg'>
@@ -66,8 +68,8 @@ $page.=          "
                         <h5> number : $pCount </h5>
                     </div>
                    ";
-                }
-    $page.="
+        }
+        $page .= "
             </div>
         <div class='row mt-3'>
             <div class='col-4'></div>
@@ -76,11 +78,12 @@ $page.=          "
     </div>
     </td>
     </tr>";
-            $i++;
-        }
-        $page.="
+        ++$i;
+    }
+    $page .= '
     </table>
 </div>
-";
-return $page;
+';
+
+    return $page;
 }

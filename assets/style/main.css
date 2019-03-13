@@ -1,8 +1,6 @@
 body{
-    /*color: #3f3327; !important;*/
-    background-image: url("../images/index.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    color: #3f3327 !important;
+    /* background: url("../images/index.jpg") fixed no-repeat; */
     background-size: cover;
 }
 
@@ -31,6 +29,9 @@ body{
 /*add products*/
 .left-margin{
     margin:0 .5em 0 0;
+}
+.product.card {
+    margin-bottom: 20px
 }
 
 .right-button-margin{
@@ -61,7 +62,7 @@ body{
 ;
 }
 #home, #homee{
-    color: #b3bffb; !important;
+    color: #b3bffb !important;
     font-weight: bolder;
 }
 /*table head*/
@@ -160,6 +161,12 @@ body{
   .form-label-group input {
     height: auto;
     border-radius: 2rem;
+  }
+
+  .alert.alert-danger{
+      display: none ;
+      margin-top: 15px
+      
   }
 
  #orderTable{

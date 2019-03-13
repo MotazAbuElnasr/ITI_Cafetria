@@ -1,7 +1,7 @@
 <?php
-require_once('classes/db.php');
+require_once 'classes/db.php';
 include 'tempelates/user-navbar/user-navbar.php';
-require_once "controllers/generateMyOrders.php"
+require_once 'controllers/generateMyOrders.php';
 //include 'tempelates/userHeader.php';
 ?>
 <div id="headOrders">
@@ -15,10 +15,10 @@ require_once "controllers/generateMyOrders.php"
                 <input class ="filterBtn"onclick="filterCheck()" type="submit" value="Filter" name="submit" class="">
             </p>
     <div id="accordionn">
-    <?
-        $start=date("Y-m-d", strtotime('-3 day'));
-        $end = date("Y-m-d");
-        echo generateOrders($start,$end,'1')
+    <?php
+        $start = date('Y-m-d', strtotime('-3 day'));
+        $end = date('Y-m-d');
+        echo generateOrders($start, $end, '1');
         ?>
     </div>
 
