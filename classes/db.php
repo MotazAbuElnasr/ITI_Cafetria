@@ -30,8 +30,15 @@ class DbManager
     // private $dsn = "";
     // private $pdo;
 
+    // private $host = 'localhost';
+    // private $db = 'iTi_Caffee';
+    // private $user = 'root';
+    // private $pass = '';
+    // private $charset = 'utf8mb4';
+    // private $dsn = "";
+    // private $pdo;
     private $host = 'localhost';
-    private $db = 'iTi_Caffee';
+    private $db = 'iti_cafe';
     private $user = 'root';
     private $pass = '';
     private $charset = 'utf8mb4';
@@ -221,17 +228,18 @@ public function getUsers(){
             // use exec() because no results are returned
             $this->pdo->exec($sql);
             $order_id = $this->pdo->lastInsertId();
-            foreach($params["products"] as $product)
+            for($i=0;$i< count($params["product_id"]); $i++)
             {
-            try{
-                $sql_order = 'INSERT INTO products_orders ( product_id, order_id, number, price)
-            VALUES ("'.$product["product_id"].'", "'.$order_id.'", '.$product["number"].', "'.$product["price"].'")';
-            }
-            catch(PDOException $e)
-            {
-                echo $sql_order . "<br>" . $e->getMessage();
-                return false;
-            }
+                try
+                {
+                    $sql_order = 'INSERT INTO products_orders ( product_id, order_id, number, price)
+                VALUES ("'.$product["product_id"][$i].'", "'.$order_id.'", '.$product["quantity"][$i].', "'.$product["price"][$i].'")';
+                }
+                catch(PDOException $e)
+                {
+                    echo $sql_order . "<br>" . $e->getMessage();
+                    return false;
+                }
         }
 
             
