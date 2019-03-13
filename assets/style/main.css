@@ -1,6 +1,6 @@
 body{
     color: #3f3327 !important;
-    background: url("../images/index.jpg") fixed no-repeat;
+    /* background: url("../images/index.jpg") fixed no-repeat; */
     background-size: cover;
 }
 
@@ -61,7 +61,7 @@ body{
     font-weight: bold;
 ;
 }
-#home , #homee{
+#home, #homee{
     color: #b3bffb !important;
     font-weight: bolder;
 }
