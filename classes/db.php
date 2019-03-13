@@ -15,8 +15,8 @@ class DbManager
 
      private $host = '127.0.0.1';
      private $db = 'iti_cafe';
-     private $user = 'Motaz';
-     private $pass = 'motaz';
+     private $user = 'root';
+     private $pass = '';
      private $charset = 'utf8mb4';
      private $dsn = "";
      private $pdo;
@@ -40,10 +40,10 @@ class DbManager
         try {
             $this->dsn = "mysql:host=$this->host;dbname=$this->db";
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass,$this->options);
-            //echo "Success"; Khaled
+            //echo "Success"; //Khaled
         } catch (PDOException $e) {
             // echo "ERROR";/
-             var_dump($this->pdo);
+            var_dump($this->pdo);
         }
     }
 
@@ -175,6 +175,37 @@ public function getUsers(){
     $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password'  " ) ; 
     return $query ; 
   }  
+	/**
+     * @param params is array of order data
+     */
+    public function addOrder($params){
+        try{
+            $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
+            VALUES ("'.$params["time"].'", "'.$params["status"].'", '.$params["user_id"].', "'.$params["notes"].'",'.$params["room"].','.$params["price"].')';
+            // use exec() because no results are returned
+            $this->pdo->exec($sql);
+            $order_id = $this->pdo->lastInsertId();
+            foreach($params["products"] as $product)
+            {
+            try{
+                $sql_order = 'INSERT INTO products_orders ( product_id, order_id, number, price)
+            VALUES ("'.$product["product_id"].'", "'.$order_id.'", '.$product["number"].', "'.$product["price"].'")';
+            }
+            catch(PDOException $e)
+            {
+                echo $sql_order . "<br>" . $e->getMessage();
+                return false;
+            }
+        }
 
+            
+       return true;
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
 }
 

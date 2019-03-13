@@ -6,7 +6,9 @@ $(document).ready(function(){
      $(".items").append(`
         <div class = "added-item row">
         <label class="col-md-5" for =${name}qty>${name} </label>
-        <input class="form-control col-md-2 qty " min=1 type="number" name=${name} id=${name}qty value="1"/>
+        <input class="form-control col-md-2 qty " min=1 type="number" name="quantity[]" id=${name}qty value="1"/>
+        <input type="hidden" value="id" name="product_id[]">
+        <input type="hidden" value=${price} name="price[]">
         <p class="item-price col-sm-3" value = ${price}> ${price} EGP</p>
         <button type="button" class="btn btn-danger rounded-circle remove-item">X</button>
     ` )
