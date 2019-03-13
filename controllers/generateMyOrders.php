@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-<?
-require_once('classes/db.php');
-if(isset($_GET['start'])&&isset($_GET['end'])){
-    echo generateOrders($_GET['start'],$_GET['end'],$_GET['page']);
-}
-function generateOrders($startDate,$endDate,$page){
-$db = new DbManager();
-$userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
-$orders = $db->userOrders($userId, $startDate, $endDate, $page); //This will be page
-$page="
-<div class='panel-group' id='accordion'>
-=======
 <?php
 
 require_once 'classes/db.php';
@@ -24,7 +11,6 @@ function generateOrders($startDate, $endDate, $page)
 $orders = $db->userOrders($userId, $startDate, $endDate, $page); //This will be page
 $page = "
 <div class='panel-group' id='accordion' style='min-height: 450px'>
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
     <table class='table table-hover text-center table table-bordered text' id='orderTable'>
         <!--                make it with css-->
         <thead class='thead-blue'>
@@ -36,16 +22,6 @@ $page = "
         </tr>
         </thead>
         ";
-<<<<<<< HEAD
-        $i = 0;
-        foreach ($orders as $order) {
-            $time = $order['time'];
-            $status = $order['status'];
-                               $total = $order['total'];
-            $orderNo = $order['oNum'];
-$page.="
-            <tr onclick='accordionFix(event)' data-number='$i' data-toggle='collapse' data-target='#collapse$i' class='accordion-toggle'>
-=======
     $i = 0;
     foreach ($orders as $order) {
         $time = $order['time'];
@@ -54,7 +30,6 @@ $page.="
         $orderNo = $order['oNum'];
         $page .= "
             <tr onclick='accordionFix(event)' data-number='$i' data-toggle='collapse' data-target='#collapse$i' class='order accordion-toggle'>
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
                             <td class='align-middle'>
                                     $time
                             </td>
@@ -65,16 +40,6 @@ $page.="
                                 $total
                             </td>
                             <td class='align-middle'>";
-<<<<<<< HEAD
-                                if ($order['status'] == 'Processing') {
-                                    $page.="
-                                    <input id='$orderNo' onclick=\"cancelOrder(event)\" type='submit' value='Cancel' class='filterBtn'>
-                                  ";
-                                } else {
-                                    $page.='  ';
-                                }
-                          $page.="      
-=======
         if ($order['status'] == 'Processing') {
             $page .= "
                                     <input id='$orderNo' onclick=\"cancelOrder(event)\" type='submit' value='Cancel' class='filterBtn'>
@@ -83,22 +48,12 @@ $page.="
             $page .= '  ';
         }
         $page .= "      
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
                             </td>
             </tr>
            <tr>
            <td colspan='4'>
            <div id='collapse$i' data-number='$i' class='accordion-body collapse data'>
             <div class='row orderProducts'>";
-<<<<<<< HEAD
-                for ($j = 0; $j < sizeof($order['Products']); $j++) {
-                        $pName = $order['Products'][$j]['PName'];
-                        $pImg = $order['Products'][$j]['img'];
-                        $pPrice = $order['Products'][$j]['price'];
-                        $pCount = $order['Products'][$j]['count'];
-                        $oTotal = $order['total'];
-$page.=          "          
-=======
         for ($j = 0; $j < sizeof($order['Products']); ++$j) {
             $pName = $order['Products'][$j]['PName'];
             $pImg = $order['Products'][$j]['img'];
@@ -106,7 +61,6 @@ $page.=          "
             $pCount = $order['Products'][$j]['count'];
             $oTotal = $order['total'];
             $page .= "          
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
                     <div class='col-3'>
                         <h5>$pName</h5>
                         <img width='110px' src='$pImg'>
@@ -114,13 +68,8 @@ $page.=          "
                         <h5> number : $pCount </h5>
                     </div>
                    ";
-<<<<<<< HEAD
-                }
-    $page.="
-=======
         }
         $page .= "
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
             </div>
         <div class='row mt-3'>
             <div class='col-4'></div>
@@ -129,15 +78,6 @@ $page.=          "
     </div>
     </td>
     </tr>";
-<<<<<<< HEAD
-            $i++;
-        }
-        $page.="
-    </table>
-</div>
-";
-return $page;
-=======
         ++$i;
     }
     $page .= '
@@ -146,5 +86,4 @@ return $page;
 ';
 
     return $page;
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 }
