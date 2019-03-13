@@ -4,10 +4,10 @@
 // require_once('order.php');
 class DbManager
 {
-    private $host = 'localhost';
-    private $db = 'iti_cafe';
-    private $user = 'root';
-    private $pass = '';
+    private $host = 'sql2.freemysqlhosting.net';
+    private $db = 'sql2283138';
+    private $user = 'sql2283138';
+    private $pass = 'yF4!iH7*';
     private $charset = 'utf8mb4';
     private $dsn = '';
     private $pdo;
@@ -38,7 +38,7 @@ class DbManager
         try {
             $this->dsn = "mysql:host=$this->host;dbname=$this->db";
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-            //echo "Success"; Khaled
+            // echo "Success" ;
         } catch (PDOException $e) {
             // echo "ERROR";/PName
             var_dump($this->pdo);
@@ -200,7 +200,7 @@ public function getUsers(){
     }
   
   public function login($email , $password){
-    $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password' "); 
+    $query =  $this->pdo->query( "SELECT `name` , `id` from users where email = '$email' and password = '$password' "); 
     return $query ; 
   }  
 

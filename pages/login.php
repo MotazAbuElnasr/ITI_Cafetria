@@ -41,8 +41,14 @@ if (isset($_POST['signIn'])) {
         if ($userName['name'] == 'admin') {
             header('Location: /admin-manual');
         }
+        else {
+        
+        header('Location: /home');
+        }
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];
+
+        
     }
 }
 //

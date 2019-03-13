@@ -1,39 +1,14 @@
 <?php
-<<<<<<< HEAD
-require_once('classes/db.php');
-class Product{
-=======
 
 require_once 'classes/db.php';
 class Product
 {
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
     // database connection and table name
     private $db;
     // object properties
     public $id;
     public $name;
     public $price;
-<<<<<<< HEAD
-    public $description;
-    public $category_id;
-    public $timestamp;
-
-    public function __construct(){
-        $this->db = new DbManager();
-    }
-    // create product
-    public function create(){
-        //write query
-        $this->name=htmlspecialchars(strip_tags($this->name));
-        $this->price=htmlspecialchars(strip_tags($this->price));
-        $this->description=htmlspecialchars(strip_tags($this->description));
-        $this->category_id=htmlspecialchars(strip_tags($this->category_id));
-        // to get time-stamp for 'created' field
-        $this->timestamp = date('Y-m-d H:i:s');
-        return $this->db->createProduct($this->name,$this->price,$this->description,$this->category_id,$this->timestamp);
-
-=======
     public $category_id;
     public $image;
     public $timestamp;
@@ -141,6 +116,5 @@ class Product
         $this->description = $row['description'];
         $this->category_id = $row['category_id'];
         $this->image = $row['image'];
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
     }
 }

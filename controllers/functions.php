@@ -1,13 +1,4 @@
 <?php
-<<<<<<< HEAD
-    require_once('classes/db.php');
-$db= new DbManager();
-if(isset($_GET['start'])&&isset($_GET['end'])){
-  echo generateAccordion($_GET['start'],$_GET['end'],'');
-}
-else if(isset($_GET['UID'])&&!empty($_GET['UID'])){
-  echo generateAccordion('','',$_GET['UID']);
-=======
 require_once('classes/db.php');
 $db= new DbManager();
 if(isset($_GET['start'])&&isset($_GET['end'])){
@@ -18,7 +9,6 @@ if(isset($_GET['start'])&&isset($_GET['end'])){
   if(isset($_GET['page'])&&!empty($_GET['page']))
     $page=$_GET['page'];
   echo generateAccordion($_GET['start'],$_GET['end'],$UID,$page);
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 }
 function getUsers(){
   $db = new DbManager();
@@ -26,14 +16,6 @@ function getUsers(){
   return $users;
 }
 
-<<<<<<< HEAD
-function generateAccordion($start,$end,$uid){
-$db= new DbManager();
-$checks = $db->checks($start,$end,$uid);
-$ret =<<<EOT
-  <div class="container">
-  <div class="row">
-=======
 function generateAccordion($start,$end,$uid,$page){
 $db= new DbManager();
 $allUsers = $db->checks($start,$end,'','');
@@ -54,7 +36,6 @@ $ret .=<<<EOT
   </div>
   <div class="container">
   <div class="row text-center">
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
       <div class="col-6">
          <h3> Name </h3>
       </div>
@@ -69,20 +50,6 @@ foreach($checks as $user){
 $total=0; 
 foreach ($user['Orders'] as $check) $total += $check['OTotal'];
 $ret .= <<<EOT
-<<<<<<< HEAD
-<div class="card">
-  <div class="card-header" id="heading-$i">
-    <h5 class="mb-0">
-      <a role="button" data-toggle="collapse" href="#collapse-$i" aria-expanded="true" aria-controls="collapse-$i">
-      <div class="row">
-      <div class="col-6">
-            {$user['UName']}
-      </div>
-      <div class="col-6">
-        $total
-      </div>
-  </div>
-=======
 <div class="card text-center">
   <div class="card-header" id="heading-$i">
     <h5 class="mb-0">
@@ -95,7 +62,6 @@ $ret .= <<<EOT
             $total
           </div>
         </div>
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
       </a>
     </h5>
   </div>
@@ -108,24 +74,17 @@ $ret .= <<<EOT
               Order Date
               </div>
               <div class="col-6">
-<<<<<<< HEAD
-              Amount
-=======
               Amount  
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
               </div>
           </div>
       </div>
 EOT;
 $j=1;
 foreach ($user['Orders'] as $check) {
-<<<<<<< HEAD
-=======
   $orderDate = strtotime($check['OTime'] );
   // {$check['OTime']}
 
 $orderDate = date( ' m-d-Y H:i:s', $orderDate );
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
 $ret .= <<<EOT
 <div class="card">
 <div class="card-header" id="heading-$i-$j">
@@ -133,11 +92,7 @@ $ret .= <<<EOT
     <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-$i-$j" aria-expanded="false" aria-controls="collapse-$i-$j">
     <div class="row">
     <div class="col-6">
-<<<<<<< HEAD
-    {$check['OTime']}
-=======
     {$orderDate}    
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
     </div>
     <div class="col-6">
     {$check['OTotal']}
@@ -147,15 +102,6 @@ $ret .= <<<EOT
   </h5>
 </div>
 <div id="collapse-$i-$j" class="collapse" data-parent="#accordion-$i" aria-labelledby="heading-$i-$j">
-<<<<<<< HEAD
-  <div class="card-body">  
-EOT;
-foreach ($check['Products'] as $product) { 
-        $ret .= "<div> <div> $product[0] </div> <div> $product[2] </div> </div>";
-                  }
-$ret .= <<<EOT
-            </div>
-=======
 <div class='row'>
 EOT;
 foreach ($check['Products'] as $product) { 
@@ -172,7 +118,6 @@ foreach ($check['Products'] as $product) {
                   }
 $ret .= <<<EOT
            </div>
->>>>>>> bcca0ff16856f2196d8a1c89d0dd57426861af38
           </div>
         </div>
 EOT;

@@ -1,7 +1,7 @@
 <?php
     include 'tempelates/adminNavbar.php' ;
     require_once('classes/db.php');
-    include 'controllers/functions.php';
+  
     if ($_SESSION['userName']=="")
     header('Location: /');
     ?>

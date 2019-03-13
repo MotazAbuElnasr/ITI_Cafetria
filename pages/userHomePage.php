@@ -2,6 +2,7 @@
     include 'tempelates/user-navbar/user-navbar.php' ;
     if ($_SESSION['userName']=="")
     header('Location: /');
+    
     ?>
 
     <section class = "container user-home">
