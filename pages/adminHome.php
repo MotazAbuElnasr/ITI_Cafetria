@@ -7,11 +7,16 @@
     ?>
 
     <section class = "container user-home">
+<<<<<<< HEAD
      
+=======
+
+>>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
     <!-- Latest Product -->
     <h2> Add to User </h2>
     <hr />
     <!-- <div class = "row latest-product"> -->
+<<<<<<< HEAD
      
     <div class="dropdown-menu">    
     <?php 
@@ -23,6 +28,18 @@
   <!-- </div> -->
 
     </div>
+=======
+
+    <select class='custom-select form-control' name='userId'>";
+        <option>Select User...</option>;
+        <?php $userList = $db->userList() ;
+        while ($user = $userList->fetch()) {
+      ?>
+        <option value=<?php echo $user['id']?> > <?php echo $user['name']?></option>";
+      <?php  } ?>
+
+    </select>
+>>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
 
      <hr />
 
@@ -35,14 +52,22 @@
 
         <div class="col-sm-7">
         <div class="row">
+<<<<<<< HEAD
             
               <?php include  'tempelates/product/allProduct.php' ?>
       
            
+=======
+
+              <?php include  'tempelates/product/allProduct.php' ?>
+
+
+>>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
             </div>
         </div>
 
     </section>
+<<<<<<< HEAD
 
 
 
@@ -105,3 +130,5 @@
           //   alert( "Request failed: " + textStatus );
           // });
     </script>
+=======
+>>>>>>> f0f61a5400dd944ce90d274aba69e3ed8c34ff9a
