@@ -24,12 +24,9 @@
     </div>
   </div>
 </body>
-
-
 <?php 
 require_once 'classes/db.php';
 $db = new DbManager();
-
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -40,6 +37,8 @@ if (isset($_POST['signIn'])) {
     } else {
         if ($userName['name'] == 'admin') {
             header('Location: /admin-manual');
+        }else{
+          header('location: /home');
         }
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];
@@ -48,5 +47,3 @@ if (isset($_POST['signIn'])) {
 //
 // while ($product = $products->fetch()) {
 ?>
-
-<!--top products / -->

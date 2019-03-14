@@ -167,6 +167,7 @@ class DbManager
 public function insertUser ($name,$email,$password,$img,$room){
     $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
+            var_dump($stmt);
     $stmt->execute();
 }
 
@@ -191,6 +192,7 @@ public function getUsers(){
     $stmt->execute();
     $user = $stmt->fetchAll();
     foreach ($user as $row) {
+        $users[$row['UID']]['UID']=$row['UID'];
         $users[$row['UID']]['UName']=$row['UName'];
         $users[$row['UID']]['img']=$row['img'];
         $users[$row['UID']]['room']=$row['room'];
@@ -205,14 +207,17 @@ public function getUsers(){
   }  
 
   public function updateUser($name , $img , $room , $uid){
-    $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid ";
+
+    $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid";
     // $users = array();
+    var_dump($query);
+
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
   }
 
   public function deleteUser($uid){
-    $query = "DELETE FROM users WHERE `id` = $uid ";
+    $query = "DELETE FROM users WHERE `id` = $uid";
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
   }
