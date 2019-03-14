@@ -64,6 +64,11 @@
         $img_size = $_FILES['img']['size'];
         $img_tmp_name = $_FILES['img']['tmp_name'];
         $img_store = "./assets/images/".$img_name;
+        if(move_uploaded_file($img_tmp_name , $img_store)){
+            echo "image uploaded successfully";
+        }else{
+            echo "error in uploading images";
+        }    
         // $check = getimagesize($_FILES["img"]);
         // if($check !== false) {
         //     echo "File is an image - " . $check["mime"] . ".";
