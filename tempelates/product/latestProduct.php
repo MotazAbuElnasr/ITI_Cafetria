@@ -18,3 +18,4 @@ while ($product = $products->fetch()) {
   </div>
   </div>
 <?php } ?>
+

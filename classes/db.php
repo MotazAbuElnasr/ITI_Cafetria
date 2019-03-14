@@ -130,7 +130,7 @@ class DbManager
     // Return All Product Function  Khaled
     public function allProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` ');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"');
 
         return $q;
     }
@@ -155,7 +155,7 @@ class DbManager
 
     public function latestProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` LIMIT 1,3');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
 
         return $q;
     }
@@ -214,6 +214,24 @@ class DbManager
         $num = $stmt->rowCount();
 
         return $num;
+    }
+
+    public function getUsers()
+    {
+        $query = 'SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room';
+        $users = array();
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $user = $stmt->fetchAll();
+        foreach ($user as $row) {
+            $users[$row['UID']]['UID'] = $row['UID'];
+            $users[$row['UID']]['UName'] = $row['UName'];
+            $users[$row['UID']]['img'] = $row['img'];
+            $users[$row['UID']]['room'] = $row['room'];
+            $users[$row['UID']]['ext'] = $row['ext'];
+
+            return $users;
+        }
     }
 
     public function deleteProduct($id)
