@@ -56,7 +56,7 @@ body{
   background-color: #3f3327 !important ;
 }
 #iti{
-    color: #8fadff;
+    color: #fff;
     font-family: 'Gloria Hallelujah', cursive;
     font-weight: bold;
 ;
@@ -68,17 +68,19 @@ body{
 /*table head*/
 .thead-blue{
     color: #e5ffbe;
-    background-color: #5767f3;
+    background-color: #5e1c10;
 }
 /*table hover*/
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    color: #6300e4;
+    color: #e40008;
 }
 /*my orders div*/
 #myOrders{
     font-family: 'Sniglet', cursive;
 }
-
+#headOrders{
+    background-color: rgba(96, 28, 24, 0.8);
+}
 /*buttons*/
 .filter{
     margin-left: 6%;
@@ -110,7 +112,7 @@ body{
 }
 /*every text in page*/
 .text{
-    color: #0700b5;
+    color: #4d0003;
 }
 /*row of products*/
 .orderProducts{
@@ -120,7 +122,7 @@ body{
 .data{
     text-align: center;
     background-color: #cddaea;
-    color: darkslateblue;
+    color: #701723;
 }
 
 /* login Page */
@@ -161,6 +163,12 @@ body{
     border-radius: 2rem;
   }
 
+  .alert.alert-danger{
+      display: none ;
+      margin-top: 15px
+      
+  }
+
  #orderTable{
      min-height: 400px;
  }
@@ -169,6 +177,11 @@ body{
   #Pagination{
   }
 
+
+  /* Search bar */ 
+  .input-group-lg {
+      margin: 5% 0 5% 0 ;
+  }
   /* .form-label-group input:not(:placeholder-shown) {
     padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
     padding-bottom: calc(var(--input-padding-y) / 3);

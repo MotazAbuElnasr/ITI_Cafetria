@@ -4,21 +4,21 @@
 // require_once('order.php');
 class DbManager
 {
-    private $host = 'localhost';
-    private $db = 'iti_cafe';
-    private $user = 'root';
-    private $pass = '';
-    private $charset = 'utf8mb4';
-    private $dsn = '';
-    private $pdo;
+   private $host = 'sql2.freemysqlhosting.net';
+   private $db = 'sql2283138';
+   private $user = 'sql2283138';
+   private $pass = 'yF4!iH7*';
+   private $charset = 'utf8mb4';
+   private $dsn = '';
+   private $pdo;
 
-//      private $host = '127.0.0.1';
-//      private $db = 'iti_cafe';
-//      private $user = 'Motaz';
-//      private $pass = 'motaz';
-//      private $charset = 'utf8mb4';
-//      private $dsn = "";
-//      private $pdo;
+//       private $host = '127.0.0.1';
+//       private $db = 'iti_cafe';
+//       private $user = 'Motaz';
+//       private $pass = 'motaz';
+//       private $charset = 'utf8mb4';
+//       private $dsn = "";
+//       private $pdo;
 
     // private $host = 'localhost';
     // private $db = 'cafetria';
@@ -38,7 +38,7 @@ class DbManager
         try {
             $this->dsn = "mysql:host=$this->host;dbname=$this->db";
             $this->pdo = new PDO($this->dsn, $this->user, $this->pass, $this->options);
-            //echo "Success"; Khaled
+            // echo "Success" ;
         } catch (PDOException $e) {
             // echo "ERROR";/PName
             var_dump($this->pdo);
@@ -128,7 +128,7 @@ class DbManager
     // Return All Product Function  Khaled
     public function allProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` ');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"');
 
         return $q;
     }
@@ -145,7 +145,7 @@ class DbManager
 
     public function latestProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` LIMIT 1,3');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
 
         return $q;
     }
@@ -167,23 +167,42 @@ class DbManager
 public function insertUser ($name,$email,$password,$img,$room){
     $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
-            var_dump($stmt);
-    $stmt->execute();
-}
+        $stmt->execute();
+    }
 
-public function getRooms(){
-    $query = "SELECT `room_num` FROM `rooms`";
-    $stmt = $this->pdo->prepare( $query );
-    $stmt->execute();
-    return $stmt;
+    // products Nouran
+    public function getRooms()
+    {
+        $query = 'SELECT `room_num` FROM `rooms`';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
 
-}
+        return $stmt;
+    }
 
-public function cancelOrder ($id) {
-    $query = "DELETE FROM orders WHERE o_id = $id";
-    $stmt = $this->pdo->prepare( $query );
-    $stmt->execute();
-}
+    public function readProducts($from_record_num, $records_per_page)
+    {
+        $query = "SELECT p_id, name, img, price, cat_id FROM
+         products
+    ORDER BY
+        name ASC
+    LIMIT
+        $from_record_num, $records_per_page";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt;
+
+    }
+
+    public function countAll()
+    {
+        $query = 'SELECT p_id FROM products';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $num = $stmt->rowCount();
+
+        return $num;
+    }
 
 public function getUsers(){
     $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room";
@@ -197,12 +216,48 @@ public function getUsers(){
         $users[$row['UID']]['img']=$row['img'];
         $users[$row['UID']]['room']=$row['room'];
         $users[$row['UID']]['ext']=$row['ext'];
+        return $users;
     }
-    return $users;
+}
+
+
+
+    public function deleteProduct($id)
+    {
+        $query = "DELETE FROM products WHERE p_id = $id";
+        $stmt = $this->pdo->prepare($query);
+        if ($result = $stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
-  
+    public function readName($id)
+    {
+        $query = 'SELECT name FROM categories WHERE cat_id = ? limit 0,1';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['name'];
+    }
+    public function cancelOrder($id)
+    {
+        $query = "DELETE FROM orders WHERE o_id = $id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+    }
+
+
+
+  public function getUsersList(){
+      $q = $this->pdo->query("SELECT `id` , `name` from users ") ; 
+      return $q ;   
+  }
+
+
   public function login($email , $password){
-    $query =  $this->pdo->query( "SELECT `name` from users where email = '$email' and password = '$password' "); 
+    $query =  $this->pdo->query( "SELECT `name` , `id` from users where email = '$email' and password = '$password' "); 
     return $query ; 
   }  
 

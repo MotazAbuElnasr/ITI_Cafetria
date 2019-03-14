@@ -1,6 +1,6 @@
 <?php
-// include admin navbar 
-include 'tempelates/adminNavbar.php' ;
+// include admin navbar
+include 'tempelates/adminNavbar.php';
 
 // include database and object files
 include_once 'classes/db.php';
@@ -28,7 +28,7 @@ include 'tempelates/layout_header.php';
     ?>
 <?php
 echo "<div class='right-button-margin'>";
-echo "<a href='index.php' class='btn btn-default pull-right'>Read Products</a>";
+echo "<a href='admin-products' class='btn btn-default pull-right'>Read Products</a>";
 echo '</div>';
 ?>
 <?php
@@ -56,8 +56,8 @@ if ($_POST) {
 }
 ?>
     <!-- HTML form for creating a product -->
-    <form action="addproduct" method="post" enctype="multipart/form-data">
-        <table class='table table-hover table-responsive table-bordered'>
+    <form action="admin-addproduct" method="post" enctype="multipart/form-data">
+        <table class='table table-hover table-bordered'>
 
             <tr>
                 <td>Name</td>

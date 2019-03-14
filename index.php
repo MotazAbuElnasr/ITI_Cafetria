@@ -47,8 +47,8 @@ switch ($request) {
         require __DIR__.'/pages/adminOrder.php';
         break;
         //nouran
-    case '/admin/products':
-        require __DIR__.'/pages/main.php';
+    case '/admin-products':
+        require __DIR__.'/pages/adminProducts.php';
         break;
         //Israa
     case '/admin-users':
@@ -60,6 +60,10 @@ switch ($request) {
     case '/admin':
         require __DIR__.'/pages/adminHome.php';
         break;
+        case '/delete_product':
+        require __DIR__.'/pages/delete_product.php';
+        break;
+
     default:
         require __DIR__.'/pages/404.php';
         break;

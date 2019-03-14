@@ -12,7 +12,6 @@
     <h2> Add to User </h2>
     <hr />
     <!-- <div class = "row latest-product"> -->
-
     <select class='custom-select form-control' name='userId'>";
         <option>Select User...</option>;
         <?php $userList = $db->userList();
