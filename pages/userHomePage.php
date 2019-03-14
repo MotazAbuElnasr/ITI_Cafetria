@@ -22,11 +22,11 @@
         </div>
 
         <div class="col-sm-7">
-        <div class="row">
-
-              <?php include  'tempelates/product/allProduct.php' ?>
-
-
+            <div class="row">
+                <input type="text" id="searchBar" />
+            </div>
+            <div class="row">
+                <?php include  'tempelates/product/allProduct.php' ?>
             </div>
         </div>
 

@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    $("#searchBar").on('input',function(e){
+        const allProduct = document.getElementsByClassName('Products');
+        console.log(allProduct)
+        for (const product of allProduct) {
+            const productName=product.children[0].children[1].children[0].innerHTML;
+            const regx = new RegExp(e.target.value,"i");
+             if(productName.search(regx)==-1)
+                product.style.display='none';
+             else    product.style.display='block';
+        }
+    });
     $(".add-product-order").click(function(){
         let name = $(this).parent().find(".p-name").html();
         let price = $(this).parent().find(".p-price").html();
