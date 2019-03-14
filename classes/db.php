@@ -4,21 +4,21 @@
 // require_once('order.php');
 class DbManager
 {
-    private $host = 'sql2.freemysqlhosting.net';
-    private $db = 'sql2283138';
-    private $user = 'sql2283138';
-    private $pass = 'yF4!iH7*';
-    private $charset = 'utf8mb4';
-    private $dsn = '';
-    private $pdo;
+   private $host = 'sql2.freemysqlhosting.net';
+   private $db = 'sql2283138';
+   private $user = 'sql2283138';
+   private $pass = 'yF4!iH7*';
+   private $charset = 'utf8mb4';
+   private $dsn = '';
+   private $pdo;
 
-//      private $host = '127.0.0.1';
-//      private $db = 'iti_cafe';
-//      private $user = 'Motaz';
-//      private $pass = 'motaz';
-//      private $charset = 'utf8mb4';
-//      private $dsn = "";
-//      private $pdo;
+//       private $host = '127.0.0.1';
+//       private $db = 'iti_cafe';
+//       private $user = 'Motaz';
+//       private $pass = 'motaz';
+//       private $charset = 'utf8mb4';
+//       private $dsn = "";
+//       private $pdo;
 
     // private $host = 'localhost';
     // private $db = 'cafetria';
@@ -204,15 +204,6 @@ public function insertUser ($name,$email,$password,$img,$room){
         return $num;
     }
 
-public function getRooms(){
-    $query = "SELECT `room_num` FROM `rooms`";
-    $stmt = $this->pdo->prepare( $query );
-    $stmt->execute();
-    return $stmt;
-
-        return $row['name'];
-    }
-
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";
@@ -223,7 +214,15 @@ public function getRooms(){
             return false;
         }
     }
-
+    public function readName($id)
+    {
+        $query = 'SELECT name FROM categories WHERE cat_id = ? limit 0,1';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['name'];
+    }
     public function cancelOrder($id)
     {
         $query = "DELETE FROM orders WHERE o_id = $id";
@@ -231,38 +230,23 @@ public function getRooms(){
         $stmt->execute();
     }
 
-    public function getUsers()
-    {
-        $query = 'SELECT `id` as UID, `name` as UName FROM users  WHERE is_admin =0 ';
+
+    public function getUsers(){
+        $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room";
         $users = array();
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         $user = $stmt->fetchAll();
         foreach ($user as $row) {
-            $users[$row['UID']] = $row['UName'];
+            $users[$row['UID']]['UName']=$row['UName'];
+            $users[$row['UID']]['img']=$row['img'];
+            $users[$row['UID']]['room']=$row['room'];
+            $users[$row['UID']]['ext']=$row['ext'];
         }
-
-public function cancelOrder ($id) {
-    $query = "DELETE FROM orders WHERE o_id = $id";
-    $stmt = $this->pdo->prepare( $query );
-    $stmt->execute();
-}
-
-public function getUsers(){
-    $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room";
-    $users = array();
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute();
-    $user = $stmt->fetchAll();
-    foreach ($user as $row) {
-        $users[$row['UID']]['UName']=$row['UName'];
-        $users[$row['UID']]['img']=$row['img'];
-        $users[$row['UID']]['room']=$row['room'];
-        $users[$row['UID']]['ext']=$row['ext'];
+        return $users;
     }
-    return $users;
-    }
-  
+
+
   public function getUsersList(){
       $q = $this->pdo->query("SELECT `id` , `name` from users ") ; 
       return $q ;   

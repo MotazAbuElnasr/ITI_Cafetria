@@ -23,7 +23,6 @@ require_once 'controllers/generateMyOrders.php';
     </div>
 
     </div>
-</div>
     <nav aria-label="Page navigation" id = "Pagination">
         <ul class="pagination justify-content-center">
             <li class="page-item"><a onclick="prevPage(event)" class="page-link" style="color: dodgerblue" id="prev"> < </a></li>
@@ -31,6 +30,7 @@ require_once 'controllers/generateMyOrders.php';
             <li class="page-item"><a onclick="nextPage(event)" class="page-link" style="color: dodgerblue" id="next"> > </a></li>
         </ul>
     </nav>
+</div>
     <script>
         document.getElementById("end").valueAsDate = new Date();
         let start = new Date();
@@ -75,7 +75,6 @@ require_once 'controllers/generateMyOrders.php';
                 xmlhttp.send();
             },20)
         }
-
         function nextPage() {
             let ordNo = document.getElementsByClassName("order").length;
             if(ordNo!==0){
@@ -94,7 +93,6 @@ require_once 'controllers/generateMyOrders.php';
                 filterCheck(currentPage)
             }
         }
-
         function accordionFix(event) {
             document.querySelectorAll(".data").forEach((element) => {
                     document.querySelectorAll(".data").forEach((element) => {
