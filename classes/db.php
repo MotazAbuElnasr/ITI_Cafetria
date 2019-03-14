@@ -4,30 +4,27 @@
 // require_once('order.php');
 class DbManager
 {
-   private $host = 'sql2.freemysqlhosting.net';
-   private $db = 'sql2283138';
-   private $user = 'sql2283138';
-   private $pass = 'yF4!iH7*';
-   private $charset = 'utf8mb4';
-   private $dsn = '';
-   private $pdo;
-
-//       private $host = '127.0.0.1';
-//       private $db = 'iti_cafe';
-//       private $user = 'Motaz';
-//       private $pass = 'motaz';
-//       private $charset = 'utf8mb4';
-//       private $dsn = "";
-//       private $pdo;
-
+//    private $host = 'sql2.freemysqlhosting.net';
+//    private $db = 'sql2283138';
+//    private $user = 'sql2283138';
+//    private $pass = 'yF4!iH7*';
+//    private $charset = 'utf8mb4';
+//    private $dsn = '';
+//    private $pdo;
+      private $host = '127.0.0.1';
+      private $db = 'iti_cafe';
+      private $user = 'Motaz';
+      private $pass = 'motaz';
+      private $charset = 'utf8mb4';
+      private $dsn = "";
+      private $pdo;
     // private $host = 'localhost';
-    // private $db = 'cafetria';
+    // private $db = 'iti_cafe';
     // private $user = 'root';
     // private $pass = '';
     // private $charset = 'utf8mb4';
-    // private $dsn = "";
+    // private $dsn = '';
     // private $pdo;
-
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -44,7 +41,6 @@ class DbManager
             var_dump($this->pdo);
         }
     }
-
     public function checks($start, $end, $uid, $page)
     {
         $dateCondition = '';
@@ -80,7 +76,6 @@ class DbManager
         // print_r($users);
         return $users;
     }
-
     //pagination
     //SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
     //o.status as status, po.price as PPrice , p.name as PName ,
@@ -90,7 +85,6 @@ class DbManager
     //products p,
     //products_orders po WHERE o.o_id = po.order_id
     //and p.p_id = po.product_id and o.user_id = 3
-
     public function userOrders($userId, $start, $end, $page)
     {
         $dateCondition = " and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
@@ -105,7 +99,6 @@ class DbManager
                                               products_orders po WHERE o.o_id = po.order_id
                                               and p.p_id = po.product_id and o.user_id = $userId
                                               ".$dateCondition);
-
         $orders = array();
         $stmt->execute();
         $order = $stmt->fetchAll();
@@ -121,35 +114,32 @@ class DbManager
                     'price' => $row['PPrice'], 'img' => $row['img'], )));
             // print_r($users);
         }
-
         return $orders;
     }
-
     // Return All Product Function  Khaled
     public function allProduct()
     {
         $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"');
-
         return $q;
     }
-
     public function createProduct($name, $price, $img, $category_id, $timestamp)
     {
         $stmt = $this->pdo->prepare('INSERT INTO products
                     VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
-
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
-
+    public function updateProduct($name, $price, $img, $category_id, $timestamp)
+    {
+        $stmt = $this->pdo->prepare('INSERT INTO products
+                    VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
+        return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
+    }
     // Return Latest Product Function  Khaled
-
     public function latestProduct()
     {
         $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
-
         return $q;
     }
-
     public function readCategory()
     {
         $query = 'SELECT
@@ -158,28 +148,25 @@ class DbManager
                     categories
                 ORDER BY
                     name';
-        $stmt = $this->pdo->prepare( $query );
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         return $stmt;
-        
-}
-//inserting user
-public function insertUser ($name,$email,$password,$img,$room){
-    $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
+    }
+    //inserting user
+    public function insertUser($name, $email, $password, $img, $room)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
     }
-
     // products Nouran
     public function getRooms()
     {
         $query = 'SELECT `room_num` FROM `rooms`';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-
         return $stmt;
     }
-
     public function readProducts($from_record_num, $records_per_page)
     {
         $query = "SELECT p_id, name, img, price, cat_id FROM
@@ -191,19 +178,15 @@ public function insertUser ($name,$email,$password,$img,$room){
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         return $stmt;
-
     }
-
     public function countAll()
     {
         $query = 'SELECT p_id FROM products';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
         $num = $stmt->rowCount();
-
         return $num;
     }
-
 public function getUsers(){
     $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room";
     $users = array();
@@ -216,12 +199,9 @@ public function getUsers(){
         $users[$row['UID']]['img']=$row['img'];
         $users[$row['UID']]['room']=$row['room'];
         $users[$row['UID']]['ext']=$row['ext'];
-        return $users;
     }
+    return $users;
 }
-
-
-
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";
@@ -247,36 +227,30 @@ public function getUsers(){
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
     }
-
-
-
-  public function getUsersList(){
-      $q = $this->pdo->query("SELECT `id` , `name` from users ") ; 
-      return $q ;   
-  }
-
-
-  public function login($email , $password){
-    $query =  $this->pdo->query( "SELECT `name` , `id` from users where email = '$email' and password = '$password' "); 
-    return $query ; 
-  }  
-
+    public function getUsersList()
+    {
+        $q = $this->pdo->query('SELECT `id` , `name` from users ');
+        return $q;
+    }
   public function updateUser($name , $img , $room , $uid){
-
-    $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid";
+    if ($img != "") {
+        $query = "UPDATE users set `name` = '$name' , `img` = '$img' , `room` = $room  WHERE `id` = $uid";
+    }else{
+        $query = "UPDATE users set `name` = '$name' , `room` = $room  WHERE `id` = $uid";
+    }
     // $users = array();
-    var_dump($query);
-
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
   }
-
-  public function deleteUser($uid){
-    $query = "DELETE FROM users WHERE `id` = $uid";
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute();
-  }
-
+    public function login($email, $password)
+    {
+        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+        return $query;
+    }
+    public function deleteUser($uid)
+    {
+        $query = "DELETE FROM users WHERE `id` = $uid ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+    }
 }
-
-

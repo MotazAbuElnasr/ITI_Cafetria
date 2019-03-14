@@ -19,6 +19,9 @@ switch ($request) {
     case '/cancelOrder':
         require __DIR__.'/controllers/cancelOrder.php';
         break;
+    case '/deleteUser':
+        require __DIR__.'/controllers/deleteUser.php';
+        break;    
     case '/generateMyOrders':
         require __DIR__.'/controllers/generateMyOrders.php';
         break;
