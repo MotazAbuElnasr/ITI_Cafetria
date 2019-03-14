@@ -20,6 +20,9 @@ switch ($request) {
     case '/cancelOrder':
         require __DIR__.'/controllers/cancelOrder.php';
         break;
+    case '/deleteUser':
+        require __DIR__.'/controllers/deleteUser.php';
+        break;    
     case '/generateMyOrders':
         require __DIR__.'/controllers/generateMyOrders.php';
         break;
@@ -61,8 +64,16 @@ switch ($request) {
     case '/admin':
         require __DIR__.'/pages/adminHome.php';
         break;
+        case '/update-product':
+        require __DIR__.'/pages/update_product.php';
+        break;
+
         case '/delete_product':
         require __DIR__.'/pages/delete_product.php';
+        break;
+
+        case '/read_one.php':
+        require __DIR__.'/pages/read_one.php';
         break;
 
     default:
