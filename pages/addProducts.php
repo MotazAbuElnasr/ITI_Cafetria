@@ -95,6 +95,7 @@ if ($_POST) {
                 <td></td>
                 <td>
                     <button type='submit' class='btn btn-primary'>Create</button>
+                    <button type="reset" class='btn btn-primary'>Reset</button>
                 </td>
             </tr>
 
