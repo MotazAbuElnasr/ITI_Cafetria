@@ -54,7 +54,7 @@
         $img_type = $_FILES['img']['type'];
         $img_size = $_FILES['img']['size'];
         $img_tmp_name = $_FILES['img']['tmp_name'];
-        $img_store = "./assets/images/".$img_name;
+        $img_store = "assets/images/".$img_name;
         if(move_uploaded_file($img_tmp_name , $img_store)){
             echo "image uploaded successfully";
         }else{
