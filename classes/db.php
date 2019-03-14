@@ -4,21 +4,21 @@
 // require_once('order.php');
 class DbManager
 {
-//    private $host = 'sql2.freemysqlhosting.net';
-//    private $db = 'sql2283138';
-//    private $user = 'sql2283138';
-//    private $pass = 'yF4!iH7*';
-//    private $charset = 'utf8mb4';
-//    private $dsn = '';
-//    private $pdo;
+   private $host = 'sql2.freemysqlhosting.net';
+   private $db = 'sql2283138';
+   private $user = 'sql2283138';
+   private $pass = 'yF4!iH7*';
+   private $charset = 'utf8mb4';
+   private $dsn = '';
+   private $pdo;
 
-      private $host = '127.0.0.1';
-      private $db = 'iti_cafe';
-      private $user = 'Motaz';
-      private $pass = 'motaz';
-      private $charset = 'utf8mb4';
-      private $dsn = "";
-      private $pdo;
+//       private $host = '127.0.0.1';
+//       private $db = 'iti_cafe';
+//       private $user = 'Motaz';
+//       private $pass = 'motaz';
+//       private $charset = 'utf8mb4';
+//       private $dsn = "";
+//       private $pdo;
 
     // private $host = 'localhost';
     // private $db = 'cafetria';
