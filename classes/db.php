@@ -13,21 +13,21 @@ class DbManager
 //    private $dsn = '';
 //    private $pdo;
 
-//       private $host = '127.0.0.1';
-//       private $db = 'iti_cafe';
-//       private $user = 'Motaz';
-//       private $pass = 'motaz';
-//       private $charset = 'utf8mb4';
-//       private $dsn = "";
-//       private $pdo;
+      private $host = '127.0.0.1';
+      private $db = 'iti_cafe';
+      private $user = 'Motaz';
+      private $pass = 'motaz';
+      private $charset = 'utf8mb4';
+      private $dsn = "";
+      private $pdo;
 
-    private $host = 'localhost';
-    private $db = 'iti_cafe';
-    private $user = 'root';
-    private $pass = '';
-    private $charset = 'utf8mb4';
-    private $dsn = '';
-    private $pdo;
+    // private $host = 'localhost';
+    // private $db = 'iti_cafe';
+    // private $user = 'root';
+    // private $pass = '';
+    // private $charset = 'utf8mb4';
+    // private $dsn = '';
+    // private $pdo;
 
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -130,7 +130,7 @@ class DbManager
     // Return All Product Function  Khaled
     public function allProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` ');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"');
 
         return $q;
     }
@@ -155,7 +155,7 @@ class DbManager
 
     public function latestProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` LIMIT 1,3');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
 
         return $q;
     }
@@ -216,6 +216,22 @@ class DbManager
         return $num;
     }
 
+public function getUsers(){
+    $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room";
+    $users = array();
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute();
+    $user = $stmt->fetchAll();
+    foreach ($user as $row) {
+        $users[$row['UID']]['UID']=$row['UID'];
+        $users[$row['UID']]['UName']=$row['UName'];
+        $users[$row['UID']]['img']=$row['img'];
+        $users[$row['UID']]['room']=$row['room'];
+        $users[$row['UID']]['ext']=$row['ext'];
+    }
+    return $users;
+}
+
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";
@@ -245,29 +261,23 @@ class DbManager
         $stmt->execute();
     }
 
-    public function getUsers()
-    {
-        $query = 'SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room';
-        $users = array();
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-        $user = $stmt->fetchAll();
-        foreach ($user as $row) {
-            $users[$row['UID']]['UName'] = $row['UName'];
-            $users[$row['UID']]['img'] = $row['img'];
-            $users[$row['UID']]['room'] = $row['room'];
-            $users[$row['UID']]['ext'] = $row['ext'];
-        }
-
-        return $users;
-    }
-
     public function getUsersList()
     {
         $q = $this->pdo->query('SELECT `id` , `name` from users ');
-
         return $q;
     }
+  public function updateUser($name , $img , $room , $uid){
+    if ($img != "") {
+        $query = "UPDATE users set `name` = '$name' , `img` = '$img' , `room` = $room  WHERE `id` = $uid";
+    }else{
+        $query = "UPDATE users set `name` = '$name' , `room` = $room  WHERE `id` = $uid";
+
+    }
+    // $users = array();
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute();
+  }
+
 
     public function login($email, $password)
     {
@@ -276,13 +286,7 @@ class DbManager
         return $query;
     }
 
-    public function updateUser($name, $img, $room, $uid)
-    {
-        $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid ";
-        // $users = array();
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-    }
+
 
     public function deleteUser($uid)
     {
