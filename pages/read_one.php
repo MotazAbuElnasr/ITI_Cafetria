@@ -1,20 +1,18 @@
 <?php
 
 // get ID of the product to be read
-$id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: missing ID.');
+//$id = isset($_GET['p_id']) ? $_GET['p_id'] : die('ERROR: missing ID.');
 
 // include database and object files
-include_once 'config/database.php';
-include_once 'objects/product.php';
-include_once 'objects/category.php';
+include_once 'classes/db.php';
+include_once 'classes/product.php';
+include_once 'classes/category.php';
 
 // get database connection
-$database = new Database();
-$db = $database->getConnection();
-
-// prepare objects
-$product = new Product($db);
-$category = new Category($db);
+// pass connection to objects
+$product = new Product();
+$category = new Category();
+$db = new DbManager();
 
 // set ID property of product to be read
 $product->id = $id;
@@ -48,7 +46,7 @@ echo "<table class='table table-hover table-responsive table-bordered'>";
         echo '<td>Category</td>';
         echo '<td>';
             // display category name
-            $category->id = $product->category_id;
+            $cat->id = $product->cat_id;
             $category->readName();
             echo $category->name;
         echo '</td>';

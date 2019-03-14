@@ -20,12 +20,12 @@ include 'tempelates/layout_header.php';
 <body>
 <!-- container -->
 <div class="container">
-    <?php
+    <!-- <   ?php
     // show page header
-    echo "<div class='page-header'>
-                <h1>{$page_title}</h1>
-            </div>";
-    ?>
+    // echo "<div class='page-header'>
+    //             <h1>{$page_title}</h1>
+    //         </div>";
+    ?> -->
 <?php
 echo "<div class='right-button-margin'>";
 echo "<a href='admin-products' class='btn btn-default pull-right'>Read Products</a>";
@@ -42,11 +42,14 @@ if ($_POST) {
         ? sha1_file($_FILES['image']['tmp_name']).'-'.basename($_FILES['image']['name']) : '';
     $product->image = $image;
     // create the product
+    var_dump($_POST);
+    var_dump($_FILES);
     if ($product->create()) {
         echo "<div class='alert alert-success'>Product was created.</div>";
         // try to upload the submitted file
         // uploadPhoto() method will return an error message, if any.
         echo $product->uploadPhoto();
+        echo 'HELLO WORLD';
     }
 
     // if unable to create the product, tell the user
@@ -56,7 +59,7 @@ if ($_POST) {
 }
 ?>
     <!-- HTML form for creating a product -->
-    <form action="admin-addproduct" method="post" enctype="multipart/form-data">
+    <form action="admin-addproduct" method="post" enctype="multipart/form-data" data-ajax='false'>
         <table class='table table-hover table-bordered'>
 
             <tr>
@@ -95,6 +98,7 @@ if ($_POST) {
                 <td></td>
                 <td>
                     <button type='submit' class='btn btn-primary'>Create</button>
+                    <button type="reset" class='btn btn-primary'>Reset</button>
                 </td>
             </tr>
 

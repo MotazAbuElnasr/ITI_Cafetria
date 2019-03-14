@@ -24,8 +24,8 @@ $category = new Category();
 $stmt = $db->readProducts($from_record_num, $records_per_page);
 $num = $stmt->rowCount(); // set page header
 $page_title = 'Read Products';
-include 'tempelates/layout_header.php';
 include 'tempelates/adminNavbar.php';
+include 'tempelates/layout_header.php';
 echo "<div class='right-button-margin'>";
     echo "<a href='admin-addproduct' class='mb-4 btn btn-default pull-right'>Create Product</a>";
 echo '</div>';
@@ -36,6 +36,7 @@ if ($num > 0) {
     echo '<th>Product</th>';
     echo '<th>Price</th>';
     echo '<th>Category</th>';
+    echo '<th>image</th>';
     echo '<th>Actions</th>';
     echo '</tr>';
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -47,7 +48,7 @@ if ($num > 0) {
         $category->id = $cat_id;
         echo $category->readName($category->id);
         echo '</td>';
-
+        echo "<td><img style='width:50px;height:50px' src='{$img}' /></td>";
         echo '<td>';
         // read, edit and delete buttons
         echo "
@@ -55,7 +56,7 @@ if ($num > 0) {
     <span class='glyphicon glyphicon-list'></span> Read
 </a>
  
-<a href='update_product.php?id={$p_id}' class='btn btn-info left-margin'>
+<a href='update-product?id={$p_id}' class='btn btn-info left-margin'>
     <span class='glyphicon glyphicon-edit'></span> Edit
 </a>
  

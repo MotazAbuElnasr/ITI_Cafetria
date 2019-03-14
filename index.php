@@ -63,8 +63,16 @@ switch ($request) {
     case '/admin':
         require __DIR__.'/pages/adminHome.php';
         break;
+        case '/update-product':
+        require __DIR__.'/pages/update_product.php';
+        break;
+
         case '/delete_product':
         require __DIR__.'/pages/delete_product.php';
+        break;
+
+        case '/read_one.php':
+        require __DIR__.'/pages/read_one.php';
         break;
 
     default:

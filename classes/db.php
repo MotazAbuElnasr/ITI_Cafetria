@@ -1,4 +1,5 @@
 <?php
+
 // require_once('user.php');
 // require_once('product.php');
 // require_once('order.php');
@@ -30,6 +31,7 @@ class DbManager
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ];
+
     public function __construct()
     {
         try {
@@ -132,8 +134,10 @@ class DbManager
     {
         $stmt = $this->pdo->prepare('INSERT INTO products
                     VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
+
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
+
     // Return Latest Product Function  Khaled
     public function latestProduct()
     {
@@ -150,6 +154,7 @@ class DbManager
                     name';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+
         return $stmt;
     }
     //inserting user
@@ -212,6 +217,7 @@ public function getUsers(){
             return false;
         }
     }
+
     public function readName($id)
     {
         $query = 'SELECT name FROM categories WHERE cat_id = ? limit 0,1';
@@ -219,8 +225,10 @@ public function getUsers(){
         $stmt->bindParam(1, $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
         return $row['name'];
     }
+
     public function cancelOrder($id)
     {
         $query = "DELETE FROM orders WHERE o_id = $id";
@@ -242,11 +250,17 @@ public function getUsers(){
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
   }
+
+
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+
         return $query;
     }
+
+
+
     public function deleteUser($uid)
     {
         $query = "DELETE FROM users WHERE `id` = $uid ";

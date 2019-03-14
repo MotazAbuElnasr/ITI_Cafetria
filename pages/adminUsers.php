@@ -15,11 +15,9 @@
   $imgError ="";
   $roomError = "";
   if(isset($_POST['name'])){
-    var_dump($_FILES);
     $id=$_POST["id"];
     $name=$_POST["name"];
     $room=$_POST["room"];
-    var_dump($_FILES['img']['name']);
     $img_store="";
     $valid=true;
     if (empty($_POST["name"])) {
@@ -27,16 +25,15 @@
     } else {
         $name = checkValid($_POST["name"]);
     }
-    if ($img!="") {
+    if(isset($_FILES['img'])) {
       $x=rand(1000 , 10000000);
       $img_name = $_FILES['img']['name'];
       $img_type = $_FILES['img']['type'];
       $img_size = $_FILES['img']['size'];
       $img_tmp_name = $_FILES['img']['tmp_name'];
       $img_store = "./assets/images/".$img_name.strval($x);
-      var_dump($img_store);
     }
-    if($valid) 
+    if($valid)
     $db->updateUser($name,$img_store,$room,$id);
     }
     function checkValid($data) {
@@ -69,36 +66,38 @@
       foreach($user as $row)
       {
         ?>
-            <tr>
-                <td> <?php echo $row['UName'];?> </td>
-                <td> <img src="<?php echo $row['img'];?>" width="60px" height="60px" /> </td>
-                <td> <?php echo $row['room'];?> </td>
-                <td> <?php echo $row['ext'];?> </td>
-                <td>
-                    <!-- Button trigger modal -->
-                    <button data-uname="<?php echo $row['UName'];?>" data-room="<?php echo $row['room'];?>"
-                        data-img="<?php echo $row['img'];?>" data-uid="<?php echo $row['UID'];?>" onclick="edit(event)"
-                        type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter"
-                        name="submit">
-                        Edit
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit User</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-12">
-                                                <input type="hidden" id="UID" class="form-control" name="id">
-                                            </div>
+        <tr>
+        <td> <?php echo $row['UName'];?> </td>
+        <td> <img src="<?php echo $row['img'];?>" width="60px" height="60px"/> </td>
+        <td> <?php echo $row['room'];?> </td>
+        <td> <?php echo $row['ext'];?> </td>
+        <td>
+        <!-- Button trigger modal -->
+          <button data-uname = "<?php echo $row['UName'];?>" 
+          data-room = "<?php echo $row['room'];?>"
+          data-img = "<?php echo $row['img'];?>"
+          data-uid = "<?php echo $row['UID'];?>"
+          onclick="edit(event)"
+           type="button" 
+           class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter" name="submit">
+            Edit
+          </button>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">Edit User</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" "admin-users" enctype="multipart/form-data">
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                          <input type="hidden" id="UID" class="form-control" name="id">
+                      </div>
 
                                             <div class="form-group col-md-12">
                                                 <label for="inputName4">Name</label>
