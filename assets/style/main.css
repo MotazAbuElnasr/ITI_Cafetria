@@ -1,6 +1,6 @@
 body{
-    color: #3f3327; !important;
-    background: url("../images/index.jpg") fixed no-repeat;
+    color: #3f3327 !important;
+    /* background: url("../images/index.jpg") fixed no-repeat; */
     background-size: cover;
 }
 
@@ -29,6 +29,9 @@ body{
 /*add products*/
 .left-margin{
     margin:0 .5em 0 0;
+}
+.product.card {
+    margin-bottom: 20px
 }
 
 .right-button-margin{
@@ -59,23 +62,25 @@ body{
 ;
 }
 #home, #homee{
-    color: #b3bffb; !important;
+    color: #b3bffb !important;
     font-weight: bolder;
 }
 /*table head*/
 .thead-blue{
     color: #e5ffbe;
-    background-color: #5767f3;
+    background-color: #5e1c10;
 }
 /*table hover*/
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    color: #6300e4;
+    color: #e40008;
 }
 /*my orders div*/
 #myOrders{
     font-family: 'Sniglet', cursive;
 }
-
+#headOrders{
+    background-color: rgba(96, 28, 24, 0.8);
+}
 /*buttons*/
 .filter{
     margin-left: 6%;
@@ -107,7 +112,7 @@ body{
 }
 /*every text in page*/
 .text{
-    color: #0700b5;
+    color: #4d0003;
 }
 /*row of products*/
 .orderProducts{
@@ -117,7 +122,7 @@ body{
 .data{
     text-align: center;
     background-color: #cddaea;
-    color: darkslateblue;
+    color: #701723;
 }
 
 /* login Page */
@@ -156,6 +161,12 @@ body{
   .form-label-group input {
     height: auto;
     border-radius: 2rem;
+  }
+
+  .alert.alert-danger{
+      display: none ;
+      margin-top: 15px
+      
   }
 
  #orderTable{

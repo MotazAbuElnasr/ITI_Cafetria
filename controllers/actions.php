@@ -15,54 +15,67 @@ if(isset($_POST["type"]))
 function add_order(){
     $errors=1;
     $value = array();
-    // $url= "forms/user/signup.php?";
-   
-    if(isset($_POST['price'])&& !empty($_POST['price'])){
-        $price = $_POST['price'];
+     $url= "../home?";
+    if(isset($_POST['submit']) ){
+    
+    if(isset($_POST['order_note'])){
+        $value["notes"] = $_POST['order_note'];
+    }
+    else{
+        $errors=2;
+         $url=$url."notes= notes is required&";
+    }
+    if(isset($_POST['order_room_number']) && !empty($_POST['order_room_number']) ){
+        $value["room"] = $_POST['order_room_number'];
+    }
+    else{
+        $errors=2;
+         $url=$url."room=room is required&";
+    }
+    if(isset($_POST['product_id']))
+    {
+        $value["product_id"] = $_POST['product_id'];
+    }
+    else{
+        $errors=2;
+         $url=$url."product_id=product  is required&";
+    }
+    if(isset($_POST['price']) && $_POST['price'] != 0)
+    {
         $value["price"] = $_POST['price'];
-        // $url=$url."price_value=$price&";
     }
     else{
         $errors=2;
-        // $url=$url."price=price is required&";
+         $url=$url."price=price is required&";
     }
-    if(isset($_POST['notes'])){
-        $value["notes"] = $_POST['notes'];
-        // $url=$url."notes_value=$notes&";
-    }
-    else{
-        $errors=2;
-        $url=$url."notes= notes is required&";
-    }
-    if(isset($_POST['room'])){
-        $value["room"] = $_POST['room'];
-        $email = $_POST['room'];
-        // $url=$url."room_value=$room&";
+    if(isset($_POST['quantity']) && $_POST['quantity'] != 0)
+    {
+        $value["quantity"] = $_POST['quantity'];
     }
     else{
         $errors=2;
-        // $url=$url."room=room is required&";
+         $url=$url."quantity=quantity is required&";
     }
    
     
     if($errors == 2 ){
-        // header("Location: $url");
+         header("Location: $url");
         exit();
     }
     else{
-        $value["status"] = "pending";
-        $value["time"] = now();
+        $value["status"] = "Processing";
+        $value["time"] =date("Y-m-d H:i:s");
         // $value["user_id"] = $_SESSION["user_id"];
         $value["user_id"]=1;
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-            echo "done";
-        // header("Location:forms/user/login.php");
+         header("Location:/home");
+         // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{
-            echo" lets cry then solve the error :)";
         }
     }
+}
  
 }

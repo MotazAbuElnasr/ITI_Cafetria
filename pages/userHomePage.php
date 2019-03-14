@@ -2,10 +2,27 @@
     include 'tempelates/user-navbar/user-navbar.php' ;
     if ($_SESSION['userName']=="")
     header('Location: /');
+    
+    
+    if(isset($_GET["price"])){
+        echo "<div style='background-color:red'> <p>".$_GET["price"]."</p> </div>";
+    }
+    if(isset($_GET["notes"])){
+        echo "<div style='background-color:red'> <p>".$_GET["notes"]."</p> </div>";
+    }
+    if(isset($_GET["room"])){
+        echo "<div style='background-color:red'> <p>".$_GET["room"]."</p> </div>";
+    }
+    if(isset($_GET["product_id"])){
+        echo "<div style='background-color:red'> <p>".$_GET["product_id"]."</p> </div>";
+    }
+    if(isset($_GET["quantity"])){
+        echo "<div style='background-color:red'> <p>".$_GET["quantity"]."</p> </div>";
+    }
+    
     ?>
 
     <section class = "container user-home">
-
     <!-- Latest Product -->
     <h2> Latest Product </h2>
     <hr />

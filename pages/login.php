@@ -1,3 +1,35 @@
+<?php 
+require_once 'classes/db.php';
+$db = new DbManager();
+
+if (isset($_POST['signIn'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $userInfo = $db->login($email, $password);
+    $userName = $userInfo->fetch();
+    if ($userName['name'] == '') {
+        echo ' <style> 
+        .alert.alert-danger{
+          display: block
+      }
+        </style> ';
+    } else {
+        if ($userName['name'] == 'admin') {
+            header('Location: /admin-manual');
+        }
+        else {
+        
+        header('Location: /home');
+        }
+        $_SESSION['userName'] = $userName['name'];
+        $_SESSION['userId'] = $userName['id'];
+
+        
+    }
+}
+//
+// while ($product = $products->fetch()) {
+?>
 <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
 <link rel = "stylesheet" href = "./assets/style/bodyImg.css" >
 <body>
@@ -18,38 +50,17 @@
               <hr class="my-4">
               <a href ="pages/forgetPassword.php"> Forget Your Password ? </a>
             </form>
+            <div class="alert alert-danger" role="alert">
+            Sorry but this is wrong email or password 
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </body>
-<?php
-require_once 'classes/db.php' ;
-$db = new DbManager() ;
 
-if (isset($_POST['signIn']))
-{
-    $email = $_POST['email'] ;
-    $password = $_POST['password'] ;
-    $userInfo = $db->login ($email , $password) ;
-    $userName = $userInfo->fetch() ;
-    if ($userName['name'] == ""){
-        echo " Sorry but this is wrong email or password " ;
-    }
-    else {
-        if ($userName['name'] == "admin"){
 
-            header('Location: /admin');
-        }
-        else
-        header('Location: /home');
-        $_SESSION['userName'] = $userName['name'] ;
-        $_SESSION['userId'] = $userName['id'] ;
-    }
-}
-//
-// while ($product = $products->fetch()) {
-?>
+
 
 <!--top products / -->
