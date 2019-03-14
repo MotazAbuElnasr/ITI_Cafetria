@@ -128,7 +128,7 @@ class DbManager
     // Return All Product Function  Khaled
     public function allProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` ');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"');
 
         return $q;
     }
@@ -145,7 +145,7 @@ class DbManager
 
     public function latestProduct()
     {
-        $q = $this->pdo->query('SELECT * FROM `products` LIMIT 1,3');
+        $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
 
         return $q;
     }

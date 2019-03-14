@@ -24,6 +24,12 @@
 
      <hr />
 
+     <div class="row input-group input-group-lg">
+     <div class="input-group-prepend">
+     <i class="input-group-text fas fa-search fa-5x"></i>
+  </div>
+<input class="form-control" type="text" id="searchBar"  placeholder="Filter Products Here"/>
+</div>
         <!-- Our Product  -->
         <div class = "row">
 
@@ -33,7 +39,7 @@
 
         <div class="col-sm-7">
         <div class="row">
-                <input type="text" id="searchBar" />
+                <!-- <input type="text" id="searchBar" /> -->
             </div>
         <div class="row">
 
