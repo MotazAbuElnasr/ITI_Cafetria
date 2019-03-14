@@ -23,6 +23,7 @@ class Product
     {
         // insert query
         $this->image = htmlspecialchars(strip_tags($this->image));
+        $this->image = '/products/'.$this->image;
 
         return $this->db->createProduct($this->name, $this->price, $this->image, $this->category_id, $this->timestamp);
     }
@@ -37,7 +38,7 @@ class Product
         // now, if image is not empty, try to upload the image
         if ($this->image) {
             // sha1_file() function is used to make a unique file name
-            $target_directory = 'uploads/';
+            $target_directory = './assets/images';
             $target_file = $target_directory.$this->image;
             $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
@@ -70,6 +71,7 @@ class Product
             // make sure the 'uploads' folder exists
             // if not, create it
             if (!is_dir($target_directory)) {
+                $result_message .= 'create dir';
                 mkdir($target_directory, 0777, true);
                 // if $file_upload_error_messages is still empty
                 if (empty($file_upload_error_messages)) {
@@ -85,14 +87,22 @@ class Product
                 }
 
                 // if $file_upload_error_messages is NOT empty
-                else {
-                    // it means there are some errors, so show them to user
+            } else {
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+                    // it means photo was uploaded
+                } else {
                     $result_message .= "<div class='alert alert-danger'>";
-                    $result_message .= "{$file_upload_error_messages}";
+                    $result_message .= '<div>Unable to upload photo.</div>';
                     $result_message .= '<div>Update the record to upload photo.</div>';
                     $result_message .= '</div>';
                 }
             }
+        } else {
+            // it means there are some errors, so show them to user
+            $result_message .= "<div class='alert alert-danger'>";
+            $result_message .= "{$file_upload_error_messages}";
+            $result_message .= '<div>Emtpy Image.</div>';
+            $result_message .= '</div>';
         }
 
         return $result_message;
