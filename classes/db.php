@@ -86,14 +86,14 @@ class DbManager
         $offset = $page > 0 ? ($page - 1) * 4 : 0;
         $limitCondition = " LIMIT 4 OFFSET $offset ";
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
-                                              o.status as status, po.price as PPrice , p.name as PName ,
-                                              po.number as PCount,p.img as img FROM
-                                              (SELECT ord.o_id, ord.time, ord.total ,
-                                              ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
-                                              products p,
-                                              products_orders po WHERE o.o_id = po.order_id
-                                              and p.p_id = po.product_id and o.user_id = $userId
-                                              ".$dateCondition);
+                o.status as status, po.price as PPrice , p.name as PName ,
+                po.number as PCount,p.img as img FROM
+                (SELECT ord.o_id, ord.time, ord.total ,
+                ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
+                products p,
+                products_orders po WHERE o.o_id = po.order_id
+                and p.p_id = po.product_id and o.user_id = $userId
+                ".$dateCondition);
         $orders = array();
         $stmt->execute();
         $order = $stmt->fetchAll();
@@ -105,8 +105,9 @@ class DbManager
             $orders[$row['oNum']]['time'] = $row['OTime'];
             $orders[$row['oNum']]['status'] = $row['status'];
             $orders[$row['oNum']]['total'] = $row['total'];
-            array_push($orders[$row['oNum']]['Products'], (array('PName' => $row['PName'], 'count' => $row['PCount'],
-                    'price' => $row['PPrice'], 'img' => $row['img'], )));
+            array_push($orders[$row['oNum']]['Products'], (array('PName' => $row['PName'],
+            'count' => $row['PCount'],
+            'price' => $row['PPrice'], 'img' => $row['img'], )));
             // print_r($users);
         }
         return $orders;
@@ -147,11 +148,11 @@ class DbManager
     public function readCategory()
     {
         $query = 'SELECT
-                    cat_id, name
+                cat_id, name
                 FROM
-                    categories
+                categories
                 ORDER BY
-                    name';
+                name';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
@@ -202,18 +203,30 @@ class DbManager
             $num = $stmt->rowCount();
         return $num;
     }
-public function getUsers(){
-    $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room";
-    $users = array();
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute();
-    $user = $stmt->fetchAll();
-    foreach ($user as $row) {
-        $users[$row['UID']]['UID']=$row['UID'];
-        $users[$row['UID']]['UName']=$row['UName'];
-        $users[$row['UID']]['img']=$row['img'];
-        $users[$row['UID']]['room']=$row['room'];
-        $users[$row['UID']]['ext']=$row['ext'];
+
+    public function getUsers($from_record_num, $records_per_page){
+        $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms 
+        WHERE is_admin =0 and room_num = room ORDER BY
+        name ASC
+        LIMIT
+        $from_record_num, $records_per_page";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt;
+        $users = array();
+        $user = $stmt->fetchAll();
+        foreach ($user as $row) {
+            $users[$row['UID']]['UID']=$row['UID'];
+            $users[$row['UID']]['UName']=$row['UName'];
+            $users[$row['UID']]['img']=$row['img'];
+            $users[$row['UID']]['room']=$row['room'];
+            $users[$row['UID']]['ext']=$row['ext'];
+        }
+        return $users;
+        if (isset($page) && !empty($page)) {
+            $offset = $page > 0 ? ($page - 1) * 4 : 0;
+            $limitCondition = " LIMIT 4 OFFSET $offset ";
+        }
     }
     return $users;
 }
@@ -273,7 +286,6 @@ public function getUsers(){
     $stmt->execute();
   }
 
-
     /**
      * @param params is array of order data
      */
@@ -307,8 +319,6 @@ public function getUsers(){
             return false;
         }
     }
-
-
 
     public function login($email, $password)
     {
