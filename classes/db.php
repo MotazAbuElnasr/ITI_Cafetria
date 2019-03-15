@@ -5,20 +5,20 @@
 // require_once('order.php');
 class DbManager
 {
-  private $host = 'sql2.freemysqlhosting.net';
-  private $db = 'sql2283138';
-  private $user = 'sql2283138';
-  private $pass = 'yF4!iH7*';
-  private $charset = 'utf8mb4';
-  private $dsn = '';
-  private $pdo;
-    //    private $host = 'localhost';
-    //    private $db = 'iti_cafe'; //cafetria
-    //    private $user = 'root';
-    //    private $pass = '';
-    //    private $charset = 'utf8mb4';
-    //    private $dsn = "";
-    //    private $pdo;
+//  private $host = 'sql2.freemysqlhosting.net';
+//  private $db = 'sql2283138';
+//  private $user = 'sql2283138';
+//  private $pass = 'yF4!iH7*';
+//  private $charset = 'utf8mb4';
+//  private $dsn = '';
+//  private $pdo;
+        private $host = 'localhost';
+        private $db = 'iti_cafe'; //cafetria
+        private $user = 'root';
+        private $pass = '';
+        private $charset = 'utf8mb4';
+        private $dsn = "";
+        private $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -286,19 +286,20 @@ class DbManager
      */
     public function addOrder($params){
         try{
-            var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
             // use exec() because no results are returned
-            $this->pdo->exec($sql);
+
             $order_id = $this->pdo->lastInsertId();
+            var_dump($sql);
             for($i=0;$i< count($params["product_id"]); $i++)
             {
                 try
                 {
                     $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
                  ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
-                 $this->pdo->exec($sql_order);
+                    var_dump($sql_order);
+                    $this->pdo->exec($sql_order);
                 }
                 catch(PDOException $e)
                 {

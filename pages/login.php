@@ -42,7 +42,7 @@ if (isset($_SESSION["userName"])){
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-     $password = md5($_POST['password']);
+//     $password = md5($_POST['password']);
     $userInfo = $db->login($email, $password);
     $userName = $userInfo->fetch();
     if ($userName['name'] == '') {
@@ -60,7 +60,6 @@ if (isset($_POST['signIn'])) {
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];
         $_SESSION['userEmail'] = $email;
-
     }
 }
 ?>
