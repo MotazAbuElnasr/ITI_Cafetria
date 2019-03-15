@@ -4,20 +4,20 @@
 // require_once('order.php');
 class DbManager
 {
-    private $host = 'sql2.freemysqlhosting.net';
-    private $db = 'sql2283138';
-    private $user = 'sql2283138';
-    private $pass = 'yF4!iH7*';
-    private $charset = 'utf8mb4';
-    private $dsn = '';
-    private $pdo;
-    //    private $host = 'localhost';
-    //    private $db = 'iti_cafe'; //cafetria
-    //    private $user = 'root';
-    //    private $pass = '';
-    //    private $charset = 'utf8mb4';
-    //    private $dsn = "";
-    //    private $pdo;
+  private $host = 'sql2.freemysqlhosting.net';
+  private $db = 'sql2283138';
+  private $user = 'sql2283138';
+  private $pass = 'yF4!iH7*';
+  private $charset = 'utf8mb4';
+  private $dsn = '';
+  private $pdo;
+//        private $host = 'localhost';
+//        private $db = 'cafetria'; // iti_cafe
+//        private $user = 'root';
+//        private $pass = '';
+//        private $charset = 'utf8mb4';
+//        private $dsn = "";
+//        public $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -301,9 +301,12 @@ class DbManager
     }
     public function login($email, $password)
     {
-        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+        $query = $this->pdo->query("SELECT `name` , `id` , `img` from users where email = '$email' and password = '$password' ");
+        var_dump($query);
+
         return $query;
     }
+
     public function changePassword($email, $password)
     {
         $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
@@ -372,5 +375,11 @@ class DbManager
             echo $sql . "<br>" . $e->getMessage();
             return false;
         }
+    }
+
+    public function addCat($cat){
+        $stmt = $this->pdo->prepare('INSERT INTO categories
+        VALUES ( DEFAULT , ?  )');
+        return $stmt->execute(array($cat));
     }
 }

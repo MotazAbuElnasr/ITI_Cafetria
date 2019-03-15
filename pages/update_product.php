@@ -5,14 +5,11 @@ include_once 'classes/db.php';
 include_once 'classes/product.php';
 include_once 'classes/category.php';
 
-<<<<<<< HEAD
-=======
 // Check if user is admin or not
 if ($_SESSION['userName']!="admin")
 header('Location: /');
 
 
->>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
 // get database connection
 // pass connection to objects
 $product = new Product();
@@ -35,34 +32,6 @@ include 'tempelates/layout_header.php';
     echo "<a href='admin-products' class='btn btn-default pull-right'>Read Products</a>";
     echo '</div>';
     ?>
-<<<<<<< HEAD
-    <?php
-    // if the form was submitted
-    if ($_POST) {
-        // set product property values
-        $product->name = $_POST['name'];
-        $product->price = $_POST['price'];
-        $product->category_id = $_POST['category_id'];
-        $image = !empty($_FILES['image']['name'])
-            ? sha1_file($_FILES['image']['tmp_name']).'-'.basename($_FILES['image']['name']) : '';
-        $product->image = $image;
-        // create the product
-        if ($product->update()) {
-            echo "<div class='alert alert-success'>Product was updated.</div>";
-            // try to upload the submitted file
-            // uploadPhoto() method will return an error message, if any.
-            echo $product->uploadPhoto();
-        }
-
-        // if unable to create the product, tell the user
-        else {
-            echo "<div class='alert alert-danger'>Unable to update product.</div>";
-        }
-    }
-    ?>
-     <!-- HTML form for creating a product -->
-     <form action="update-product" method="post" >
-=======
 <?php
 echo "<div class='right-button-margin'>";
 echo "<a href='admin-products' class='btn btn-default pull-right'>Read Products</a>";
@@ -94,7 +63,6 @@ if ($_POST) {
 ?>
     <!-- HTML form for creating a product -->
     <form action="update-product" method="post">
->>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
         <table class='table table-hover table-bordered'>
 
             <tr>
@@ -137,8 +105,4 @@ if ($_POST) {
             </tr>
 
         </table>
-<<<<<<< HEAD
     </form>
-=======
-    </form>
->>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a

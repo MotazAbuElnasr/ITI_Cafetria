@@ -1,6 +1,7 @@
 <?php
 require_once('classes/db.php');
 $db= new DbManager();
+
 if(isset($_GET['start'])&&isset($_GET['end'])){
   $UID='';
   $page='';
