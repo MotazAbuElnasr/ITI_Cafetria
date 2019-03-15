@@ -5,6 +5,7 @@
 // require_once('order.php');
 class DbManager
 {
+<<<<<<< HEAD
     //   private $host = 'sql2.freemysqlhosting.net';
     //   private $db = 'sql2283138';
     //   private $user = 'sql2283138';
@@ -19,6 +20,22 @@ class DbManager
     private $charset = 'utf8mb4';
     private $dsn = '';
     private $pdo;
+=======
+  private $host = 'sql2.freemysqlhosting.net';
+  private $db = 'sql2283138';
+  private $user = 'sql2283138';
+  private $pass = 'yF4!iH7*';
+  private $charset = 'utf8mb4';
+  private $dsn = '';
+  private $pdo;
+    //    private $host = 'localhost';
+    //    private $db = 'iti_cafe'; //cafetria
+    //    private $user = 'root';
+    //    private $pass = '';
+    //    private $charset = 'utf8mb4';
+    //    private $dsn = "";
+    //    private $pdo;
+>>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -88,14 +105,14 @@ class DbManager
         $offset = $page > 0 ? ($page - 1) * 4 : 0;
         $limitCondition = " LIMIT 4 OFFSET $offset ";
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
-                                              o.status as status, po.price as PPrice , p.name as PName ,
-                                              po.number as PCount,p.img as img FROM
-                                              (SELECT ord.o_id, ord.time, ord.total ,
-                                              ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
-                                              products p,
-                                              products_orders po WHERE o.o_id = po.order_id
-                                              and p.p_id = po.product_id and o.user_id = $userId
-                                              ".$dateCondition);
+                o.status as status, po.price as PPrice , p.name as PName ,
+                po.number as PCount,p.img as img FROM
+                (SELECT ord.o_id, ord.time, ord.total ,
+                ord.status, ord.user_id FROM orders ord limit 4 OFFSET $offset ) as o,
+                products p,
+                products_orders po WHERE o.o_id = po.order_id
+                and p.p_id = po.product_id and o.user_id = $userId
+                ".$dateCondition);
         $orders = array();
         $stmt->execute();
         $order = $stmt->fetchAll();
@@ -107,8 +124,9 @@ class DbManager
             $orders[$row['oNum']]['time'] = $row['OTime'];
             $orders[$row['oNum']]['status'] = $row['status'];
             $orders[$row['oNum']]['total'] = $row['total'];
-            array_push($orders[$row['oNum']]['Products'], (array('PName' => $row['PName'], 'count' => $row['PCount'],
-                    'price' => $row['PPrice'], 'img' => $row['img'], )));
+            array_push($orders[$row['oNum']]['Products'], (array('PName' => $row['PName'],
+            'count' => $row['PCount'],
+            'price' => $row['PPrice'], 'img' => $row['img'], )));
             // print_r($users);
         }
 
@@ -159,11 +177,11 @@ class DbManager
     public function readCategory()
     {
         $query = 'SELECT
-                    cat_id, name
+                cat_id, name
                 FROM
-                    categories
+                categories
                 ORDER BY
-                    name';
+                name';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
 
@@ -217,6 +235,7 @@ class DbManager
         $query = 'SELECT p_id FROM products';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+<<<<<<< HEAD
         $num = $stmt->rowCount();
 
         return $num;
@@ -240,6 +259,45 @@ class DbManager
         return $users;
     }
 
+=======
+            $num = $stmt->rowCount();
+        return $num;
+    }
+
+    public function getUsers($from_record_num, $records_per_page){
+        $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms 
+        WHERE is_admin =0 and room_num = room ORDER BY
+        name ASC
+        LIMIT
+        $from_record_num, $records_per_page";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt;
+        $users = array();
+        $user = $stmt->fetchAll();
+        foreach ($user as $row) {
+            $users[$row['UID']]['UID']=$row['UID'];
+            $users[$row['UID']]['UName']=$row['UName'];
+            $users[$row['UID']]['img']=$row['img'];
+            $users[$row['UID']]['room']=$row['room'];
+            $users[$row['UID']]['ext']=$row['ext'];
+        }
+        return $users;
+
+}
+    public function getUser($email)
+    {
+        $query = "SELECT `email` FROM `users` where email = '$email'";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        if($stmt->rowCount()!=0){
+            return $email;
+        }
+        return "";
+    }
+
+
+>>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";
@@ -276,6 +334,7 @@ class DbManager
         return $q;
     }
 
+<<<<<<< HEAD
     public function updateUser($name, $img, $room, $uid)
     {
         if ($img != '') {
@@ -295,6 +354,14 @@ class DbManager
     {
         try {
             var_dump($params['price']);
+=======
+    /**
+     * @param params is array of order data
+     */
+    public function addOrder($params){
+        try{
+            var_dump($params["price"]);
+>>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params['time'].'", "'.$params['status'].'", '.(int) $params['user_id'].', "'.$params['notes'].'",'.(int) $params['room'].','.(int) $params['price'].')';
             // use exec() because no results are returned
@@ -314,6 +381,14 @@ class DbManager
         } catch (PDOException $e) {
             echo $sql.'<br>'.$e->getMessage();
 
+<<<<<<< HEAD
+=======
+            
+       return true;
+        }
+        catch(PDOException $e)
+        {
+>>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
             return false;
         }
     }
@@ -321,15 +396,89 @@ class DbManager
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+<<<<<<< HEAD
         var_dump($query);
 
         return $query;
     }
 
+=======
+        return $query;
+    }
+
+    public function changePassword($email, $password)
+    {
+        $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
+        return $query;
+    }
+
+>>>>>>> 98d4e96774fb4bc3622bb3f2a5eecbd2a990348a
     public function deleteUser($uid)
     {
         $query = "DELETE FROM users WHERE `id` = $uid ";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+    }
+
+    public function showOrders()
+    {
+        $data = array();
+        try
+        {
+            $query = 'SELECT * FROM users 
+            JOIN orders ON users.id = orders.user_id';
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+            $orders = $stmt->fetchAll();
+            return $orders;
+
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
+    public function getProductsInOrders($oid)
+    {
+        try
+        {
+            $sql_order = 'SELECT p_id, name, img , product_id, order_id, number, products_orders.price as price FROM products_orders
+             JOIN products 
+             ON products_orders.product_id = products.p_id
+              WHERE products_orders.order_id = '. $oid;
+              $stat = $this->pdo->prepare($sql_order);
+              $stat ->execute();
+            $products_orders = $stat->fetchAll();
+        
+            return $products_orders;
+        }
+       
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
+    public function changeOrderStatus($id, $status)
+    {
+        try
+        {
+            // var_dump( $id);
+            // var_dump($status);
+            $sql = 'UPDATE `orders` SET `status`="'.$status.'" WHERE o_id ='.$id.' ';
+           
+            $stmt = $this->pdo->prepare($sql);
+
+            // execute the query
+            $stmt->execute();
+            return true;
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+
     }
 }

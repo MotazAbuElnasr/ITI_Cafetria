@@ -163,6 +163,9 @@ class Product
 
     public function update()
     {
+
+
+
         $query = 'UPDATE
                     '.$this->table_name.'
                 SET

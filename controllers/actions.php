@@ -1,10 +1,16 @@
 <?php
 // session_start() ; 
-require_once '../classes/db.php';
+require_once 'classes/db.php';
 /**
  * 
  * form action for order
  */
+if(isset($_POST["ajax_type"])){
+    $id =$_POST["id"];
+    $status = $_POST["status"];
+    $db = new DbManager();
+    return $db->changeOrderStatus($id, $status);
+}
 if(isset($_POST["type"]))
 {
     $url = '';
@@ -15,7 +21,7 @@ if(isset($_POST["type"]))
     }
     if($_POST["type"] == "admin_add_order")
     {
-        $url = "../admin-manual?";
+        $url = "admin-manual?";
         add_order($url);
     }
 }
@@ -76,10 +82,11 @@ function add_order($url){
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-         header("location:".substr($url, 0, -1));
+         header("location:/");
          // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{
+            header("location:/");
         }
     }
 }

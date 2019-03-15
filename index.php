@@ -15,12 +15,21 @@ switch ($request) {
     case '/':
         require __DIR__.'/pages/login.php';
         break;
+    case '/forgetpassword':
+        require __DIR__.'/pages/forgetpassword.php';
+        break;
+    case '/changePassword':
+        require __DIR__.'/pages/changePassword.php';
+        break;
         //Motaz
     case '/orders':
         require __DIR__.'/pages/myOrders.php';
         break;
     case '/cancelOrder':
         require __DIR__.'/controllers/cancelOrder.php';
+        break;
+    case '/actions':
+        require __DIR__.'/controllers/actions.php';
         break;
     case '/deleteUser':
         require __DIR__.'/controllers/deleteUser.php';
@@ -62,6 +71,9 @@ switch ($request) {
         break;
     case '/function':
         require __DIR__.'/controllers/functions.php';
+        break;
+    case '/logout':
+        require __DIR__.'/pages/logOut.php';
         break;
     case '/admin':
         require __DIR__.'/pages/adminHome.php';

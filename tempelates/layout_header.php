@@ -7,13 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
  
     <title><?php echo $page_title; ?></title>
- 
-    <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-  
-    <!-- our custom CSS -->
     <link rel="stylesheet" href="assets/styles/custom.css" />
-  
+    <link rel="stylesheet" href="assets/styles/main.css" />
+
+
 </head>
 <body>
  

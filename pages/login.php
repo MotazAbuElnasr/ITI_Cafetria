@@ -16,10 +16,10 @@
               </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="signIn">Sign in</button>
               <hr class="my-4">
-              <a href ="pages/forgetPassword.php"> Forget Your Password ? </a>
+              <a href ="forgetpassword"> Forget Your Password ? </a>
             </form>
             <div class="alert alert-danger" role="alert">
-            Sorry but this is wrong email or password 
+            Sorry but this is wrong email or password
             </div>
           </div>
         </div>
@@ -30,20 +30,28 @@
 <?php
 require_once 'classes/db.php';
 $db = new DbManager();
+if (isset($_SESSION["userName"])){
+    if ($_SESSION['userName'] == 'admin') {
+        header('Location: /admin');
+    }
+    else{
+        header('Location: /home');
+
+    }
+}
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    // $password = md5($_POST['password']);
+     $password = md5($_POST['password']);
     $userInfo = $db->login($email, $password);
     $userName = $userInfo->fetch();
     if ($userName['name'] == '') {
-        echo ' <style> 
+        echo ' <style>
         .alert.alert-danger{
           display: block
       }
         </style> ';
     } else {
-        var_dump($userName);
         if ($userName['name'] == 'admin') {
             header('Location: /admin-manual');
         }else{
@@ -51,6 +59,8 @@ if (isset($_POST['signIn'])) {
         }
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];
+        $_SESSION['userEmail'] = $email;
+
     }
 }
 ?>

@@ -28,3 +28,4 @@ class Category
         return $this->db->readName($this->id);
     }
 }
+?>
