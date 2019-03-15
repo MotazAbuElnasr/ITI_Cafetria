@@ -22,62 +22,82 @@
       </tr>
     </thead>
     <tbody>
-      <tr  data-toggle="collapse" data-target="#demo" >
-            <td>11-02-2019 11:22:33</td>
-            <td>Alaa Tarek</td>
-            <td>1002</td>
-            <td>222</th>
+    <?php 
+    $db = new DbManager();
+    $orders = $db->showOrders();
+    if($orders)
+    {
+    foreach($orders as $order)
+    {
+        ?>
+      <!-- <tr  data-toggle="collapse" data-target="<?php echo "#c".$order['o_id'] ?>" > -->
+      <tr>
+            <td><?php echo $order["time"]?></td>
+            <td><?php echo $order["name"] ?></td>
+            <td><?php echo $order["room"] ?></td>
+            <td><?php //echo $order["ext"] ?></th>
             <td>
-            <select class="custom-select col-sm-6" name = "order_status">
+            <select class="custom-select col-sm-6" id="status" onChange="changeStatus(this.value, <?php echo $order["o_id"] ?>)" name = "order_status">
                 <option value="">Select Action</option>
-                <option value="Preparing">Preparing</option>
-                <option value="Deliver">Deliver</option>
+                <option value="Processing" <?php if($order["status"] == "Processing" ){ echo "selected";  } ?> >Processing</option>
+                <option value="Done" <?php if($order["status"] == "Done" ) {echo "selected";} ?>>Delivered</option>
             </select>
             </td>
         </tr>
      <tr>
     <td colspan="5">
-        <div  id="demo" class="collapse">
+        <!-- <div  id="<?php echo "#c".$order['o_id'] ?>" class="collapse"> -->
+        <div>
             <div class="container">
                 <div class="row">
+               
+                <?php 
+                $products = $db->getProductsInOrders( $order['o_id']);
+                
+                foreach($products as $product)
+                {
+                ?>
                     <div class="col-xs-3 ">
                         <div class="thumbnail">
-                            <img src="jkhkjh.jbg" class="img-rounded">
+                            <img src="<?php echo $product['img'] ?>" class="col-xs-3" width="75px" class="img-rounded">
                             <div class="caption">
-                                <p>Lorem ipsum...</p>
+                            <p>EGP <?php echo $product['price'] ?></p>
+                            <p>Quantity <?php echo $product['number'] ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-3 ">
-                        <div class="thumbnail">
-                            <img src="jkhkjh.jbg" class="img-rounded">
-                            <div class="caption">
-                                <p>Lorem ipsum...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-3 ">
-                        <div class="thumbnail">
-                            <img src="jkhkjh.jbg" class="img-rounded">
-                            <div class="caption">
-                                <p>Lorem ipsum...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-3 ">
-                        <div class="thumbnail">
-                            <img src="jkhkjh.jbg" class="img-rounded">
-                            <div class="caption">
-                                <p>Lorem ipsum...</p>
-                            </div>
-                        </div>
-                    </div>
+                <?php
+                }
+                ?>
                 </div>
+                <p> <?php echo $order["total"] ?>
             <div>
         </div>
         </td>
       </tr>
+      <?php
+    }
+      }
+      ?>
     </tbody>
   </table>
 
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+
+  function changeStatus(status, id) {
+       
+        $.ajax({
+        type: "POST",
+        url: 'controllers/actions.php',
+        data: {status: status, ajax_type:"order_status",id:id},
+        success: function(data){
+            alert("order status has been changed ");
+        }
+        });
+    }
+
+
+</script>

@@ -5,13 +5,13 @@
 // require_once('order.php');
 class DbManager
 {
-   private $host = 'sql2.freemysqlhosting.net';
-   private $db = 'sql2283138';
-   private $user = 'sql2283138';
-   private $pass = 'yF4!iH7*';
-   private $charset = 'utf8mb4';
-   private $dsn = '';
-   private $pdo;
+//    private $host = 'sql2.freemysqlhosting.net';
+//    private $db = 'sql2283138';
+//    private $user = 'sql2283138';
+//    private $pass = 'yF4!iH7*';
+//    private $charset = 'utf8mb4';
+//    private $dsn = '';
+//    private $pdo;
     //   private $host = '127.0.0.1';
     //   private $db = 'iti_cafe';
     //   private $user = 'Motaz';
@@ -26,13 +26,13 @@ class DbManager
     // private $charset = 'utf8mb4';
     // private $dsn = '';
     // private $pdo;
-    //   private $host = 'localhost';
-    //   private $db = 'iti_cafe';
-    //   private $user = 'root';
-    //   private $pass = '';
-    //   private $charset = 'utf8mb4';
-    //   private $dsn = "";
-    //   private $pdo;
+      private $host = 'localhost';
+      private $db = 'iti_cafe';
+      private $user = 'root';
+      private $pass = '';
+      private $charset = 'utf8mb4';
+      private $dsn = "";
+      private $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -305,7 +305,6 @@ public function getUsers(){
         }
         catch(PDOException $e)
         {
-            echo $sql . "<br>" . $e->getMessage();
             return false;
         }
     }
@@ -326,5 +325,69 @@ public function getUsers(){
         $query = "DELETE FROM users WHERE `id` = $uid ";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+    }
+
+    public function showOrders()
+    {
+        $data = array();
+        try
+        {
+            $query = 'SELECT * FROM users 
+            JOIN orders ON users.id = orders.user_id';
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+            $orders = $stmt->fetchAll();
+           
+            var_dump($orders[2]["products"]);
+            return $orders;
+
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
+    public function getProductsInOrders($oid)
+    {
+        try
+        {
+            $sql_order = 'SELECT p_id, name, img , product_id, order_id, number, products_orders.price as price FROM products_orders
+             JOIN products 
+             ON products_orders.product_id = products.p_id
+              WHERE products_orders.order_id = '. $oid;
+              $stat = $this->pdo->prepare($sql_order);
+              $stat ->execute();
+            $products_orders = $stat->fetchAll();
+        
+            return $products_orders;
+        }
+       
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
+    public function changeOrderStatus($id, $status)
+    {
+        try
+        {
+            var_dump( $id);
+            var_dump($status);
+            $sql = 'UPDATE `orders` SET `status`="'.$status.'" WHERE o_id ='.$id.' ';
+           
+            $stmt = $this->pdo->prepare($sql);
+
+            // execute the query
+            $stmt->execute();
+            return true;
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+
     }
 }
