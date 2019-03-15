@@ -1,4 +1,7 @@
 <?php
+// Check if user is admin or not
+if ($_SESSION['userName']!="admin")
+header('Location: /');
 
 require_once 'classes/db.php';
 // page given in URL parameter, default page is one
@@ -54,12 +57,12 @@ if ($num > 0) {
         echo (($status=='available')?
         "<button id='$p_id' onclick='changeStatus(event)' class='btn btn-success left-margin'>Available</button>":
         "<button id='$p_id' onclick='changeStatus(event)' class=' btn btn-warning left-margin'>Unavailable</button>");
-                            
+
         echo  "
             <a href='update-product?id={$p_id}' class='btn btn-info left-margin'>
                 <span class='glyphicon glyphicon-edit'></span> Edit
             </a>
-            
+
             <a delete-id='{$p_id}' class='btn btn-danger delete-object'>
                 <span class='glyphicon glyphicon-remove'></span> Delete
             </a>";

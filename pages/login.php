@@ -16,10 +16,10 @@
               </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="signIn">Sign in</button>
               <hr class="my-4">
-              <a href ="forgetpassword.php"> Forget Your Password ? </a>
+              <a href ="pages/forgetPassword.php"> Forget Your Password ? </a>
             </form>
             <div class="alert alert-danger" role="alert">
-            Sorry but this is wrong email or password 
+            Sorry but this is wrong email or password
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ if (isset($_POST['signIn'])) {
     $userInfo = $db->login($email, $password);
     $userName = $userInfo->fetch();
     if ($userName['name'] == '') {
-        echo ' <style> 
+        echo ' <style>
         .alert.alert-danger{
           display: block
       }

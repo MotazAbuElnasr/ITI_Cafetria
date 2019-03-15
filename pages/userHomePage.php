@@ -1,9 +1,11 @@
 <?php
     include 'tempelates/user-navbar/user-navbar.php' ;
+    // Check if user Auth or not
     if ($_SESSION['userName']=="")
     header('Location: /');
-    
-    
+
+
+
     if(isset($_GET["price"])){
         echo "<div style='background-color:red'> <p>".$_GET["price"]."</p> </div>";
     }
@@ -22,7 +24,7 @@
     // if(isset($_SESSION["confirm"])){
     //     echo "<div style='background-color:green'> <p>".$_SESSION["confirm"]."</p> </div>";
     // }
-    
+
     ?>
 
     <section class = "container user-home">
@@ -49,7 +51,7 @@
         </div>
 
         <div class="col-sm-7">
-         
+
             <div class="row">
                 <?php include  'tempelates/product/allProduct.php' ?>
             </div>

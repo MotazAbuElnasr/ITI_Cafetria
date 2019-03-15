@@ -5,6 +5,9 @@ include_once 'classes/db.php';
 include_once 'classes/product.php';
 include_once 'classes/category.php';
 
+// Check if user is admin or not
+if ($_SESSION['userName']!="admin")
+header('Location: /');
 
 
 // get database connection
@@ -105,5 +108,3 @@ if ($_POST) {
 
         </table>
     </form>
-
-
