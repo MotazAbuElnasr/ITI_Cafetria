@@ -245,6 +245,42 @@ public function getUsers(){
   }
 
 
+    /**
+     * @param params is array of order data
+     */
+    public function addOrder($params){
+        try{
+            $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
+            VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
+            // use exec() because no results are returned
+            $this->pdo->exec($sql);
+            $order_id = $this->pdo->lastInsertId();
+            for($i=0;$i< count($params["product_id"]); $i++)
+            {
+                try
+                {
+                    $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
+                 ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
+                 $this->pdo->exec($sql_order);
+                }
+                catch(PDOException $e)
+                {
+                    return false;
+                }
+        }
+
+            
+       return true;
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
+
+
+
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
