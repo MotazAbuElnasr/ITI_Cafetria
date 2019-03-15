@@ -321,7 +321,7 @@ class DbManager
         try
         {
             $query = 'SELECT * FROM users 
-            JOIN orders ON users.id = orders.user_id WHERE status ="Processing"';
+            JOIN orders ON users.id = orders.user_id WHERE status ="Processing" ORDER BY time';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             $orders = $stmt->fetchAll();
