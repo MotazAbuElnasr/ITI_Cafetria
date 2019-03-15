@@ -5,6 +5,7 @@
 // require_once('order.php');
 class DbManager
 {
+
 //   private $host = 'sql2.freemysqlhosting.net';
 //   private $db = 'sql2283138';
 //   private $user = 'sql2283138';
@@ -12,13 +13,28 @@ class DbManager
 //   private $charset = 'utf8mb4';
 //   private $dsn = '';
 //   private $pdo;
-       private $host = 'localhost';
-       private $db = 'iTi_Caffee'; //cafetria
-       private $user = 'root';
-       private $pass = '';
-       private $charset = 'utf8mb4';
-       private $dsn = "";
-       private $pdo;
+    //    private $host = 'localhost';
+    //    private $db = 'iTi_Caffee'; //cafetria
+    //    private $user = 'root';
+    //    private $pass = '';
+    //    private $charset = 'utf8mb4';
+    //    private $dsn = "";
+    //    private $pdo;
+
+  private $host = 'sql2.freemysqlhosting.net';
+  private $db = 'sql2283138';
+  private $user = 'sql2283138';
+  private $pass = 'yF4!iH7*';
+  private $charset = 'utf8mb4';
+  private $dsn = '';
+  private $pdo;
+    //    private $host = 'localhost';
+    //    private $db = 'iti_cafe'; //cafetria
+    //    private $user = 'root';
+    //    private $pass = '';
+    //    private $charset = 'utf8mb4';
+    //    private $dsn = "";
+    //    private $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -36,6 +52,7 @@ class DbManager
             var_dump($this->pdo);
         }
     }
+
     public function checks($start, $end, $uid, $page)
     {
         $dateCondition = '';
@@ -71,6 +88,7 @@ class DbManager
         // print_r($users);
         return $users;
     }
+
     //pagination
     //SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
     //o.status as status, po.price as PPrice , p.name as PName ,
@@ -110,41 +128,51 @@ class DbManager
             'price' => $row['PPrice'], 'img' => $row['img'], )));
             // print_r($users);
         }
+
         return $orders;
     }
+
     // Return All Product Function  Khaled
     public function allProduct()
     {
         $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"');
+
         return $q;
     }
+
     public function createProduct($name, $price, $img, $category_id, $timestamp)
     {
         $stmt = $this->pdo->prepare('INSERT INTO products
                     VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
+
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
+
     public function updateProduct($name, $price, $img, $category_id, $timestamp)
     {
         $stmt = $this->pdo->prepare('INSERT INTO products
-                    VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
+                   VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
 
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
 
-    public function updateProductStatus($status,$id)
+    public function updateProductStatus($status, $id)
     {
-        $query= "UPDATE products SET status = ? WHERE p_id = ? ;";
+        $query = 'UPDATE products SET status = ? WHERE p_id = ? ;';
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(array($status,$id));
+        $stmt->execute(array($status, $id));
+
         return $status;
     }
+
     // Return Latest Product Function  Khaled
     public function latestProduct()
     {
         $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
+
         return $q;
     }
+
     public function readCategory()
     {
         $query = 'SELECT
@@ -158,31 +186,35 @@ class DbManager
 
         return $stmt;
     }
+
     //inserting user
     public function insertUser($name, $email, $password, $img, $room)
     {
-        $query = "SELECT COUNT(*) as count FROM `users` WHERE  name = ? and email = ? ;" ;
+        $query = 'SELECT COUNT(*) as count FROM `users` WHERE  name = ? and email = ? ;';
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(array($name,$email));
+        $stmt->execute(array($name, $email));
         $count = $stmt->fetchAll();
-        if($count[0]['count'] > 0){
-            return "EXIST";
+        if ($count[0]['count'] > 0) {
+            return 'EXIST';
         }
-        $query = "SELECT COUNT(*) FROM `users` WHERE  name = ? and email = ?" ;
+        $query = 'SELECT COUNT(*) FROM `users` WHERE  name = ? and email = ?';
         $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
-        return "NOT EXIST";
 
+        return 'NOT EXIST';
     }
+
     // products Nouran
     public function getRooms()
     {
         $query = 'SELECT `room_num` FROM `rooms`';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+
         return $stmt;
     }
+
     public function readProducts($from_record_num, $records_per_page)
     {
         $query = "SELECT p_id, name, img, price, cat_id , status FROM
@@ -193,8 +225,10 @@ class DbManager
         $from_record_num, $records_per_page";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+
         return $stmt;
     }
+
     public function countAll()
     {
         $query = 'SELECT p_id FROM products';
@@ -265,21 +299,13 @@ class DbManager
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
     }
+
     public function getUsersList()
     {
         $q = $this->pdo->query('SELECT `id` , `name` from users ');
+
         return $q;
     }
-  public function updateUser($name , $img , $room , $uid){
-    if ($img != "") {
-        $query = "UPDATE users set `name` = '$name' , `img` = '$img' , `room` = $room  WHERE `id` = $uid";
-    }else{
-        $query = "UPDATE users set `name` = '$name' , `room` = $room  WHERE `id` = $uid";
-    }
-    // $users = array();
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute();
-  }
 
     /**
      * @param params is array of order data
@@ -288,23 +314,23 @@ class DbManager
         try{
             var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
-            VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
+            VALUES ("'.$params['time'].'", "'.$params['status'].'", '.(int) $params['user_id'].', "'.$params['notes'].'",'.(int) $params['room'].','.(int) $params['price'].')';
             // use exec() because no results are returned
             $this->pdo->exec($sql);
             $order_id = $this->pdo->lastInsertId();
-            for($i=0;$i< count($params["product_id"]); $i++)
-            {
-                try
-                {
+            for ($i = 0; $i < count($params['product_id']); ++$i) {
+                try {
                     $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
-                 ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
-                 $this->pdo->exec($sql_order);
-                }
-                catch(PDOException $e)
-                {
+                 ('.(int) $params['product_id'][$i].', '.(int) $order_id.', '.(int) $params['quantity'][$i].', '.(int) $params['price'][$i].')';
+                    $this->pdo->exec($sql_order);
+                } catch (PDOException $e) {
                     return false;
                 }
-        }
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            echo $sql.'<br>'.$e->getMessage();
 
             
        return true;
@@ -318,8 +344,12 @@ class DbManager
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` , `img` from users where email = '$email' and password = '$password' ");
+        var_dump($query);
+
         return $query;
     }
+
+       
 
     public function changePassword($email, $password)
     {
