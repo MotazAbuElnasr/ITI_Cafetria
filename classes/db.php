@@ -263,7 +263,7 @@ class DbManager
         $stmt->execute();
     }
 
-    public function getUsers()
+    public function getUsers($id)
     {
         $query = 'SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room';
         $users = array();
