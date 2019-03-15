@@ -50,7 +50,7 @@ class DbManager
             $limitCondition = " LIMIT 4 OFFSET $offset ";
         }
         $stmt = $this->pdo->prepare("SELECT u.id as UId ,u.name as UName,o.o_id As ONum , o.time as OTime , o.total as OTotal, po.price as PPrice , p.name as PName ,  po.number as PCount , p.img as PImg ,p.p_id as PId 
-        FROM orders o,(select u.id as id , u.name as name from users u,orders o 
+        FROM orders o,(select DISTINCT u.id as id , u.name as name from users u,orders o 
         where u.id = o.user_id  $dateCondition $limitCondition ) as u,products p,products_orders po WHERE
         o.o_id = po.order_id and p.p_id = po.product_id and u.id = o.user_id".$userCondition);
         $users = array();
@@ -321,7 +321,7 @@ class DbManager
         try
         {
             $query = 'SELECT * FROM users 
-            JOIN orders ON users.id = orders.user_id WHERE status ="Processing"';
+            JOIN orders ON users.id = orders.user_id WHERE status ="Processing" ORDER BY time';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             $orders = $stmt->fetchAll();

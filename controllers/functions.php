@@ -18,7 +18,6 @@ if(isset($_GET['status'])&&isset($_GET['id'])){
   if(!empty($status)&&!empty($id))
       echo $db->updateProductStatus($status,$id);
    else echo "ERROR";
-  exit;
 }
 
 function getUsers(){
@@ -31,6 +30,8 @@ function generateAccordion($start,$end,$uid,$page){
 $db= new DbManager();
 $allUsers = $db->checks($start,$end,'','');
 $checks = $db->checks($start,$end,$uid,$page);
+// echo "CHECK";
+// var_dump($checks);
 $ret=<<<EOT
 <div class="btn-group" id="userList" >
   <button type="button" class="btn dropdown-toggle text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
