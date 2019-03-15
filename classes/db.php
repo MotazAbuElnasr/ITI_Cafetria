@@ -217,6 +217,18 @@ public function getUsers(){
     }
     return $users;
 }
+    public function getUser($email)
+    {
+        $query = "SELECT `email` FROM `users` where email = '$email'";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        if($stmt->rowCount()!=0){
+            return $email;
+        }
+        return "";
+    }
+
+
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";

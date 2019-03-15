@@ -16,7 +16,7 @@
               </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="signIn">Sign in</button>
               <hr class="my-4">
-              <a href ="forgetpassword.php"> Forget Your Password ? </a>
+              <a href ="forgetpassword"> Forget Your Password ? </a>
             </form>
             <div class="alert alert-danger" role="alert">
             Sorry but this is wrong email or password 
@@ -30,6 +30,15 @@
 <?php
 require_once 'classes/db.php';
 $db = new DbManager();
+if (isset($_SESSION["userName"])){
+    if ($_SESSION['userName'] == 'admin') {
+        header('Location: /admin');
+    }
+    else{
+        header('Location: /home');
+
+    }
+}
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
