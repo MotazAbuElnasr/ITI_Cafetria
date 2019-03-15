@@ -1,3 +1,41 @@
+<?php
+require_once 'classes/db.php';
+$db = new DbManager();
+if (isset($_SESSION["userName"])){
+    if ($_SESSION['userName'] == 'admin') {
+        header('Location: /admin');
+    }
+    else{
+        header('Location: /home');
+
+    }
+}
+if (isset($_POST['signIn'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    //  $password = md5($_POST['password']);
+    $password = $_POST['password'];
+    $userInfo = $db->login($email, $password);
+    $userName = $userInfo->fetch();
+    if ($userName['name'] == '') {
+        echo ' <style>
+        .alert.alert-danger{
+          display: block
+      }
+        </style> ';
+    } else {
+        if ($userName['name'] == 'admin') {
+            header('Location: /admin-manual');
+        }else{
+          header('location: /home');
+        }
+        $_SESSION['userName'] = $userName['name'];
+        $_SESSION['userId'] = $userName['id'];
+        $_SESSION['userEmail'] = $email;
+
+    }
+}
+?>
 <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
 <link rel = "stylesheet" href = "./assets/style/bodyImg.css" >
 <body>
@@ -27,40 +65,4 @@
     </div>
   </div>
 </body>
-<?php
-require_once 'classes/db.php';
-$db = new DbManager();
-if (isset($_SESSION["userName"])){
-    if ($_SESSION['userName'] == 'admin') {
-        header('Location: /admin');
-    }
-    else{
-        header('Location: /home');
 
-    }
-}
-if (isset($_POST['signIn'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    // $password = md5($_POST['password']); this will be the final
-    $userInfo = $db->login($email, $password);
-    $userName = $userInfo->fetch();
-    if ($userName['name'] == '') {
-        echo ' <style>
-        .alert.alert-danger{
-          display: block
-      }
-        </style> ';
-    } else {
-        if ($userName['name'] == 'admin') {
-            header('Location: /admin-manual');
-        }else{
-          header('location: /home');
-        }
-        $_SESSION['userName'] = $userName['name'];
-        $_SESSION['userId'] = $userName['id'];
-        $_SESSION['userEmail'] = $email;
-
-    }
-}
-?>

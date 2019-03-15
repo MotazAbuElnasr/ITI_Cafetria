@@ -18,20 +18,13 @@ $db = new DbManager();
 
 // set page headers
 $page_title = 'Create Product';
-include 'tempelates/layout_header.php';
 ?>
 <body>
 <!-- container -->
 <div class="container">
-    <!-- <   ?php
-    // show page header
-    // echo "<div class='page-header'>
-    //             <h1>{$page_title}</h1>
-    //         </div>";
-    ?> -->
 <?php
 echo "<div class='right-button-margin'>";
-echo "<a href='admin-products' class='btn btn-default pull-right'>Read Products</a>";
+echo "<button class='btn btn-primary'><a style='color: white' href='admin-products'>Read Products</a></button>";
 echo '</div>';
 ?>
 <?php

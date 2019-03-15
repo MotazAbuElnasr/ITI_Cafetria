@@ -25,7 +25,7 @@ if(isset($_POST["type"]))
     }
     if($_POST["type"] == "admin_add_order")
     {
-        $url = "admin-manual?";
+        $url = "../admin-manual?";
         add_order($url);
     }
 }
@@ -76,7 +76,11 @@ function add_order($url){
    
     
     if($errors == 2 ){
-         header("Location: $url");
+        echo'
+        <script type="text/javascript">
+        window.location.href = '.$url.';
+        </script>';
+        //  header("Location: $url");
         exit();
     }
     else{
@@ -87,11 +91,18 @@ function add_order($url){
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-         header("location:".$url);
+            echo "dkjhdskj";
+            echo'
+            <script type="text/javascript">
+            window.location.href = '.$url.';
+            </script>';
          // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{
-            header("location:".$url);
+            echo'
+        <script type="text/javascript">
+        window.location.href = '.$url.';
+        </script>';
         }
     }
 }
