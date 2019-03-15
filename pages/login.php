@@ -41,8 +41,8 @@ if (isset($_SESSION["userName"])){
 }
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
-    $password = $_POST['password'];
-//     $password = md5($_POST['password']);
+//     $password = $_POST['password'];
+    $password = md5($_POST['password']);
     $userInfo = $db->login($email, $password);
     $userName = $userInfo->fetch();
     if ($userName['name'] == '') {
