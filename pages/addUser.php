@@ -16,9 +16,11 @@
     $confirm_passwordError ="";
     $imgError ="";
     $roomError = "";
+    $error="";
     $valid = true;
-    
+    $req=0;
     if(isset($_POST['submit'])){
+        $req=1;
         if (empty($_POST["name"])) {
             $valid = false;
         } else {
@@ -43,11 +45,11 @@
             $confirm_password = checkValid(md5($_POST['confirm_password']));
         }
         if ($_POST["password"] == $_POST["confirm_password"]) {
-            echo 'password matches';
+            // echo 'password matches';
         }
         else {
             $valid = false;
-            echo 'password does not match';
+            $passwordError.= 'password does not match';
         }
       
         $img_name = $_FILES['img']['name'];
@@ -56,9 +58,9 @@
         $img_tmp_name = $_FILES['img']['tmp_name'];
         $img_store = "./assets/images/".$img_name;
         if(move_uploaded_file($img_tmp_name , $img_store)){
-            echo "image uploaded successfully";
+            // echo "image uploaded successfully";
         }else{
-            echo "error in uploading images";
+            $imgError.= "No Image is Uploaded";
         }    
         
         if (empty($_POST["room"])) {
@@ -68,8 +70,21 @@
             $room = checkValid($_POST['room']);
         }
         
-        if($valid) 
-        $db->insertUser($name,$email,$password,$img_store,$room);
+        if($valid) {
+            $ret= $db->insertUser($name,$email,$password,$img_store,$room);
+            if($ret=="EXIST"){
+                $error.="Username or Email is Already Exist <br/>";
+            }
+            $valid=false;
+        }
+        $error .= empty($nameError)?'': $nameError."<br/>";
+        $error .= empty($passwordError)?'': $passwordError."<br/>";
+        $error .= empty($confirm_passwordError)?'': $confirm_passwordError."<br/>";
+        $error .= empty($imgError)?'': $imgError."<br/>";
+        $error .= empty($roomError)?'': $roomError."<br/>";
+        $error .= empty($emailError)?'': $emailError."<br/>";
+   
+
     }
     function checkValid($data) {
         $data = trim($data);
@@ -84,8 +99,14 @@
  <?php 
    // add Admin Navbar 
    include 'tempelates/adminNavbar.php' ;
+
  ?>
 <div class="container-fluid">
+    <?php    
+            if($req)
+                 if(!empty($error)) echo "<div class='alert alert-warning' role='alert' >$error</div>";
+                 else echo "<div class='alert alert-success' role='alert' >User Added Successfully</div>"
+    ?>
     <h1>Add User</h1>
     <form method="post" action = "admin-adduser" enctype="multipart/form-data">
         <div class="form-row">

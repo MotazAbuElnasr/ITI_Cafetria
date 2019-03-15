@@ -5,13 +5,13 @@
 // require_once('order.php');
 class DbManager
 {
-   private $host = 'sql2.freemysqlhosting.net';
-   private $db = 'sql2283138';
-   private $user = 'sql2283138';
-   private $pass = 'yF4!iH7*';
-   private $charset = 'utf8mb4';
-   private $dsn = '';
-   private $pdo;
+//    private $host = 'sql2.freemysqlhosting.net';
+//    private $db = 'sql2283138';
+//    private $user = 'sql2283138';
+//    private $pass = 'yF4!iH7*';
+//    private $charset = 'utf8mb4';
+//    private $dsn = '';
+//    private $pdo;
     //   private $host = '127.0.0.1';
     //   private $db = 'iti_cafe';
     //   private $user = 'Motaz';
@@ -19,13 +19,13 @@ class DbManager
     //   private $charset = 'utf8mb4';
     //   private $dsn = "";
     //   private $pdo;
-    // private $host = 'localhost';
-    // private $db = 'cafetria';
-    // private $user = 'root';
-    // private $pass = '';
-    // private $charset = 'utf8mb4';
-    // private $dsn = '';
-    // private $pdo;
+    private $host = 'localhost';
+    private $db = 'cafetria';
+    private $user = 'root';
+    private $pass = '';
+    private $charset = 'utf8mb4';
+    private $dsn = '';
+    private $pdo;
     //   private $host = 'localhost';
     //   private $db = 'iti_cafe';
     //   private $user = 'root';
@@ -174,9 +174,19 @@ class DbManager
     //inserting user
     public function insertUser($name, $email, $password, $img, $room)
     {
+        $query = "SELECT COUNT(*) as count FROM `users` WHERE  name = ? and email = ? ;" ;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($name,$email));
+        $count = $stmt->fetchAll();
+        if($count[0]['count'] > 0){
+            return "EXIST";
+        }
+        $query = "SELECT COUNT(*) FROM `users` WHERE  name = ? and email = ?" ;
         $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
+        return "NOT EXIST";
+
     }
     // products Nouran
     public function getRooms()
