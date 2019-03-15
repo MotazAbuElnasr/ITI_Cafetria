@@ -12,7 +12,6 @@ class DbManager
    private $charset = 'utf8mb4';
    private $dsn = '';
    private $pdo;
-<<<<<<< HEAD
     //   private $host = '127.0.0.1';
     //   private $db = 'iti_cafe';
     //   private $user = 'Motaz';
@@ -27,7 +26,6 @@ class DbManager
     // private $charset = 'utf8mb4';
     // private $dsn = '';
     // private $pdo;
-=======
     //   private $host = 'localhost';
     //   private $db = 'iti_cafe';
     //   private $user = 'root';
@@ -35,7 +33,6 @@ class DbManager
     //   private $charset = 'utf8mb4';
     //   private $dsn = "";
     //   private $pdo;
->>>>>>> 09d6183fd021af2a06c539f6379588d9024cdaec
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
