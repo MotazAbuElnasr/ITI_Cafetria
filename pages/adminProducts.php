@@ -35,6 +35,12 @@ if(isset($_POST['updateProduct'])){
         echo "<div class='alert alert-danger'>Unable to update product.</div>";
     }
 }
+if(isset($_POST['deleteProduct'])){
+    $pid= $_POST['pid'];
+    $db->deleteProduct($pid);
+}
+
+
 // page given in URL parameter, default page is one
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 // set number of records per page
@@ -91,9 +97,10 @@ if ($num > 0) {
            class='btn btn-info' data-toggle='modal' data-target='#exampleModalCenter' name='submit'>
             Edit
           </button>
-            <a delete-id='{$p_id}' class='btn btn-danger delete-object'>
-                <span class='glyphicon glyphicon-remove'></span> Delete
-            </a>";
+          <button data-uid='$p_id' onclick='deleteUser(event)' type='button'
+          class='btn btn-danger' data-toggle='modal' data-target='#exampleModal'>
+          Delete
+      </button>";
         echo '</td>';
 
         echo '</tr>';
@@ -173,6 +180,31 @@ else {
                     </div>
                 </div>
             </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <form method="POST" action="admin-products">
+                                <input type="hidden" name="pid" id="deletedUser" />
+                                <div class="modal-body">
+                                    are you sure you want to delete this product?
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" name="deleteProduct" class="btn btn-danger" value="Delete" />
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 <script>
 
 function edit(event){
@@ -188,6 +220,11 @@ function edit(event){
     document.getElementById("Pprice").value = pprice;
     document.getElementById("pid").value = pid;
 }
+const deleteUser = (event) => {
+        const id = event.target.dataset.uid;
+        console.log(id);
+        document.getElementById("deletedUser").value = id;
+    }
 function changeStatus(event){
     let status = event.target.innerHTML;
     const id = event.target.id;
