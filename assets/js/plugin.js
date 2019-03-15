@@ -18,15 +18,16 @@ $(document).ready(function() {
         if (qty === 0) {
             $(".items").append(`
         <div class = "added-item row ${name}">
-        <label class="col-md-5" for =${name}>${name} </label>
-        <input oninput="changeI(event)" data-element = ${name} class="form-control col-md-2 qty " min=1 type="number" name=${name} id=${name} value="1"/>
+        <label class="col-md-5" for =${name}qty>${name} </label>
+        <input class="form-control col-md-2 qty " data-count = "${name}" min=1 type="number" name="quantity[]" id=${name}qty value="1"/>
+        <input type="hidden" value=${price} name="price[]">
         <p class="item-price col-sm-3" value = ${price}> ${price} EGP</p>
-        <input type="text" name = "productId" value = ${pid} style="display:none"/>
-            <button onclick="deleteI(event)" data-name=${name} data-price = ${price} data-qty = "1" type="button" class="btn btn-danger rounded-circle remove-item">X</button>
+        <input type="hidden" name = "product_id[]" value = ${pid} />
+        <button onclick="deleteI(event)" data-name=${name} data-price = ${price} data-qty = "1" type="button" class="btn btn-danger rounded-circle remove-item">X</button>
         </div>
     `)
         } else {
-            $(`[name=${name}]`).val((i, oldval) => {
+            $(`[data-count=${name}]`).val((i, oldval) => {
                 return parseInt(oldval, 10) + 1;
             });
             let quantity = parseInt($(`[data-name=${name}]`).data('qty'))+1;
@@ -39,6 +40,25 @@ $(document).ready(function() {
             parseInt($("#totalPrice").val()) + parseInt (price )
         ) ;
 
+$(".order-card").css({
+  "display" : "block"
+})
+  $(".order-card").addClass("bounceInDown") ;
+    // change  total price with changing item number
+    $(`#${name}qty`).change(function(){
+      $("#totalPrice").val(
+          function(){
+            let total = 0 ;
+            let items = document.getElementsByClassName("added-item");
+            console.log(items[0])
+          for( let i =0; i< items.length; i++)
+          {
+            total += parseInt(items[i].getElementsByClassName("qty")[0].value) * parseInt(items[i].getElementsByClassName("item-price")[0].getAttribute("value"))
+          }
+            return total ;
+          }
+      ) ;
+    })
         $(".order-card").css({
             "display" : "block"
         })
@@ -50,7 +70,6 @@ $(document).ready(function() {
         })
 
         });
-
 // change Add to User in admin manual
     $("#userId").change( function (){
         $("#userIdForm").val($(this).val()) ;
@@ -59,19 +78,6 @@ $(document).ready(function() {
 });
 
 
-
-const changeI = (event)=>{
-    let name = event.target.dataset.element;
-    let oldValue = $(`[data-name=${name}]`).data('qty');
-        $(`[data-name=${name}]`).data('qty',event.target.value);
-        let newValue = $(`[data-name=${name}]`).data('qty');
-        let price =  $(`[data-name=${name}]`).data('price');
-        let totalPrice = parseInt(document.getElementById("totalPrice").value);
-        if(newValue>oldValue)
-            document.getElementById("totalPrice").value=totalPrice+price;
-        else
-            document.getElementById("totalPrice").value=totalPrice-price;
-        }
 
 const deleteI = (event)=>{
     let price = event.target.dataset.price;

@@ -5,13 +5,13 @@
 // require_once('order.php');
 class DbManager
 {
-//    private $host = 'sql2.freemysqlhosting.net';
-//    private $db = 'sql2283138';
-//    private $user = 'sql2283138';
-//    private $pass = 'yF4!iH7*';
-//    private $charset = 'utf8mb4';
-//    private $dsn = '';
-//    private $pdo;
+   private $host = 'sql2.freemysqlhosting.net';
+   private $db = 'sql2283138';
+   private $user = 'sql2283138';
+   private $pass = 'yF4!iH7*';
+   private $charset = 'utf8mb4';
+   private $dsn = '';
+   private $pdo;
     //   private $host = '127.0.0.1';
     //   private $db = 'iti_cafe';
     //   private $user = 'Motaz';
@@ -19,13 +19,20 @@ class DbManager
     //   private $charset = 'utf8mb4';
     //   private $dsn = "";
     //   private $pdo;
-    private $host = 'localhost';
-    private $db = 'iti_cafe';
-    private $user = 'root';
-    private $pass = '';
-    private $charset = 'utf8mb4';
-    private $dsn = '';
-    private $pdo;
+    // private $host = 'localhost';
+    // private $db = 'cafetria';
+    // private $user = 'root';
+    // private $pass = '';
+    // private $charset = 'utf8mb4';
+    // private $dsn = '';
+    // private $pdo;
+    //   private $host = 'localhost';
+    //   private $db = 'iti_cafe';
+    //   private $user = 'root';
+    //   private $pass = '';
+    //   private $charset = 'utf8mb4';
+    //   private $dsn = "";
+    //   private $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -138,6 +145,13 @@ class DbManager
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
 
+    public function updateProductStatus($status,$id)
+    {
+        $query= "UPDATE products SET status = ? WHERE p_id = ? ;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($status,$id));
+        return $status;
+    }
     // Return Latest Product Function  Khaled
     public function latestProduct()
     {
@@ -160,9 +174,19 @@ class DbManager
     //inserting user
     public function insertUser($name, $email, $password, $img, $room)
     {
+        $query = "SELECT COUNT(*) as count FROM `users` WHERE  name = ? and email = ? ;" ;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($name,$email));
+        $count = $stmt->fetchAll();
+        if($count[0]['count'] > 0){
+            return "EXIST";
+        }
+        $query = "SELECT COUNT(*) FROM `users` WHERE  name = ? and email = ?" ;
         $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
+        return "NOT EXIST";
+
     }
     // products Nouran
     public function getRooms()
@@ -174,7 +198,7 @@ class DbManager
     }
     public function readProducts($from_record_num, $records_per_page)
     {
-        $query = "SELECT p_id, name, img, price, cat_id FROM
+        $query = "SELECT p_id, name, img, price, cat_id , status FROM
          products
     ORDER BY
         name ASC
@@ -250,6 +274,42 @@ public function getUsers(){
     $stmt = $this->pdo->prepare($query);
     $stmt->execute();
   }
+
+
+    /**
+     * @param params is array of order data
+     */
+    public function addOrder($params){
+        try{
+            $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
+            VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
+            // use exec() because no results are returned
+            $this->pdo->exec($sql);
+            $order_id = $this->pdo->lastInsertId();
+            for($i=0;$i< count($params["product_id"]); $i++)
+            {
+                try
+                {
+                    $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
+                 ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
+                 $this->pdo->exec($sql_order);
+                }
+                catch(PDOException $e)
+                {
+                    return false;
+                }
+        }
+
+            
+       return true;
+        }
+        catch(PDOException $e)
+        {
+            echo $sql . "<br>" . $e->getMessage();
+            return false;
+        }
+    }
+
 
 
     public function login($email, $password)

@@ -1,12 +1,15 @@
 <?php
 
-// header is for each page
-// body
-include 'tempelates/userHeader.php';
+
 session_start();
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-echo $request;
+if($request!='/function'){
+    // header is for each page
+    // body
+    include 'tempelates/userHeader.php';
+}
+// echo $request;
 switch ($request) {
     //israa
     case '/':

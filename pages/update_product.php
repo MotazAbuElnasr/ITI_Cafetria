@@ -1,17 +1,22 @@
 <?php
-// include admin navbar
-include 'tempelates/adminNavbar.php';
 
 // include database and object files
 include_once 'classes/db.php';
 include_once 'classes/product.php';
 include_once 'classes/category.php';
 
+
+
 // get database connection
 // pass connection to objects
 $product = new Product();
 $category = new Category();
 $db = new DbManager();
+
+
+
+// include admin navbar
+include 'tempelates/adminNavbar.php';
 
 // set page headers
 $page_title = 'update-product';
