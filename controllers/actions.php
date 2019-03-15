@@ -81,7 +81,7 @@ function add_order($url){
         if(isset($_POST["user_id"])) {
             $value["user_id"]=$_POST["user_id"];
         }else{
-            $value["user_id"] = $_SESSION["user_id"];
+            $value["user_id"]=$_SESSION["userId"];
         }
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);

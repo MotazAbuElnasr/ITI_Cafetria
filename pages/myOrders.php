@@ -57,6 +57,7 @@ require_once 'controllers/generateMyOrders.php';
         }
 
         function cancelOrder(event){
+            confirm("do You want to cancel order?");
             let id = event.target.id;
             const startD = document.getElementById("start").value;
             const endD = document.getElementById("end").value;

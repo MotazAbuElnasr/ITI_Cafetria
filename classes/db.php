@@ -278,6 +278,7 @@ class DbManager
             // use exec() because no results are returned
             $this->pdo->exec($sql);
             $order_id = $this->pdo->lastInsertId();
+            var_dump($sql);
             for($i=0;$i< count($params["product_id"]); $i++)
             {
                 try
@@ -321,7 +322,7 @@ class DbManager
         try
         {
             $query = 'SELECT * FROM users 
-            JOIN orders ON users.id = orders.user_id WHERE status ="Processing" ORDER BY time';
+            JOIN orders ON users.id = orders.user_id WHERE status ="Processing" ORDER BY time DESC';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             $orders = $stmt->fetchAll();
@@ -329,7 +330,7 @@ class DbManager
         }
         catch(PDOException $e)
         {
-            echo $sql . "<br>" . $e->getMessage();
+//            echo $sql . "<br>" . $e->getMessage();
             return false;
         }
     }
@@ -348,7 +349,7 @@ class DbManager
         }
         catch(PDOException $e)
         {
-            echo $sql . "<br>" . $e->getMessage();
+//            echo $sql . "<br>" . $e->getMessage();
             return false;
         }
     }

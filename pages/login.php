@@ -31,7 +31,6 @@ if (isset($_POST['signIn'])) {
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];
         $_SESSION['userImg'] = $userName['img'];
-
         $_SESSION['userEmail'] = $email;
     }
 }
