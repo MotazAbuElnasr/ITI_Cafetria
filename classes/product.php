@@ -33,6 +33,7 @@ class Product
     public function uploadPhoto()
     {
         $result_message = '';
+        $file_upload_error_messages = '';
 
         // now, if image is not empty, try to upload the image
         if ($this->image) {
@@ -43,7 +44,6 @@ class Product
             $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
             // error message is empty
-            $file_upload_error_messages = '';
             // make sure that file is a real image
             $check = getimagesize($_FILES['image']['tmp_name']);
             if ($check !== false) {
@@ -100,7 +100,7 @@ class Product
         } else {
             // it means there are some errors, so show them to user
             $result_message .= "<div class='alert alert-danger'>";
-            $result_message .= "{$file_upload_error_messages}";
+            $result_message .= $file_upload_error_messages;
             $result_message .= '<div>Emtpy Image.</div>';
             $result_message .= '</div>';
         }
@@ -162,32 +162,31 @@ class Product
     }
     public function update()
     {
-
-
-
-        $query = 'UPDATE
-                    '.$this->table_name.'
+        $imgSet='';
+        if(!empty($this->image))
+            $imgSet = ' ,img = :image ';
+        $query = "UPDATE
+                    products
                 SET
                     name = :name,
                     price = :price,
-                    description = :description,
-                    category_id  = :category_id
-                WHERE
-                    id = :id';
+                    cat_id  = :category_id".
+                    $imgSet
+                    ." WHERE p_id = :id";
 
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->db->pdo->prepare($query);
 
         // posted values
         $this->name = htmlspecialchars(strip_tags($this->name));
         $this->price = htmlspecialchars(strip_tags($this->price));
-        $this->description = htmlspecialchars(strip_tags($this->description));
         $this->category_id = htmlspecialchars(strip_tags($this->category_id));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         // bind parameters
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':price', $this->price);
-        $stmt->bindParam(':description', $this->description);
+        if(!empty($this->image))
+            $stmt->bindParam(':image', $this->image);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
