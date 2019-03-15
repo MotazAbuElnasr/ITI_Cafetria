@@ -5,22 +5,22 @@
 // require_once('order.php');
 class DbManager
 {
-//    private $host = 'sql2.freemysqlhosting.net';
-//    private $db = 'sql2283138';
-//    private $user = 'sql2283138';
-//    private $pass = 'yF4!iH7*';
-//    private $charset = 'utf8mb4';
-//    private $dsn = '';
-//    private $pdo;
-      private $host = '127.0.0.1';
-      private $db = 'iti_cafe';
-      private $user = 'Motaz';
-      private $pass = 'motaz';
-      private $charset = 'utf8mb4';
-      private $dsn = "";
-      private $pdo;
+   private $host = 'sql2.freemysqlhosting.net';
+   private $db = 'sql2283138';
+   private $user = 'sql2283138';
+   private $pass = 'yF4!iH7*';
+   private $charset = 'utf8mb4';
+   private $dsn = '';
+   private $pdo;
+    //   private $host = '127.0.0.1';
+    //   private $db = 'iti_cafe';
+    //   private $user = 'Motaz';
+    //   private $pass = 'motaz';
+    //   private $charset = 'utf8mb4';
+    //   private $dsn = "";
+    //   private $pdo;
     // private $host = 'localhost';
-    // private $db = 'iti_cafe';
+    // private $db = 'cafetria';
     // private $user = 'root';
     // private $pass = '';
     // private $charset = 'utf8mb4';
@@ -138,6 +138,13 @@ class DbManager
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
 
+    public function updateProductStatus($status,$id)
+    {
+        $query= "UPDATE products SET status = ? WHERE p_id = ? ;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($status,$id));
+        return $status;
+    }
     // Return Latest Product Function  Khaled
     public function latestProduct()
     {
@@ -174,7 +181,7 @@ class DbManager
     }
     public function readProducts($from_record_num, $records_per_page)
     {
-        $query = "SELECT p_id, name, img, price, cat_id FROM
+        $query = "SELECT p_id, name, img, price, cat_id , status FROM
          products
     ORDER BY
         name ASC

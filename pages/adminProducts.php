@@ -51,18 +51,18 @@ if ($num > 0) {
         echo "<td><img style='width:50px;height:50px' src='{$img}' /></td>";
         echo '<td>';
         // read, edit and delete buttons
-        echo "
-        <a href='read_one.php?id={$p_id}' class=' btn btn-primary left-margin'>
-    <span class='glyphicon glyphicon-list'></span> Read
-</a>
- 
-<a href='update-product?id={$p_id}' class='btn btn-info left-margin'>
-    <span class='glyphicon glyphicon-edit'></span> Edit
-</a>
- 
-<a delete-id='{$p_id}' class='btn btn-danger delete-object'>
-    <span class='glyphicon glyphicon-remove'></span> Delete
-</a>";
+        echo (($status=='available')?
+        "<button id='$p_id' onclick='changeStatus(event)' class='btn btn-success left-margin'>Available</button>":
+        "<button id='$p_id' onclick='changeStatus(event)' class=' btn btn-warning left-margin'>Unavailable</button>");
+                            
+        echo  "
+            <a href='update-product?id={$p_id}' class='btn btn-info left-margin'>
+                <span class='glyphicon glyphicon-edit'></span> Edit
+            </a>
+            
+            <a delete-id='{$p_id}' class='btn btn-danger delete-object'>
+                <span class='glyphicon glyphicon-remove'></span> Delete
+            </a>";
         echo '</td>';
 
         echo '</tr>';
@@ -82,3 +82,34 @@ else {
 }
 // set page footer
 include 'tempelates/layout_footer.php';
+?>
+
+<script>
+function changeStatus(event){
+    let status = event.target.innerHTML;
+    const id = event.target.id;
+    if(status=='Available')
+      status="Unavailable";
+    else status="Available";
+    status=status.toLowerCase();
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            if(this.responseText=='unavailable'){
+                event.target.innerHTML='Unavailable';
+                event.target.classList.remove('btn-success');
+                event.target.classList.add('btn-warning');
+            }
+            else if(this.responseText=='available'){
+                event.target.innerHTML='Available';
+                event.target.classList.remove('btn-warning');
+                event.target.classList.add('btn-success');
+            }
+        }
+    };
+    console.log(status);
+    xmlhttp.open("GET", `/function?id=${id}&status=${status}`, true);
+    xmlhttp.send();
+}
+</script>
