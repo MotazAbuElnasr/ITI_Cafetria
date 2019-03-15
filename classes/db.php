@@ -11,13 +11,13 @@ class DbManager
   private $charset = 'utf8mb4';
   private $dsn = '';
   private $pdo;
-    //    private $host = 'localhost';
-    //    private $db = 'cafetria'; // iti_cafe
-    //    private $user = 'root';
-    //    private $pass = '';
-    //    private $charset = 'utf8mb4';
-    //    private $dsn = "";
-    //    public $pdo;
+//        private $host = 'localhost';
+//        private $db = 'cafetria'; // iti_cafe
+//        private $user = 'root';
+//        private $pass = '';
+//        private $charset = 'utf8mb4';
+//        private $dsn = "";
+//        public $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

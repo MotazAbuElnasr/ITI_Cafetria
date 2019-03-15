@@ -28,7 +28,7 @@ $page_title = 'Create Product';
 ?>
 <body>
 <!-- container -->
-<div class="container">
+<div class="container section">
 <?php
 echo "<div class='right-button-margin'>";
 echo "<button class='btn btn-primary'><a style='color: white' href='admin-products'>Read Products</a></button>";
