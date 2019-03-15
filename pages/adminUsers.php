@@ -54,7 +54,8 @@
     include 'tempelates/adminNavbar.php' ;
   ?>
     <button type="button" class="btn btn-primary"><a href="admin-adduser">Add User</a></button>
-    <table class="table">
+    <div style="min-height: 699px">
+    <table  class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">Name</th>
@@ -67,16 +68,10 @@
         <tbody>
         <?php
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        // var_dump($page);
-        // set number of records per page
-        $records_per_page = 5;
-        // var_dump($records_per_page);
-        // calculate for the query LIMIT clause
+        $records_per_page = 6;
         $from_record_num = $page > 0 ? ($records_per_page * $page) - $records_per_page : 0;
-        // var_dump($from_record_num);
         $user= $db->getUsers($from_record_num, $records_per_page);
-        // var_dump($user);
-        $total_rows = $user->rowCount();
+        $total_rows = $db->getUsersList()->rowCount();
         foreach($user as $row)
         {
         ?>
@@ -186,6 +181,7 @@
     ?>
         </tbody>
     </table>
+    </div>
     <?php
     
     include_once 'pages/userPagination.php';

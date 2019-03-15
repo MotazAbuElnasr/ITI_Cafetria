@@ -31,7 +31,11 @@ body{
     margin:0 .5em 0 0;
 }
 .product.card {
-    margin-bottom: 20px
+    margin-bottom: 20px; 
+    height: 95%;
+}
+.card-img-top{
+    height: 250px;
 }
 
 .right-button-margin{
@@ -54,6 +58,10 @@ body{
   font-family:'Sniglet', cursive;
   font-weight: bold;
 }
+.nav-img{
+    border-radius: 50%;
+}
+
 .navigation{
  background-color: #3f3327;
 }

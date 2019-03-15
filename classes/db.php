@@ -1,5 +1,4 @@
 <?php
-
 // require_once('user.php');
 // require_once('product.php');
 // require_once('order.php');
@@ -24,7 +23,6 @@ class DbManager
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ];
-
     public function __construct()
     {
         try {
@@ -106,8 +104,8 @@ class DbManager
             $orders[$row['oNum']]['status'] = $row['status'];
             $orders[$row['oNum']]['total'] = $row['total'];
             array_push($orders[$row['oNum']]['Products'], (array('PName' => $row['PName'],
-            'count' => $row['PCount'],
-            'price' => $row['PPrice'], 'img' => $row['img'], )));
+                'count' => $row['PCount'],
+                'price' => $row['PPrice'], 'img' => $row['img'], )));
             // print_r($users);
         }
         return $orders;
@@ -128,10 +126,8 @@ class DbManager
     {
         $stmt = $this->pdo->prepare('INSERT INTO products
                     VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
-
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
-
     public function updateProductStatus($status,$id)
     {
         $query= "UPDATE products SET status = ? WHERE p_id = ? ;";
@@ -155,7 +151,6 @@ class DbManager
                 name';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-
         return $stmt;
     }
     //inserting user
@@ -173,7 +168,6 @@ class DbManager
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
         return "NOT EXIST";
-
     }
     // products Nouran
     public function getRooms()
@@ -200,10 +194,9 @@ class DbManager
         $query = 'SELECT p_id FROM products';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-            $num = $stmt->rowCount();
+        $num = $stmt->rowCount();
         return $num;
     }
-
     public function getUsers($from_record_num, $records_per_page){
         $query = "SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms 
         WHERE is_admin =0 and room_num = room ORDER BY
@@ -223,7 +216,7 @@ class DbManager
             $users[$row['UID']]['ext']=$row['ext'];
         }
         return $users;
-}
+    }
     public function getUser($email)
     {
         $query = "SELECT `email` FROM `users` where email = '$email'";
@@ -234,8 +227,6 @@ class DbManager
         }
         return "";
     }
-
-
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";
@@ -246,7 +237,6 @@ class DbManager
             return false;
         }
     }
-
     public function readName($id)
     {
         $query = 'SELECT name FROM categories WHERE cat_id = ? limit 0,1';
@@ -254,10 +244,8 @@ class DbManager
         $stmt->bindParam(1, $id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
         return $row['name'];
     }
-
     public function cancelOrder($id)
     {
         $query = "DELETE FROM orders WHERE o_id = $id";
@@ -269,22 +257,22 @@ class DbManager
         $q = $this->pdo->query('SELECT `id` , `name` from users ');
         return $q;
     }
-  public function updateUser($name , $img , $room , $uid){
-    if ($img != "") {
-        $query = "UPDATE users set `name` = '$name' , `img` = '$img' , `room` = $room  WHERE `id` = $uid";
-    }else{
-        $query = "UPDATE users set `name` = '$name' , `room` = $room  WHERE `id` = $uid";
+    public function updateUser($name , $img , $room , $uid){
+        if ($img != "") {
+            $query = "UPDATE users set `name` = '$name' , `img` = '$img' , `room` = $room  WHERE `id` = $uid";
+        }else{
+            $query = "UPDATE users set `name` = '$name' , `room` = $room  WHERE `id` = $uid";
+        }
+        // $users = array();
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
     }
-    // $users = array();
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute();
-  }
-
     /**
      * @param params is array of order data
      */
     public function addOrder($params){
         try{
+            var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
             // use exec() because no results are returned
@@ -296,26 +284,26 @@ class DbManager
                 {
                     $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
                  ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
-                 $this->pdo->exec($sql_order);
+                    $this->pdo->exec($sql_order);
                 }
                 catch(PDOException $e)
                 {
                     return false;
                 }
-        }
+            }
 
-            
-       return true;
+            return true;
         }
         catch(PDOException $e)
         {
             return false;
         }
     }
-
     public function login($email, $password)
     {
-        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+        $query = $this->pdo->query("SELECT `name` , `id` , `img` from users where email = '$email' and password = '$password' ");
+        var_dump($query);
+
         return $query;
     }
 
@@ -324,14 +312,12 @@ class DbManager
         $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
         return $query;
     }
-
     public function deleteUser($uid)
     {
         $query = "DELETE FROM users WHERE `id` = $uid ";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
     }
-
     public function showOrders()
     {
         $data = array();
@@ -342,10 +328,7 @@ class DbManager
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             $orders = $stmt->fetchAll();
-           
-            // var_dump($orders[2]["products"]);
             return $orders;
-
         }
         catch(PDOException $e)
         {
@@ -361,13 +344,13 @@ class DbManager
              JOIN products 
              ON products_orders.product_id = products.p_id
               WHERE products_orders.order_id = '. $oid;
-              $stat = $this->pdo->prepare($sql_order);
-              $stat ->execute();
+            $stat = $this->pdo->prepare($sql_order);
+            $stat ->execute();
             $products_orders = $stat->fetchAll();
-        
+
             return $products_orders;
         }
-       
+
         catch(PDOException $e)
         {
             echo $sql . "<br>" . $e->getMessage();
@@ -381,9 +364,8 @@ class DbManager
             // var_dump( $id);
             // var_dump($status);
             $sql = 'UPDATE `orders` SET `status`="'.$status.'" WHERE o_id ='.$id.' ';
-           
-            $stmt = $this->pdo->prepare($sql);
 
+            $stmt = $this->pdo->prepare($sql);
             // execute the query
             $stmt->execute();
             return true;
@@ -393,6 +375,5 @@ class DbManager
             echo $sql . "<br>" . $e->getMessage();
             return false;
         }
-
     }
 }

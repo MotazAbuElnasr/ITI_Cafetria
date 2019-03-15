@@ -16,8 +16,6 @@ $product = new Product();
 $category = new Category();
 $db = new DbManager();
 
-
-
 // include admin navbar
 include 'tempelates/adminNavbar.php';
 
@@ -28,11 +26,11 @@ include 'tempelates/layout_header.php';
 <body>
 <!-- container -->
 <div class="container">
+
     <?php
-    // show page header
-    echo "<div class='page-header'>
-                <h1>{$page_title}</h1>
-            </div>";
+    echo "<div class='right-button-margin'>";
+    echo "<a href='admin-products' class='btn btn-default pull-right'>Read Products</a>";
+    echo '</div>';
     ?>
 <?php
 echo "<div class='right-button-margin'>";
@@ -83,7 +81,7 @@ if ($_POST) {
                     <?php
                     $stmt = $category->read();
                     ?>
-                    <select class='form-control' name='category_id'>";
+                    <select class='form-control' name='category_id'>
                         <option>Select category...</option>;
                         <?php
 
@@ -95,9 +93,9 @@ if ($_POST) {
                 </td>
             </tr>
             <tr>
-    <td>Photo</td>
-    <td><input type="file" name="image" /></td>
-</tr>
+                <td>Photo</td>
+                <td><input type="file" name="image" /></td>
+            </tr>
 
             <tr>
                 <td></td>
