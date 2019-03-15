@@ -31,7 +31,7 @@ class DbManager
             // echo "Success" ;
         } catch (PDOException $e) {
             // echo "ERROR";/PName
-            var_dump($this->pdo);
+            // var_dump($this->pdo);
         }
     }
     public function checks($start, $end, $uid, $page)
@@ -272,7 +272,7 @@ class DbManager
      */
     public function addOrder($params){
         try{
-            var_dump($params["price"]);
+            // var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
             // use exec() because no results are returned
@@ -291,7 +291,6 @@ class DbManager
                     return false;
                 }
             }
-
             return true;
         }
         catch(PDOException $e)
@@ -302,11 +301,9 @@ class DbManager
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` , `img` from users where email = '$email' and password = '$password' ");
-        var_dump($query);
-
+        // var_dump($query);
         return $query;
     }
-
     public function changePassword($email, $password)
     {
         $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
@@ -324,7 +321,7 @@ class DbManager
         try
         {
             $query = 'SELECT * FROM users 
-            JOIN orders ON users.id = orders.user_id';
+            JOIN orders ON users.id = orders.user_id WHERE status ="Processing"';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             $orders = $stmt->fetchAll();
@@ -347,10 +344,8 @@ class DbManager
             $stat = $this->pdo->prepare($sql_order);
             $stat ->execute();
             $products_orders = $stat->fetchAll();
-
             return $products_orders;
         }
-
         catch(PDOException $e)
         {
             echo $sql . "<br>" . $e->getMessage();
@@ -364,7 +359,6 @@ class DbManager
             // var_dump( $id);
             // var_dump($status);
             $sql = 'UPDATE `orders` SET `status`="'.$status.'" WHERE o_id ='.$id.' ';
-
             $stmt = $this->pdo->prepare($sql);
             // execute the query
             $stmt->execute();
@@ -376,7 +370,6 @@ class DbManager
             return false;
         }
     }
-
     public function addCat($cat){
         $stmt = $this->pdo->prepare('INSERT INTO categories
         VALUES ( DEFAULT , ?  )');

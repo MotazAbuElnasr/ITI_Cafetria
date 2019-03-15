@@ -10,6 +10,7 @@ if(isset($_POST["ajax_type"])){
     $status = $_POST["status"];
     $db = new DbManager();
     return $db->changeOrderStatus($id, $status);
+    
 }
 if(isset($_POST["type"]))
 {
