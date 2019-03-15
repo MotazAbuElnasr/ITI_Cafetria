@@ -5,6 +5,12 @@ require_once 'classes/db.php';
  * 
  * form action for order
  */
+if(isset($_POST["ajax_type"])){
+    $id =$_POST["id"];
+    $status = $_POST["status"];
+    $db = new DbManager();
+    return $db->changeOrderStatus($id, $status);
+}
 if(isset($_POST["type"]))
 {
     $url = '';
