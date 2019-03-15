@@ -4,7 +4,6 @@
     $db = new DbManager() ;
     if ($_SESSION['userName']!="admin")
     header('Location: /');
-    
     if(isset($_GET["price"])){
         echo "<div style='background-color:red'> <p>".$_GET["price"]."</p> </div>";
     }

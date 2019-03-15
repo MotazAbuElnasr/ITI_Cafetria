@@ -14,7 +14,7 @@
     <!-- <div class = "row latest-product"> -->
     <select class='custom-select form-control' name='userId'>";
         <option>Select User...</option>;
-        <?php $userList = $db->userList();
+        <?php $userList = $db->getUsersList();
         while ($user = $userList->fetch()) {
             ?>
         <option value=<?php echo $user['id']; ?> > <?php echo $user['name']; ?></option>";
