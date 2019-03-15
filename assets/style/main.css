@@ -49,6 +49,11 @@ body{
     text-align: center !important;
 }
 /*navigation bar*/
+.navbar-dark .navbar-nav .nav-link{
+  color : #fff ;
+  font-family:'Sniglet', cursive;
+  font-weight: bold;
+}
 .navigation{
  background-color: #3f3327;
 }
@@ -68,19 +73,19 @@ body{
 /*table head*/
 .thead-blue{
     color: #e5ffbe;
-    background-color: #5e1c10;
+    background-color: #3f3327;
 }
 /*table hover*/
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    color: #e40008;
+    color: #3f3327;
 }
 /*my orders div*/
 #myOrders{
     font-family: 'Sniglet', cursive;
 }
-#headOrders{
+/* #headOrders{
     background-color: rgba(96, 28, 24, 0.8);
-}
+} */
 /*buttons*/
 .filter{
     margin-left: 6%;
@@ -166,7 +171,7 @@ body{
   .alert.alert-danger{
       display: none ;
       margin-top: 15px
-      
+
   }
 
  #orderTable{
@@ -178,10 +183,17 @@ body{
   }
 
 
-  /* Search bar */ 
+  /* Search bar */
   .input-group-lg {
       margin: 5% 0 5% 0 ;
   }
+
+  /* add user page */
+  .container-fluid{
+    margin-top: 5%
+  }
+
+
   /* .form-label-group input:not(:placeholder-shown) {
     padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
     padding-bottom: calc(var(--input-padding-y) / 3);

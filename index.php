@@ -15,6 +15,9 @@ switch ($request) {
     case '/':
         require __DIR__.'/pages/login.php';
         break;
+    case '/forgetpassword':
+        require __DIR__.'/pages/forgetpassword.php';
+        break;    
         //Motaz
     case '/orders':
         require __DIR__.'/pages/myOrders.php';

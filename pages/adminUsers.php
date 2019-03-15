@@ -9,6 +9,10 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Display Users</title>
     <?php
+    // Check if user is admin or not
+   if ($_SESSION['userName']!="admin")
+   header('Location: /');
+
   include_once 'classes/db.php';
   $db= new DbManager();
   $nameError ="";
@@ -46,8 +50,8 @@
 </head>
 
 <body>
-    <?php 
-    // add Admin Navbar 
+    <?php
+    // add Admin Navbar
     include 'tempelates/adminNavbar.php' ;
   ?>
     <table class="table">
@@ -73,12 +77,12 @@
         <td> <?php echo $row['ext'];?> </td>
         <td>
         <!-- Button trigger modal -->
-          <button data-uname = "<?php echo $row['UName'];?>" 
+          <button data-uname = "<?php echo $row['UName'];?>"
           data-room = "<?php echo $row['room'];?>"
           data-img = "<?php echo $row['img'];?>"
           data-uid = "<?php echo $row['UID'];?>"
           onclick="edit(event)"
-           type="button" 
+           type="button"
            class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter" name="submit">
             Edit
           </button>

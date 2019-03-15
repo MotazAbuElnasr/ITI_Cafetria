@@ -1,6 +1,9 @@
 <?php
 // include admin navbar
 include 'tempelates/adminNavbar.php';
+// Check if user is admin or not
+if ($_SESSION['userName']!="admin")
+header('Location: /');
 
 // include database and object files
 include_once 'classes/db.php';
@@ -101,5 +104,3 @@ if ($_POST) {
 
         </table>
     </form>
-
-
