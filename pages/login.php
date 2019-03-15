@@ -24,7 +24,7 @@ if (isset($_POST['signIn'])) {
         </style> ';
     } else {
         if ($userName['name'] == 'admin') {
-            header('Location: /admin-manual');
+            header('Location: /admin');
         }else{
           header('location: /home');
         }
