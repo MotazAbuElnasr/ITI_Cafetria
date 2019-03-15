@@ -42,7 +42,7 @@ if (isset($_POST['signIn'])) {
       }
         </style> ';
     } else {
-        var_dump($userName);
+//        var_dump($userName);
         if ($userName['name'] == 'admin') {
             header('Location: /admin-manual');
         }else{

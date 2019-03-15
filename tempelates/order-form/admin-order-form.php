@@ -3,7 +3,7 @@ include_once 'classes/db.php';
 $db= new DbManager();
 ?>
 <div class ="card order-card wow animated">
-   <form action="controllers/actions.php" method="post">
+   <form action="actions" method="post">
        <div class="fom-group items">       
   
            

@@ -1,6 +1,6 @@
 <?php
 // session_start() ; 
-require_once '../classes/db.php';
+require_once 'classes/db.php';
 /**
  * 
  * form action for order
@@ -15,7 +15,7 @@ if(isset($_POST["type"]))
     }
     if($_POST["type"] == "admin_add_order")
     {
-        $url = "../admin-manual?";
+        $url = "admin-manual?";
         add_order($url);
     }
 }

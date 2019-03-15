@@ -285,7 +285,7 @@ public function getUsers(){
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
-
+        var_dump($query);
         return $query;
     }
 
