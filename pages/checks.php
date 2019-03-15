@@ -1,6 +1,6 @@
 <?php
 require_once('classes/db.php');
-include 'tempelates/userHeader.php';
+include_once 'tempelates/userHeader.php';
 include 'tempelates/adminNavbar.php';
 include 'controllers/functions.php';
 include 'tempelates/header.php';  

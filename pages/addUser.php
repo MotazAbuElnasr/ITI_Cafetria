@@ -16,13 +16,11 @@
     $confirm_passwordError ="";
     $imgError ="";
     $roomError = "";
+    $error="";
     $valid = true;
-    // uploading images
-    // $target_dir = "assets/images/";
-    // $target_file = $target_dir . basename($_FILES["img"]);
-    // $uploadOk = 1;
-    // $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $req=0;
     if(isset($_POST['submit'])){
+        $req=1;
         if (empty($_POST["name"])) {
             $valid = false;
         } else {
@@ -47,36 +45,24 @@
             $confirm_password = checkValid(md5($_POST['confirm_password']));
         }
         if ($_POST["password"] == $_POST["confirm_password"]) {
-            echo 'password matches';
+            // echo 'password matches';
         }
         else {
             $valid = false;
-            echo 'password does not match';
+            $passwordError.= 'password does not match';
         }
-        // if (empty($_POST["img"])) {
-        //     $imgError = "Image is required";
-        //     $valid = false;
-        // } else {
-        //     $img = checkValid($_POST['img']);
-        // }
+      
         $img_name = $_FILES['img']['name'];
         $img_type = $_FILES['img']['type'];
         $img_size = $_FILES['img']['size'];
         $img_tmp_name = $_FILES['img']['tmp_name'];
         $img_store = "./assets/images/".$img_name;
         if(move_uploaded_file($img_tmp_name , $img_store)){
-            echo "image uploaded successfully";
+            // echo "image uploaded successfully";
         }else{
-            echo "error in uploading images";
+            $imgError.= "No Image is Uploaded";
         }    
-        // $check = getimagesize($_FILES["img"]);
-        // if($check !== false) {
-        //     echo "File is an image - " . $check["mime"] . ".";
-        //     $uploadOk = 1;
-        // } else {
-        //     echo "File is not an image.";
-        //     $uploadOk = 0;
-        // }
+        
         if (empty($_POST["room"])) {
             $roomError = "Room is required";
             $valid = false;
@@ -84,8 +70,21 @@
             $room = checkValid($_POST['room']);
         }
         
-        if($valid) 
-        $db->insertUser($name,$email,$password,$img_store,$room);
+        if($valid) {
+            $ret= $db->insertUser($name,$email,$password,$img_store,$room);
+            if($ret=="EXIST"){
+                $error.="Username or Email is Already Exist <br/>";
+            }
+            $valid=false;
+        }
+        $error .= empty($nameError)?'': $nameError."<br/>";
+        $error .= empty($passwordError)?'': $passwordError."<br/>";
+        $error .= empty($confirm_passwordError)?'': $confirm_passwordError."<br/>";
+        $error .= empty($imgError)?'': $imgError."<br/>";
+        $error .= empty($roomError)?'': $roomError."<br/>";
+        $error .= empty($emailError)?'': $emailError."<br/>";
+   
+
     }
     function checkValid($data) {
         $data = trim($data);
@@ -93,35 +92,21 @@
         $data = htmlspecialchars($data);
         return $data;
     }
-    // if ($_FILES["img"]["size"] > 500000) {
-    //     echo "Sorry, your image is too large.";
-    //     $uploadOk = 0;
-    // }
-    // Allow certain file formats
-    // if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    // && $imageFileType != "gif" ) {
-    //     echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    //     $uploadOk = 0;
-    // }
-    // Check if $uploadOk is set to 0 by an error
-    // if ($uploadOk == 0) {
-    //     echo "Sorry, your image was not uploaded.";
-    // if everything is ok, try to upload file
-    // } else {
-    //     if (move_uploaded_file($_FILES["img"], $target_file)) {
-    //         echo "The file ". basename( $_FILES["img"]). " has been uploaded.";
-    //     } else {
-    //         echo "Sorry, there was an error uploading your image.";
-    //     }
-    // }
+    
     ?>
 </head>
 <body>
  <?php 
    // add Admin Navbar 
    include 'tempelates/adminNavbar.php' ;
+
  ?>
 <div class="container-fluid">
+    <?php    
+            if($req)
+                 if(!empty($error)) echo "<div class='alert alert-warning' role='alert' >$error</div>";
+                 else echo "<div class='alert alert-success' role='alert' >User Added Successfully</div>"
+    ?>
     <h1>Add User</h1>
     <form method="post" action = "admin-adduser" enctype="multipart/form-data">
         <div class="form-row">

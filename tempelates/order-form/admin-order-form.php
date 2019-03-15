@@ -30,11 +30,22 @@ $db= new DbManager();
                     ?>
               </select>
         </div>
+        <div  class = "order-room row">
+        <label class="col-sm-3">Add to User</label>
+        <select class='custom-select form-control col-sm-6' name='user_id' id = "userId">";
+            <option value="">Select User...</option>;
+            <?php $usersList = $db->getUsersList() ;
+            while ( $user = $usersList->fetch() ) {
+        ?>
+            <option value="<?php echo $user['id']?>" > <?php echo $user['name']?></option>";
+        <?php  } ?>
+
+        </select>
+        </div>
 
         <hr>
         <strong> <p class="h3">Total Price : </p> <span  ><input type="text" id="totalPrice" readonly value="0" name="price" /> EGP</span></strong>
-        <input type="hidden" name="type" value="add_order"/>
-         <input type="hidden" name="user_id" value="1" >
+        <input type="hidden" name="type" value="admin_add_order"/>
         <input type="submit" class="btn btn-primary" style="float: right"name="submit" value="Confirm">
    </form>
 </div>

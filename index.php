@@ -1,11 +1,14 @@
 <?php
 
-// header is for each page
-// body
-include 'tempelates/userHeader.php';
+
 session_start();
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+if($request!='/function'){
+    // header is for each page
+    // body
+    include 'tempelates/userHeader.php';
+}
 // echo $request;
 switch ($request) {
     //israa
@@ -19,6 +22,9 @@ switch ($request) {
     case '/cancelOrder':
         require __DIR__.'/controllers/cancelOrder.php';
         break;
+    case '/deleteUser':
+        require __DIR__.'/controllers/deleteUser.php';
+        break;    
     case '/generateMyOrders':
         require __DIR__.'/controllers/generateMyOrders.php';
         break;

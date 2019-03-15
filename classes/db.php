@@ -5,22 +5,13 @@
 // require_once('order.php');
 class DbManager
 {
-//    private $host = 'sql2.freemysqlhosting.net';
-//    private $db = 'sql2283138';
-//    private $user = 'sql2283138';
-//    private $pass = 'yF4!iH7*';
-//    private $charset = 'utf8mb4';
-//    private $dsn = '';
-//    private $pdo;
-
-//       private $host = '127.0.0.1';
-//       private $db = 'iti_cafe';
-//       private $user = 'Motaz';
-//       private $pass = 'motaz';
-//       private $charset = 'utf8mb4';
-//       private $dsn = "";
-//       private $pdo;
-
+    //   private $host = 'sql2.freemysqlhosting.net';
+    //   private $db = 'sql2283138';
+    //   private $user = 'sql2283138';
+    //   private $pass = 'yF4!iH7*';
+    //   private $charset = 'utf8mb4';
+    //   private $dsn = '';
+    //   private $pdo;
     private $host = 'localhost';
     private $db = 'iti_cafe';
     private $user = 'root';
@@ -28,7 +19,6 @@ class DbManager
     private $charset = 'utf8mb4';
     private $dsn = '';
     private $pdo;
-
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -92,7 +82,6 @@ class DbManager
     //products p,
     //products_orders po WHERE o.o_id = po.order_id
     //and p.p_id = po.product_id and o.user_id = 3
-
     public function userOrders($userId, $start, $end, $page)
     {
         $dateCondition = " and ( o.time BETWEEN CAST( '$start' AS DATETIME ) and CAST( '$end' AS DATETIME ) ) ";
@@ -107,7 +96,6 @@ class DbManager
                                               products_orders po WHERE o.o_id = po.order_id
                                               and p.p_id = po.product_id and o.user_id = $userId
                                               ".$dateCondition);
-
         $orders = array();
         $stmt->execute();
         $order = $stmt->fetchAll();
@@ -146,13 +134,21 @@ class DbManager
     public function updateProduct($name, $price, $img, $category_id, $timestamp)
     {
         $stmt = $this->pdo->prepare('INSERT INTO products
-                    VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
+                   VALUES ( DEFAULT , ? , ? , ? , ? , ? )');
 
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
 
-    // Return Latest Product Function  Khaled
+    public function updateProductStatus($status, $id)
+    {
+        $query = 'UPDATE products SET status = ? WHERE p_id = ? ;';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($status, $id));
 
+        return $status;
+    }
+
+    // Return Latest Product Function  Khaled
     public function latestProduct()
     {
         $q = $this->pdo->query('SELECT * FROM `products` where `status` = "available"  LIMIT 1,3  ');
@@ -177,9 +173,19 @@ class DbManager
     //inserting user
     public function insertUser($name, $email, $password, $img, $room)
     {
+        $query = 'SELECT COUNT(*) as count FROM `users` WHERE  name = ? and email = ? ;';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($name, $email));
+        $count = $stmt->fetchAll();
+        if ($count[0]['count'] > 0) {
+            return 'EXIST';
+        }
+        $query = 'SELECT COUNT(*) FROM `users` WHERE  name = ? and email = ?';
         $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
+
+        return 'NOT EXIST';
     }
 
     // products Nouran
@@ -194,7 +200,7 @@ class DbManager
 
     public function readProducts($from_record_num, $records_per_page)
     {
-        $query = "SELECT p_id, name, img, price, cat_id FROM
+        $query = "SELECT p_id, name, img, price, cat_id , status FROM
          products
     ORDER BY
         name ASC
@@ -229,9 +235,9 @@ class DbManager
             $users[$row['UID']]['img'] = $row['img'];
             $users[$row['UID']]['room'] = $row['room'];
             $users[$row['UID']]['ext'] = $row['ext'];
-
-            return $users;
         }
+
+        return $users;
     }
 
     public function deleteProduct($id)
@@ -263,23 +269,6 @@ class DbManager
         $stmt->execute();
     }
 
-    public function getUsers($id)
-    {
-        $query = 'SELECT `id` as UID, `name` as UName , `img` , `room` , `ext` FROM users , rooms  WHERE is_admin =0 and room_num = room';
-        $users = array();
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-        $user = $stmt->fetchAll();
-        foreach ($user as $row) {
-            $users[$row['UID']]['UName'] = $row['UName'];
-            $users[$row['UID']]['img'] = $row['img'];
-            $users[$row['UID']]['room'] = $row['room'];
-            $users[$row['UID']]['ext'] = $row['ext'];
-        }
-
-        return $users;
-    }
-
     public function getUsersList()
     {
         $q = $this->pdo->query('SELECT `id` , `name` from users ');
@@ -287,19 +276,54 @@ class DbManager
         return $q;
     }
 
-    public function login($email, $password)
-    {
-        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
-
-        return $query;
-    }
-
     public function updateUser($name, $img, $room, $uid)
     {
-        $query = "UPDATE users set `name` = $name , `img` = $img , `room` = $room  WHERE `id` = $uid ";
+        if ($img != '') {
+            $query = "UPDATE users set `name` = '$name' , `img` = '$img' , `room` = $room  WHERE `id` = $uid";
+        } else {
+            $query = "UPDATE users set `name` = '$name' , `room` = $room  WHERE `id` = $uid";
+        }
         // $users = array();
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+    }
+
+    /**
+     * @param params is array of order data
+     */
+    public function addOrder($params)
+    {
+        try {
+            var_dump($params['price']);
+            $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
+            VALUES ("'.$params['time'].'", "'.$params['status'].'", '.(int) $params['user_id'].', "'.$params['notes'].'",'.(int) $params['room'].','.(int) $params['price'].')';
+            // use exec() because no results are returned
+            $this->pdo->exec($sql);
+            $order_id = $this->pdo->lastInsertId();
+            for ($i = 0; $i < count($params['product_id']); ++$i) {
+                try {
+                    $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
+                 ('.(int) $params['product_id'][$i].', '.(int) $order_id.', '.(int) $params['quantity'][$i].', '.(int) $params['price'][$i].')';
+                    $this->pdo->exec($sql_order);
+                } catch (PDOException $e) {
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            echo $sql.'<br>'.$e->getMessage();
+
+            return false;
+        }
+    }
+
+    public function login($email, $password)
+    {
+        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+        var_dump($query);
+
+        return $query;
     }
 
     public function deleteUser($uid)
