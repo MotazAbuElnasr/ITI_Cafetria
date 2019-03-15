@@ -17,7 +17,7 @@
           <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="nav-user"> <?= $_SESSION['userName'] ?> </span>
-          <img class="nav-img" src=<?= $_SESSION['userImg']?> >
+          <img class="nav-img" src=<?= $_SESSION['userImg']?> width="50px">
         
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
