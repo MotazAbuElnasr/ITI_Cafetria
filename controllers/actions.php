@@ -1,21 +1,25 @@
 <?php
 // session_start() ; 
-require_once 'classes/db.php';
+
 /**
  * 
  * form action for order
  */
 if(isset($_POST["ajax_type"])){
+    require_once '../classes/db.php';
     $id =$_POST["id"];
     $status = $_POST["status"];
     $db = new DbManager();
-    return $db->changeOrderStatus($id, $status);
+     $res= $db->changeOrderStatus($id, $status);
+    return $res;
 }
 if(isset($_POST["type"]))
 {
+    require_once 'classes/db.php';
     $url = '';
     if($_POST["type"] == "add_order")
     {
+       
         $url = "../home?";
         add_order($url);
     }
@@ -26,6 +30,7 @@ if(isset($_POST["type"]))
     }
 }
 function add_order($url){
+    
     $errors=1;
     $value = array();
     if(isset($_POST['submit']) ){
@@ -82,10 +87,11 @@ function add_order($url){
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-         header("location:".substr($url, 0, -1));
+         header("location:".$url);
          // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{
+            header("location:".$url);
         }
     }
 }

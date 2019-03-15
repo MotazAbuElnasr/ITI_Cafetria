@@ -94,7 +94,7 @@
         url: 'controllers/actions.php',
         data: {status: status, ajax_type:"order_status",id:id},
         success: function(data){
-            alert("order status has been changed ");
+            alert("order status has been changed "+ data);
         }
         });
     }

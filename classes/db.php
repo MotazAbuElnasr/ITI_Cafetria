@@ -278,8 +278,9 @@ public function getUsers(){
      * @param params is array of order data
      */
     public function addOrder($params){
+        echo "jh";
         try{
-            var_dump($params["price"]);
+            echo"one";
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
             // use exec() because no results are returned
@@ -289,12 +290,15 @@ public function getUsers(){
             {
                 try
                 {
+                    echo "6";
                     $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
                  ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
                  $this->pdo->exec($sql_order);
                 }
                 catch(PDOException $e)
                 {
+                    echo"el looop error";
+                    echo $sql_order . "<br>" . $e->getMessage();
                     return false;
                 }
         }
@@ -304,6 +308,8 @@ public function getUsers(){
         }
         catch(PDOException $e)
         {
+            echo"false";
+            echo $sql . "<br>" . $e->getMessage();
             return false;
         }
     }
@@ -375,8 +381,7 @@ public function getUsers(){
     {
         try
         {
-            var_dump( $id);
-            var_dump($status);
+        
             $sql = 'UPDATE `orders` SET `status`="'.$status.'" WHERE o_id ='.$id.' ';
            
             $stmt = $this->pdo->prepare($sql);
