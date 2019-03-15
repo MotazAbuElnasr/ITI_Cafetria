@@ -16,7 +16,7 @@
               </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="signIn">Sign in</button>
               <hr class="my-4">
-              <a href ="pages/forgetPassword.php"> Forget Your Password ? </a>
+              <a href ="forgetpassword.php"> Forget Your Password ? </a>
             </form>
             <div class="alert alert-danger" role="alert">
             Sorry but this is wrong email or password 
