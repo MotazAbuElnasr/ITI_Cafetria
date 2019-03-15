@@ -17,7 +17,10 @@ switch ($request) {
         break;
     case '/forgetpassword':
         require __DIR__.'/pages/forgetpassword.php';
-        break;    
+        break;
+    case '/changePassword':
+        require __DIR__.'/pages/changePassword.php';
+        break;
         //Motaz
     case '/orders':
         require __DIR__.'/pages/myOrders.php';

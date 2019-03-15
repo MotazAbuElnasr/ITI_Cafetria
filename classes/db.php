@@ -199,7 +199,7 @@ class DbManager
         $query = 'SELECT p_id FROM products';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $num = $stmt->rowCount();
+            $num = $stmt->rowCount();
         return $num;
     }
 public function getUsers(){
@@ -314,11 +314,14 @@ public function getUsers(){
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
-        var_dump($query);
         return $query;
     }
 
-
+    public function changePassword($email, $password)
+    {
+        $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
+        return $query;
+    }
 
     public function deleteUser($uid)
     {

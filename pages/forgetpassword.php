@@ -44,13 +44,12 @@ if(isset($_POST['submit'])) {
 $mail = new \PHPMailer\PHPMailer\PHPMailer(TRUE);
     try {
         $generatedPassword = generatePassword();
+        $db->changePassword($userEmail,md5($generatedPassword));
     $mail->setFrom('iti_cafe@outlook.com', 'ITI Cafe Admin');
     $mail->addAddress($userEmail);
     $mail->Subject = 'Your new password ITI cafe';
     $mail->Body = "Hello, this is ITI cafe team. please use the following password for login \n
      $generatedPassword";
-    /* SMTP parameters. */
-    /* Tells PHPMailer to u se SMTP. */
     $mail->isSMTP();
 
     /* SMTP server address. */
@@ -94,16 +93,30 @@ catch (\Exception $e)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Forget password</title>
+    <link rel = "stylesheet" href = "./assets/style/bodyImg.css" >
+
 </head>
+
 <body>
-    <form method="post" action="forgetpassword">
-        <div class="form-group">
-            <label for="InputEmail">Email</label>
-            <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Enter email">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Forget password</h5>
+                    <form class="form-signin" method="post" action="forgetpassword">
+                        <div class="form-label-group text-center">
+                            <label for="InputEmail">Email</label>
+                            <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Enter email">
+                            <h6 style="color: red"><?=$emailError?></h6>
+                            <input type="submit" class="btn btn-primary " value="Submit" name="submit">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <h6 style="color: red"><?=$emailError?></h6>
-        <input type="submit" class="btn btn-primary" value="Submit" name="submit">
-    </form>
+    </div>
+</div>
 </body>
-</html>

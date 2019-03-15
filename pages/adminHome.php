@@ -6,7 +6,6 @@
         header('Location: /');
     }
     ?>
-
     <section class = "container user-home">
     <!-- Latest Product -->
     <h2> Add to User </h2>

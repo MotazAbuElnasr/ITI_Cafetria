@@ -30,20 +30,20 @@
 <?php
 require_once 'classes/db.php';
 $db = new DbManager();
-if (isset($_SESSION["userName"])){
-    if ($_SESSION['userName'] == 'admin') {
-        header('Location: /admin');
-    }
-    else{
-        header('Location: /home');
-
-    }
-}
+//if (isset($_SESSION["userName"])){
+//    if ($_SESSION['userName'] == 'admin') {
+//        header('Location: /admin');
+//    }
+//    else{
+//        header('Location: /home');
+//
+//    }
+//}
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     // $password = md5($_POST['password']);
-    $userInfo = $db->login($email, $password);
+    $userInfo = $db->login($email, md5($password));
     $userName = $userInfo->fetch();
     if ($userName['name'] == '') {
         echo ' <style> 
@@ -52,7 +52,6 @@ if (isset($_POST['signIn'])) {
       }
         </style> ';
     } else {
-//        var_dump($userName);
         if ($userName['name'] == 'admin') {
             header('Location: /admin-manual');
         }else{
@@ -60,6 +59,8 @@ if (isset($_POST['signIn'])) {
         }
         $_SESSION['userName'] = $userName['name'];
         $_SESSION['userId'] = $userName['id'];
+        $_SESSION['userEmail'] = $email;
+
     }
 }
 ?>
