@@ -23,7 +23,8 @@ class Product
     {
         // insert query
         $this->image = htmlspecialchars(strip_tags($this->image));
-        $this->image = "./products/".$this->image;
+        $this->image = './products/'.$this->image;
+
         return $this->db->createProduct($this->name, $this->price, $this->image, $this->category_id, $this->timestamp);
     }
 
@@ -38,7 +39,7 @@ class Product
         if ($this->image) {
             // sha1_file() function is used to make a unique file name
             $target_directory = './products/';
-            $target_file = $this->image; 
+            $target_file = $this->image;
             // $target_directory.
             $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
 
@@ -108,25 +109,26 @@ class Product
         return $result_message;
     }
 
-    // public function readOne()
-    // {
-    //     $query = 'SELECT name, price, cat_id, image
-    //         FROM '.$this->table_name.'
-    //         WHERE id = ?
-    //         LIMIT 0,1';
+    public function readOne()
+    {
+        $query = 'SELECT name, price, cat_id, image
+             FROM '.$this->table_name.'
+             WHERE id = ?
+            LIMIT 0,1';
 
-    //     $stmt = $this->conn->prepare($query);
-    //     $stmt->bindParam(1, $this->id);
-    //     $stmt->execute();
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->id);
+        $stmt->execute();
 
-    //     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->name = $row['name'];
+        $this->price = $row['price'];
+        $this->category_id = $row['cat_id'];
+        $this->image = $row['image'];
+    }
 
-    //     $this->name = $row['name'];
-    //     $this->price = $row['price'];
-    //     $this->category_id = $row['cat_id'];
-    //     $this->image = $row['image'];
-    // }
-    public function updateStatus($id,$status){
+    public function updateStatus($id, $status)
+    {
         $query = 'UPDATE
                 '.$this->table_name.'
             SET
@@ -142,24 +144,23 @@ class Product
         // posted values
         $this->name = htmlspecialchars(strip_tags($this->name));
         $this->price = htmlspecialchars(strip_tags($this->price));
-        $this->description = htmlspecialchars(strip_tags($this->description));
-        $this->category_id = htmlspecialchars(strip_tags($this->category_id));
-        $this->id = htmlspecialchars(strip_tags($this->id));
+        $this->cat_id = htmlspecialchars(strip_tags($this->cat_id));
+        $this->p_id = htmlspecialchars(strip_tags($this->p_id));
 
         // bind parameters
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':price', $this->price);
-        $stmt->bindParam(':description', $this->description);
-        $stmt->bindParam(':category_id', $this->category_id);
-        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':cat_id', $this->cat_id);
+        $stmt->bindParam(':p_id', $this->pi_d);
 
         // execute the query
         if ($stmt->execute()) {
-        return true;
+            return true;
         }
 
         return false;
     }
+
     public function update()
     {
 
@@ -170,24 +171,21 @@ class Product
                 SET
                     name = :name,
                     price = :price,
-                    description = :description,
                     category_id  = :category_id
                 WHERE
                     id = :id';
 
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->pdo->prepare($query);
 
         // posted values
         $this->name = htmlspecialchars(strip_tags($this->name));
         $this->price = htmlspecialchars(strip_tags($this->price));
-        $this->description = htmlspecialchars(strip_tags($this->description));
         $this->category_id = htmlspecialchars(strip_tags($this->category_id));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         // bind parameters
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':price', $this->price);
-        $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
 
@@ -198,6 +196,15 @@ class Product
 
         return false;
     }
+
+    //public function update($id)
+    // {
+    // insert query
+    //     $this->image = htmlspecialchars(strip_tags($this->image));
+    //     $this->image = './products/'.$this->image;
+
+    //    return $this->db->updateProduct($this->name, $this->price, $this->image, $this->category_id, $this->timestamp);
+    //}
 
     // delete the product
 
