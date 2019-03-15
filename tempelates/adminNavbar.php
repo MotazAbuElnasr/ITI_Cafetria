@@ -12,7 +12,7 @@
               <a class="nav-link" href="/admin-addproduct"> Products </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin-adduser"> Users </a>
+              <a class="nav-link" href="/admin-users"> Users </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/admin-manual">Manual Orders</a>
@@ -30,7 +30,7 @@
         </div>
       </nav>
                   <a class="nav-link" href="#">Welcome <?php //echo $_SESSION['userName'] ?></a></li> -->
-                  <a class="nav-link" href="/">Logout</a></li>
+                  <a class="nav-link" href="/logout">Logout</a></li>
                   
           </ul>
         </div>
