@@ -45,7 +45,7 @@ if ($_POST) {
     // set product property values
     $product->name = $_POST['name'];
     $product->price = $_POST['price'];
-    $product->cat_id = $_POST['cat_id'];
+    $product->cat_id = $_POST['category_id'];
     $image = !empty($_FILES['image']['name'])
         ? sha1_file($_FILES['image']['tmp_name']).'-'.basename($_FILES['image']['name']) : '';
     $product->image = $image;
