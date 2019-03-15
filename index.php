@@ -63,6 +63,9 @@ switch ($request) {
     case '/function':
         require __DIR__.'/controllers/functions.php';
         break;
+    case '/logout':
+        require __DIR__.'/pages/logOut.php';
+        break;
     case '/admin':
         require __DIR__.'/pages/adminHome.php';
         break;

@@ -14,7 +14,7 @@
           </ul>
           <ul class="ml-auto navbar-nav ">
               <li class="nav-item">
-                 <a class="nav-link" href="/">Logout</a></li>
+                 <a class="nav-link" href="/logout">Logout</a></li>
           </ul>
         </div>
       </nav>

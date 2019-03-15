@@ -28,7 +28,7 @@
         </div>
       </nav>
                   <a class="nav-link" href="#">Welcome <?php //echo $_SESSION['userName'] ?></a></li> -->
-                  <a class="nav-link" href="/">Logout</a></li>
+                  <a class="nav-link" href="/logout">Logout</a></li>
                   
           </ul>
         </div>
