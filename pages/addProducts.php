@@ -42,14 +42,11 @@ if ($_POST) {
         ? sha1_file($_FILES['image']['tmp_name']).'-'.basename($_FILES['image']['name']) : '';
     $product->image = $image;
     // create the product
-    var_dump($_POST);
-    var_dump($_FILES);
     if ($product->create()) {
         echo "<div class='alert alert-success'>Product was created.</div>";
         // try to upload the submitted file
         // uploadPhoto() method will return an error message, if any.
         echo $product->uploadPhoto();
-        echo 'HELLO WORLD';
     }
 
     // if unable to create the product, tell the user

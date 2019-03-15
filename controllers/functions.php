@@ -10,6 +10,16 @@ if(isset($_GET['start'])&&isset($_GET['end'])){
     $page=$_GET['page'];
   echo generateAccordion($_GET['start'],$_GET['end'],$UID,$page);
 }
+
+if(isset($_GET['status'])&&isset($_GET['id'])){
+  $status = $_GET['status'] ;
+  $id = $_GET['id'] ;
+  if(!empty($status)&&!empty($id))
+      echo $db->updateProductStatus($status,$id);
+   else echo "ERROR";
+  exit;
+}
+
 function getUsers(){
   $db = new DbManager();
   $users = $db->getUsers();

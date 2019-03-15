@@ -131,6 +131,13 @@ class DbManager
         return $stmt->execute(array($name, $price, $img, $category_id, 'available'));
     }
 
+    public function updateProductStatus($status,$id)
+    {
+        $query= "UPDATE products SET status = ? WHERE p_id = ? ;";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($status,$id));
+        return $status;
+    }
     // Return Latest Product Function  Khaled
     public function latestProduct()
     {
@@ -153,9 +160,19 @@ class DbManager
     //inserting user
     public function insertUser($name, $email, $password, $img, $room)
     {
+        $query = "SELECT COUNT(*) as count FROM `users` WHERE  name = ? and email = ? ;" ;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(array($name,$email));
+        $count = $stmt->fetchAll();
+        if($count[0]['count'] > 0){
+            return "EXIST";
+        }
+        $query = "SELECT COUNT(*) FROM `users` WHERE  name = ? and email = ?" ;
         $stmt = $this->pdo->prepare("INSERT INTO `users`(`name`, `email` , `password` , `img` , `room`) VALUES
             ('$name','$email' , '$password' , '$img' ,'$room')");
         $stmt->execute();
+        return "NOT EXIST";
+
     }
     // products Nouran
     public function getRooms()
@@ -167,7 +184,7 @@ class DbManager
     }
     public function readProducts($from_record_num, $records_per_page)
     {
-        $query = "SELECT p_id, name, img, price, cat_id FROM
+        $query = "SELECT p_id, name, img, price, cat_id , status FROM
          products
     ORDER BY
         name ASC
