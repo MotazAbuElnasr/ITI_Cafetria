@@ -1,36 +1,32 @@
 <?php
 // session_start() ; 
-
+require_once 'classes/db.php';
 /**
  * 
  * form action for order
  */
 if(isset($_POST["ajax_type"])){
-    require_once '../classes/db.php';
     $id =$_POST["id"];
     $status = $_POST["status"];
     $db = new DbManager();
-     $res= $db->changeOrderStatus($id, $status);
-    return $res;
+    return $db->changeOrderStatus($id, $status);
+    
 }
 if(isset($_POST["type"]))
 {
-    require_once 'classes/db.php';
     $url = '';
     if($_POST["type"] == "add_order")
     {
-       
         $url = "../home?";
         add_order($url);
     }
     if($_POST["type"] == "admin_add_order")
     {
-        $url = "../admin-manual?";
+        $url = "admin-manual?";
         add_order($url);
     }
 }
 function add_order($url){
-    
     $errors=1;
     $value = array();
     if(isset($_POST['submit']) ){
@@ -76,11 +72,7 @@ function add_order($url){
    
     
     if($errors == 2 ){
-        echo'
-        <script type="text/javascript">
-        window.location.href = '.$url.';
-        </script>';
-        //  header("Location: $url");
+         header("Location: $url");
         exit();
     }
     else{
@@ -94,18 +86,11 @@ function add_order($url){
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-            echo "dkjhdskj";
-            echo'
-            <script type="text/javascript">
-            window.location.href = '.$url.';
-            </script>';
+         header("location:/");
          // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{
-            echo'
-        <script type="text/javascript">
-        window.location.href = '.$url.';
-        </script>';
+            header("location:/");
         }
     }
 }

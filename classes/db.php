@@ -271,7 +271,6 @@ class DbManager
      * @param params is array of order data
      */
     public function addOrder($params){
-        echo "jh";
         try{
             // var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
@@ -283,25 +282,19 @@ class DbManager
             {
                 try
                 {
-                    echo "6";
                     $sql_order = 'INSERT INTO `products_orders`(`product_id`, `order_id`, `number`, `price`) VALUES
                  ('.(int)$params["product_id"][$i].', '.(int)$order_id.', '.(int)$params["quantity"][$i].', '.(int)$params["price"][$i].')';
                     $this->pdo->exec($sql_order);
                 }
                 catch(PDOException $e)
                 {
-                    echo"el looop error";
-                    echo $sql_order . "<br>" . $e->getMessage();
                     return false;
                 }
             }
-
             return true;
         }
         catch(PDOException $e)
         {
-            echo"false";
-            echo $sql . "<br>" . $e->getMessage();
             return false;
         }
     }
@@ -309,10 +302,8 @@ class DbManager
     {
         $query = $this->pdo->query("SELECT `name` , `id` , `img` from users where email = '$email' and password = '$password' ");
         // var_dump($query);
-
         return $query;
     }
-
     public function changePassword($email, $password)
     {
         $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
@@ -353,10 +344,8 @@ class DbManager
             $stat = $this->pdo->prepare($sql_order);
             $stat ->execute();
             $products_orders = $stat->fetchAll();
-
             return $products_orders;
         }
-
         catch(PDOException $e)
         {
             echo $sql . "<br>" . $e->getMessage();
@@ -370,7 +359,6 @@ class DbManager
             // var_dump( $id);
             // var_dump($status);
             $sql = 'UPDATE `orders` SET `status`="'.$status.'" WHERE o_id ='.$id.' ';
-
             $stmt = $this->pdo->prepare($sql);
             // execute the query
             $stmt->execute();
@@ -382,7 +370,6 @@ class DbManager
             return false;
         }
     }
-
     public function addCat($cat){
         $stmt = $this->pdo->prepare('INSERT INTO categories
         VALUES ( DEFAULT , ?  )');
