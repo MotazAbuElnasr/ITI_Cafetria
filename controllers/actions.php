@@ -82,10 +82,11 @@ function add_order($url){
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-         header("location:".substr($url, 0, -1));
+         header("location:/");
          // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{
+            header("location:/");
         }
     }
 }
