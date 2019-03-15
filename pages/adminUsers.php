@@ -67,13 +67,13 @@
         <tbody>
         <?php
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
-        var_dump($page);
+        // var_dump($page);
         // set number of records per page
         $records_per_page = 5;
-        var_dump($records_per_page);
+        // var_dump($records_per_page);
         // calculate for the query LIMIT clause
         $from_record_num = $page > 0 ? ($records_per_page * $page) - $records_per_page : 0;
-        var_dump($from_record_num);
+        // var_dump($from_record_num);
         $user= $db->getUsers($from_record_num, $records_per_page);
         // var_dump($user);
         $total_rows = $user->rowCount();
