@@ -7,16 +7,17 @@ require_once 'controllers/generateMyOrders.php';
 <div id="headOrders">
     <div class="container-fluid" id="myOrders">
         <h2 class="text" id="head">Your past orders 😋 </h2>
+        <hr />
             <p class="search_input filter text">
                 <label class="text">Start date</label>
                 <input class="text"type="date" name="start" id="start">
                 <label class="text">End date</label>
                 <input class="text"type="date" name="end" id="end">
-                <input class ="filterBtn"onclick="filterCheck()" type="submit" value="Filter" name="submit" class="">
+                <input class ="filterBtn btn btn-primary"onclick="filterCheck()" type="submit" value="Filter" name="submit" class="">
             </p>
     <div id="accordionn">
     <?php
-    
+
         $start = date('Y-m-d', strtotime('-3 day'));
         $end = date('Y-m-d');
         echo generateOrders($start, $end, '1');

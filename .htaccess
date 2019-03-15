@@ -3,3 +3,5 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.+)$ index.php [QSA,L]
+Options -Indexes
+ErrorDocument 403 /pages/404.php

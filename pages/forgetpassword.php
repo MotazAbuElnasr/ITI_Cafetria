@@ -1,25 +1,5 @@
 <?php
 include_once 'classes/db.php';
-$db= new DbManager();
-$emailError ="";
-if(isset($_POST['submit'])){
-    if (empty($_POST["email"])) {
-        $emailError = "Email is required";
-    } else {
-        $email = checkValid($_POST["email"]); 
-    }
-    if($valid) 
-        $db->getUsers($email);
-}
-function checkValid($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-?>
-
-<?php
 use \PHPMailer\PHPMailer\Exception;
 /* Exception class. */
 include 'PHPMailer/src/Exception.php';
@@ -29,18 +9,47 @@ include 'PHPMailer/src/PHPMailer.php';
 
 /* SMTP class, needed if you want to use SMTP. */
 include 'PHPMailer/src/SMTP.php';
+$db= new DbManager();
+$emailError ="";
+function checkValid($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+function generatePassword($length = 15) {
+    $characters = '!@#$%^&*()_+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+$valid=true;
+if(isset($_POST['submit'])) {
+    if (empty($_POST["email"])) {
+        $emailError = "Email is required";
+        $valid = false;
+    } else {
+        $email = checkValid($_POST["email"]);
+        $userEmail = $db->getUser($email);
+        if($userEmail == ""){
+            $emailError = "This mail is not registered";
+            $valid = false;
+        }
+    }
 
+    if ($valid){
 $mail = new \PHPMailer\PHPMailer\PHPMailer(TRUE);
-
-
-try {
-    $mail->setFrom('cafeowner1@outlook.com', '
-    ');
-    $mail->addAddress($email, '');
-    $mail->Subject = 'Forget Password';
-    $mail->Body = 'There is a great disturbance in the Force.';
-    /* SMTP parameters. */
-    /* Tells PHPMailer to use SMTP. */
+    try {
+        $generatedPassword = generatePassword();
+        $db->changePassword($userEmail,md5($generatedPassword));
+    $mail->setFrom('iti_cafe@outlook.com', 'ITI Cafe Admin');
+    $mail->addAddress($userEmail);
+    $mail->Subject = 'Your new password ITI cafe';
+    $mail->Body = "Hello, this is ITI cafe team. please use the following password for login \n
+     $generatedPassword";
     $mail->isSMTP();
 
     /* SMTP server address. */
@@ -53,22 +62,16 @@ try {
 //    $mail->SMTPSecure = 'tls';
 
     /* SMTP authentication username. */
-    $mail->Username = 'ownerone@outlook.com';
+    $mail->Username = 'iti_cafe@outlook.com';
 
     /* SMTP authentication password. */
-    $mail->Password = 'OWNER123';
+    $mail->Password = 'iti39phpcafe';
 
     /* Set the SMTP port. */
     $mail->Port = 587;
 
-    //content
-    // $mail->isHTML(ture);
-    // $mail->Subject= 'Forget Password';
-    // $mail->Body= "Hi $email your password is {$row['password]}" ;
-
     /* Finally send the mail. */
-    // $mail->send();
-    // echo 'Your Password has been sent on your Email';
+    $mail->send();
 }
 catch (Exception $e)
 {
@@ -78,24 +81,42 @@ catch (\Exception $e)
 {
     echo $e->getMessage();
 }
+
+}
+}
+
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Forget password</title>
+    <link rel = "stylesheet" href = "./assets/style/bodyImg.css" >
+
 </head>
+
 <body>
-    <form method="post" action="fogetpassword">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Forget password</h5>
+                    <form class="form-signin" method="post" action="forgetpassword">
+                        <div class="form-label-group text-center">
+                            <label for="InputEmail">Email</label>
+                            <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Enter email">
+                            <h6 style="color: red"><?=$emailError?></h6>
+                            <input type="submit" class="btn btn-primary " value="Submit" name="submit">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <input type="submit" class="btn btn-primary" value="Submit" name="submit">
-    </form>
+    </div>
+</div>
 </body>
-</html>
