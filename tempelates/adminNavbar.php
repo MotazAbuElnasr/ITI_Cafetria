@@ -22,16 +22,20 @@
             </li>
           </ul>
           <ul class="ml-auto navbar-nav ">
-              <li class="nav-item">
-              <li class="nav-item">
-                  <a class="nav-link" href="/changePassword">change password</a></li>
-                  <!-- <a class="nav-link" href="#">Welcome <?php echo $_SESSION['userName'] ?></a></li>
-          </ul>
-        </div>
-      </nav>
-                  <a class="nav-link" href="#">Welcome <?php //echo $_SESSION['userName'] ?></a></li> -->
-                  <a class="nav-link" href="/logout">Logout</a></li>
-                  
+
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<span class="nav-user"> <?= $_SESSION['userName'] ?> </span>
+<img class="nav-img" src="<?=  $_SESSION['userImg']?$_SESSION['userImg'] != "" : "assets/images/user.jpg"?>" 
+width = "50px"/>
+</a>
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+<a class="dropdown-item" href="/changePassword">Change Password</a>
+<div class="dropdown-divider"></div>
+<a class="dropdown-item" href="/logout">Logout</a>
+</div>
+</li>
+</ul>
           </ul>
         </div>
       </nav>

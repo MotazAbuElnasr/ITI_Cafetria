@@ -86,8 +86,11 @@ function add_order($url){
     else{
         $value["status"] = "Processing";
         $value["time"] =date("Y-m-d H:i:s");
-        // $value["user_id"] = $_SESSION["user_id"];
-        $value["user_id"]=$_POST["user_id"];
+        if(isset($_POST["user_id"])) {
+            $value["user_id"]=$_POST["user_id"];
+        }else{
+            $value["user_id"] = $_SESSION["user_id"];
+        }
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
