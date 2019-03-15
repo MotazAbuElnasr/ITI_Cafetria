@@ -1,6 +1,6 @@
 <?php
 require_once 'classes/db.php';
-include 'tempelates/user-navbar/user-navbar.php';
+include_once 'tempelates/user-navbar/user-navbar.php';
 require_once 'controllers/generateMyOrders.php';
 //include 'tempelates/userHeader.php';
 ?>
@@ -16,6 +16,7 @@ require_once 'controllers/generateMyOrders.php';
             </p>
     <div id="accordionn">
     <?php
+    
         $start = date('Y-m-d', strtotime('-3 day'));
         $end = date('Y-m-d');
         echo generateOrders($start, $end, '1');
