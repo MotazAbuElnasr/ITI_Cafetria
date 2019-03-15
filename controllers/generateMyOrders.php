@@ -7,7 +7,7 @@ if (isset($_GET['start']) && isset($_GET['end'])) {
 function generateOrders($startDate, $endDate, $page)
 {
     $db = new DbManager();
-    $userId = 3; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
+    $userId = $_SESSION['userId'] ; //it will be changed later IMMMMMMMPPPPPPPPPOOOOOOORRRRRRTTTTTTTAAAAAAANNNNNNNTTTT
 $orders = $db->userOrders($userId, $startDate, $endDate, $page); //This will be page
 $page="
 <div class='panel-group' id='accordion' style='min-height: 450px'>
