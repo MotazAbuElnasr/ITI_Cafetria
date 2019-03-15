@@ -19,6 +19,9 @@
     if(isset($_GET["quantity"])){
         echo "<div style='background-color:red'> <p>".$_GET["quantity"]."</p> </div>";
     }
+    // if(isset($_SESSION["confirm"])){
+    //     echo "<div style='background-color:green'> <p>".$_SESSION["confirm"]."</p> </div>";
+    // }
     
     ?>
 

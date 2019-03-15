@@ -7,15 +7,21 @@ require_once '../classes/db.php';
  */
 if(isset($_POST["type"]))
 {
+    $url = '';
     if($_POST["type"] == "add_order")
     {
-        add_order();
+        $url = "../home?";
+        add_order($url);
+    }
+    if($_POST["type"] == "admin_add_order")
+    {
+        $url = "../admin-manual?";
+        add_order($url);
     }
 }
-function add_order(){
+function add_order($url){
     $errors=1;
     $value = array();
-     $url= "../home?";
     if(isset($_POST['submit']) ){
     
     if(isset($_POST['order_note'])){
@@ -66,11 +72,11 @@ function add_order(){
         $value["status"] = "Processing";
         $value["time"] =date("Y-m-d H:i:s");
         // $value["user_id"] = $_SESSION["user_id"];
-        $value["user_id"]=1;
+        $value["user_id"]=$_POST["user_id"];
         $add = new DbManager();
         $addRetrun = $add->addOrder($value);
         if($addRetrun === true){
-         header("Location:/home");
+         header("location:".substr($url, 0, -1));
          // $_SESSION["confirm"] = "your order has been added successfully";
         }
         else{

@@ -4,25 +4,29 @@
     $db = new DbManager() ;
     if ($_SESSION['userName']!="admin")
     header('Location: /');
+    
+    if(isset($_GET["price"])){
+        echo "<div style='background-color:red'> <p>".$_GET["price"]."</p> </div>";
+    }
+    if(isset($_GET["notes"])){
+        echo "<div style='background-color:red'> <p>".$_GET["notes"]."</p> </div>";
+    }
+    if(isset($_GET["room"])){
+        echo "<div style='background-color:red'> <p>".$_GET["room"]."</p> </div>";
+    }
+    if(isset($_GET["product_id"])){
+        echo "<div style='background-color:red'> <p>".$_GET["product_id"]."</p> </div>";
+    }
+    if(isset($_GET["quantity"])){
+        echo "<div style='background-color:red'> <p>".$_GET["quantity"]."</p> </div>";
+    }
+    // if(isset($_SESSION["confirm"])){
+    //     echo "<div style='background-color:green'> <p>".$_SESSION["confirm"]."</p> </div>";
+    // }
     ?>
 
     <section class = "container user-home">
-    <!-- Latest Product -->
-    <h2> Add to User </h2>
-    <hr />
-    <!-- <div class = "row latest-product"> -->
-
-    <select class='custom-select form-control' name='userId' id = "userId">";
-        <option>Select User...</option>;
-        <?php $usersList = $db->getUsersList() ;
-        while ( $user = $usersList->fetch() ) {
-      ?>
-        <option value=<?php echo $user['id']?> > <?php echo $user['name']?></option>";
-      <?php  } ?>
-
-    </select>
-
-     <hr />
+    <!-- Latest Product --> 
 
      <div class="row input-group input-group-lg">
      <div class="input-group-prepend">
@@ -34,7 +38,7 @@
         <div class = "row">
 
         <div class = "col-sm-5">
-           <?php include  'tempelates/order-form/order-form.php'?>
+           <?php include  'tempelates/order-form/admin-order-form.php'?>
         </div>
 
         <div class="col-sm-7">
