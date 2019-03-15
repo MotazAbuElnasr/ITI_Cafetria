@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Add User</title>
     <?php
+     // Check if user is admin or not 
+    if ($_SESSION['userName']!="admin")
+    header('Location: /');
+
     include_once 'classes/db.php';
     $db= new DbManager();
     $nameError ="";
@@ -30,7 +34,7 @@
             $emailError = "Email is required";
             $valid = false;
         } else {
-            $email = checkValid($_POST["email"]); 
+            $email = checkValid($_POST["email"]);
         }
         if (empty($_POST["password"])) {
             $passwordError = "Password is required";
@@ -51,7 +55,7 @@
             $valid = false;
             $passwordError.= 'password does not match';
         }
-      
+
         $img_name = $_FILES['img']['name'];
         $img_type = $_FILES['img']['type'];
         $img_size = $_FILES['img']['size'];
@@ -61,15 +65,15 @@
             // echo "image uploaded successfully";
         }else{
             $imgError.= "No Image is Uploaded";
-        }    
-        
+        }
+
         if (empty($_POST["room"])) {
             $roomError = "Room is required";
             $valid = false;
         } else {
             $room = checkValid($_POST['room']);
         }
-        
+
         if($valid) {
             $ret= $db->insertUser($name,$email,$password,$img_store,$room);
             if($ret=="EXIST"){
@@ -83,7 +87,7 @@
         $error .= empty($imgError)?'': $imgError."<br/>";
         $error .= empty($roomError)?'': $roomError."<br/>";
         $error .= empty($emailError)?'': $emailError."<br/>";
-   
+
 
     }
     function checkValid($data) {
@@ -92,17 +96,17 @@
         $data = htmlspecialchars($data);
         return $data;
     }
-    
+
     ?>
 </head>
 <body>
- <?php 
-   // add Admin Navbar 
+ <?php
+   // add Admin Navbar
    include 'tempelates/adminNavbar.php' ;
 
  ?>
-<div class="container-fluid">
-    <?php    
+<div class="container add-user container-fluid">
+    <?php
             if($req)
                  if(!empty($error)) echo "<div class='alert alert-warning' role='alert' >$error</div>";
                  else echo "<div class='alert alert-success' role='alert' >User Added Successfully</div>"
@@ -128,7 +132,7 @@
             </div>
             <div class="col-md-6">
                 <label>Room Number</label><br/>
-                <select id = "selection" name="room">
+                <select class="custom-select " id = "selection" name="room">
                     <?php
                     $stmt= $db->getRooms();
                     while($room = $stmt->fetch(PDO::FETCH_ASSOC))
@@ -158,4 +162,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
-</html> 
+</html>

@@ -3,12 +3,15 @@ require_once('classes/db.php');
 include_once 'tempelates/userHeader.php';
 include 'tempelates/adminNavbar.php';
 include 'controllers/functions.php';
-include 'tempelates/header.php';  
+include 'tempelates/header.php';
 // include '../tempelates/user-navbar/user-navbar.php';
 // include '../tempelates/header.php';
+// Check if user is admin or not
+if ($_SESSION['userName']!="admin")
+header('Location: /');
 
 ?>
- <link rel="stylesheet" href="../assets/style/checksPage.css?<?php echo date('l jS \of F Y h:i:s A'); ?> "> 
+ <link rel="stylesheet" href="../assets/style/checksPage.css?<?php echo date('l jS \of F Y h:i:s A'); ?> ">
 
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -17,20 +20,21 @@ include 'tempelates/header.php';
 <div class="container-fluid" id="myOrders">
   <div id="headOrders">
   <h2  class="text">Checks</h2>
+  <hr />
         <div class="search_input text" >
             <label>start date</label>
             <input class="text" type="date" name="start" id="start">
             <label>end date</label>
             <input class="text" type="date" name="end" id="end">
-            <Button class="filterBtn" onclick="checkFilter(null,1)" value="filter" name="submit">Filter</Button>
+            <Button class="filterBtn btn btn-primary" onclick="checkFilter(null,1)" value="filter" name="submit">Filter</Button>
         </div>
   </div>
-        
+
 <div id="accordion" style="min-height:400px;" class="text">
   <?php
     $start = date("Y-m-d",strtotime('-3 day'));
     $end = date("Y-m-d");
-    echo generateAccordion($start,$end,'','1') 
+    echo generateAccordion($start,$end,'','1')
   ?>
 </div>
   </div>
@@ -84,7 +88,7 @@ include 'tempelates/header.php';
           };
           xmlhttp.open("GET", `/function?start=${startD}&end=${endD}&UID=${idOfUser}&page=${pagep}`, true);
           xmlhttp.send();
-          console.log("SEND") 
+          console.log("SEND")
         }
             // let request = $.ajax({
           //   url: "checks.php",
@@ -92,17 +96,17 @@ include 'tempelates/header.php';
           //   data: { startD , endD},
           //   dataType: "html"
           // });
-          
+
           // request.done(function( msg ) {
           //   console.log(msg);
           //   // $( "#log" ).html( msg );
           // });
-          
+
           // request.fail(function( jqXHR, textStatus ) {
           //   alert( "Request failed: " + textStatus );
           // });
     </script>
 
-<?php 
-// include "tempelates/footer.php"; 
+<?php
+// include "tempelates/footer.php";
 ?>

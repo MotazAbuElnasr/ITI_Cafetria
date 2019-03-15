@@ -2,10 +2,11 @@
     include 'tempelates/adminNavbar.php';
     require_once 'classes/db.php';
     include 'controllers/functions.php';
-    if ($_SESSION['userName'] == '') {
-        header('Location: /');
-    }
-?>
+    // Check if user is admin or not
+   if ($_SESSION['userName']!="admin")
+   header('Location: /');
+
+    ?>
 
 <section class = "container user-home">
 <h1> Orders </h1>
