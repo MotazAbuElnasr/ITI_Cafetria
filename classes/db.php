@@ -223,6 +223,7 @@ class DbManager
             $users[$row['UID']]['ext']=$row['ext'];
         }
         return $users;
+
 }
     public function getUser($email)
     {
@@ -285,6 +286,7 @@ class DbManager
      */
     public function addOrder($params){
         try{
+            var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
             // use exec() because no results are returned
@@ -342,8 +344,7 @@ class DbManager
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
             $orders = $stmt->fetchAll();
-           
-            var_dump($orders[2]["products"]);
+
             return $orders;
 
         }
