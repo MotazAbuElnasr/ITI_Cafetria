@@ -5,20 +5,20 @@
 // require_once('order.php');
 class DbManager
 {
-  private $host = 'sql2.freemysqlhosting.net';
-  private $db = 'sql2283138';
-  private $user = 'sql2283138';
-  private $pass = 'yF4!iH7*';
-  private $charset = 'utf8mb4';
-  private $dsn = '';
-  private $pdo;
-    //    private $host = 'localhost';
-    //    private $db = 'iti_cafe'; //cafetria
-    //    private $user = 'root';
-    //    private $pass = '';
-    //    private $charset = 'utf8mb4';
-    //    private $dsn = "";
-    //    private $pdo;
+//   private $host = 'sql2.freemysqlhosting.net';
+//   private $db = 'sql2283138';
+//   private $user = 'sql2283138';
+//   private $pass = 'yF4!iH7*';
+//   private $charset = 'utf8mb4';
+//   private $dsn = '';
+//   private $pdo;
+       private $host = 'localhost';
+       private $db = 'iTi_Caffee'; //cafetria
+       private $user = 'root';
+       private $pass = '';
+       private $charset = 'utf8mb4';
+       private $dsn = "";
+       private $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -317,7 +317,7 @@ class DbManager
 
     public function login($email, $password)
     {
-        $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
+        $query = $this->pdo->query("SELECT `name` , `id` , `img` from users where email = '$email' and password = '$password' ");
         return $query;
     }
 
