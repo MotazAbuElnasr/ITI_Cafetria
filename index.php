@@ -6,12 +6,15 @@ include 'tempelates/userHeader.php';
 session_start();
 
 $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// echo $request;
+echo $request;
 switch ($request) {
     //israa
     case '/':
         require __DIR__.'/pages/login.php';
         break;
+    case '/forgetpassword':
+        require __DIR__.'/pages/forgetpassword.php';
+        break;    
         //Motaz
     case '/orders':
         require __DIR__.'/pages/myOrders.php';
