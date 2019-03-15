@@ -5,34 +5,20 @@
 // require_once('order.php');
 class DbManager
 {
-//    private $host = 'sql2.freemysqlhosting.net';
-//    private $db = 'sql2283138';
-//    private $user = 'sql2283138';
-//    private $pass = 'yF4!iH7*';
-//    private $charset = 'utf8mb4';
-//    private $dsn = '';
-//    private $pdo;
-    //   private $host = '127.0.0.1';
-    //   private $db = 'iti_cafe';
-    //   private $user = 'Motaz';
-    //   private $pass = 'motaz';
-    //   private $charset = 'utf8mb4';
-    //   private $dsn = "";
-    //   private $pdo;
-    // private $host = 'localhost';
-    // private $db = 'cafetria';
-    // private $user = 'root';
-    // private $pass = '';
-    // private $charset = 'utf8mb4';
-    // private $dsn = '';
-    // private $pdo;
-      private $host = 'localhost';
-      private $db = 'iti_cafe';
-      private $user = 'root';
-      private $pass = '';
-      private $charset = 'utf8mb4';
-      private $dsn = "";
-      private $pdo;
+//   private $host = 'sql2.freemysqlhosting.net';
+//   private $db = 'sql2283138';
+//   private $user = 'sql2283138';
+//   private $pass = 'yF4!iH7*';
+//   private $charset = 'utf8mb4';
+//   private $dsn = '';
+//   private $pdo;
+       private $host = 'localhost';
+       private $db = 'iti_cafe';
+       private $user = 'root';
+       private $pass = '';
+       private $charset = 'utf8mb4';
+       private $dsn = "";
+       private $pdo;
     private $options = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -213,7 +199,7 @@ class DbManager
         $query = 'SELECT p_id FROM products';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $num = $stmt->rowCount();
+            $num = $stmt->rowCount();
         return $num;
     }
 public function getUsers(){
@@ -231,6 +217,18 @@ public function getUsers(){
     }
     return $users;
 }
+    public function getUser($email)
+    {
+        $query = "SELECT `email` FROM `users` where email = '$email'";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        if($stmt->rowCount()!=0){
+            return $email;
+        }
+        return "";
+    }
+
+
     public function deleteProduct($id)
     {
         $query = "DELETE FROM products WHERE p_id = $id";
@@ -281,6 +279,7 @@ public function getUsers(){
      */
     public function addOrder($params){
         try{
+            var_dump($params["price"]);
             $sql = 'INSERT INTO orders ( time, status, user_id, notes, room, total)
             VALUES ("'.$params["time"].'", "'.$params["status"].'", '.(int)$params["user_id"].', "'.$params["notes"].'",'.(int)$params["room"].','.(int)$params["price"].')';
             // use exec() because no results are returned
@@ -314,11 +313,14 @@ public function getUsers(){
     public function login($email, $password)
     {
         $query = $this->pdo->query("SELECT `name` , `id` from users where email = '$email' and password = '$password' ");
-
         return $query;
     }
 
-
+    public function changePassword($email, $password)
+    {
+        $query = $this->pdo->query("UPDATE users `password` set `password` = '$password' where email = '$email'");
+        return $query;
+    }
 
     public function deleteUser($uid)
     {

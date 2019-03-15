@@ -64,7 +64,7 @@ if ($_POST) {
 }
 ?>
     <!-- HTML form for creating a product -->
-    <form action="update-product?id=<?=$id; ?> " method="post">
+    <form action="update-product" method="post">
         <table class='table table-hover table-bordered'>
 
             <tr>

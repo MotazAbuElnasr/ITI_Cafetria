@@ -2,6 +2,7 @@
     include 'tempelates/adminNavbar.php' ;
     require_once('classes/db.php');
     $db = new DbManager() ;
+
     // Check if user is admin or not
    if ($_SESSION['userName']!="admin")
    header('Location: /');
