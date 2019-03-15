@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -50,6 +49,7 @@
     // add Admin Navbar 
     include 'tempelates/adminNavbar.php' ;
   ?>
+    <button type="button" class="btn btn-primary"><a href="admin-adduser">Add User</a></button>
     <table class="table">
         <thead class="thead-light">
             <tr>
@@ -61,10 +61,20 @@
             </tr>
         </thead>
         <tbody>
-            <?php
-      $user= $db->getUsers();
-      foreach($user as $row)
-      {
+        <?php
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        var_dump($page);
+        // set number of records per page
+        $records_per_page = 5;
+        var_dump($records_per_page);
+        // calculate for the query LIMIT clause
+        $from_record_num = $page > 0 ? ($records_per_page * $page) - $records_per_page : 0;
+        var_dump($from_record_num);
+        $user= $db->getUsers($from_record_num, $records_per_page);
+        // var_dump($user);
+        $total_rows = $user->rowCount();
+        foreach($user as $row)
+        {
         ?>
         <tr>
         <td> <?php echo $row['UName'];?> </td>
@@ -93,44 +103,44 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form method="POST" "admin-users" enctype="multipart/form-data">
+                  <form method="POST" action="admin-users" enctype="multipart/form-data">
                     <div class="form-row">
                       <div class="form-group col-md-12">
                           <input type="hidden" id="UID" class="form-control" name="id">
                       </div>
 
-                                            <div class="form-group col-md-12">
-                                                <label for="inputName4">Name</label>
-                                                <input type="text" id="Uname" class="form-control" name="name">
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label>Profile Picture</label>
-                                                <img src="" id="Img" width="60px" height="60px" />
-                                                <input type="file" class="form-control-file" name="img">
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label>Room Number</label><br />
-                                                <select id="selection" name="room">
-                                                    <?php
+                        <div class="form-group col-md-12">
+                            <label for="inputName4">Name</label>
+                            <input type="text" id="Uname" class="form-control" name="name">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Profile Picture</label>
+                            <img src="" id="Img" width="60px" height="60px" />
+                            <input type="file" class="form-control-file" name="img">
+                        </div>
+                        <div class="col-md-12">
+                            <label>Room Number</label><br />
+                            <select id="selection" name="room">
+                            <?php
                               $stmt= $db->getRooms();
                               while($room = $stmt->fetch(PDO::FETCH_ASSOC))
                               {
-                                  extract($room)
-                                  ?>
-                                                    <option class="dropdown-item" value="<?php echo $room_num?>">
-                                                        <?php echo $room_num?> </option>
-                                                    <?php
+                                extract($room)
+                                ?>
+                                <option class="dropdown-item" value="<?php echo $room_num?>">
+                                    <?php echo $room_num?> </option>
+                                <?php
                               }
-                              ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="submit" class="btn btn-secondary" value="Edit" />
-                                            <!-- <button type="button" class="btn btn-secondary">Edit</button> -->
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal">Cancel</button>
-                                        </div>
+                            ?>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-secondary" value="Edit" />
+                            <!-- <button type="button" class="btn btn-secondary">Edit</button> -->
+                            <button type="button" class="btn btn-danger"
+                                data-dismiss="modal">Cancel</button>
+                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -172,6 +182,10 @@
     ?>
         </tbody>
     </table>
+    <?php
+    
+    include_once 'pages/userPagination.php';
+    ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
