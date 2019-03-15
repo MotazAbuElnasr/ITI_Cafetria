@@ -16,6 +16,13 @@ $product = new Product();
 $category = new Category();
 $db = new DbManager();
 
+
+if(isset($_POST['addCat'])){
+    if(!empty($_POST['catName'])){
+      $db->addCat($_POST['catName']);
+    }
+  }
+
 // set page headers
 $page_title = 'Create Product';
 ?>
@@ -29,7 +36,7 @@ echo '</div>';
 ?>
 <?php
 // if the form was submitted
-if ($_POST) {
+if (isset($_POST["addProduct"])) {
     // set product property values
     $product->name = $_POST['name'];
     $product->price = $_POST['price'];
@@ -68,11 +75,12 @@ if ($_POST) {
             <tr>
                 <td>Category</td>
                 <td>
+                <div class='row'>
                     <?php
                     $stmt = $category->read();
                     ?>
-                    <select class='form-control' name='category_id'>";
-                        <option>Select category...</option>;
+                    <select class='form-control col-sm-9' name='category_id'>";
+                        <!-- <option>Select category...</option>; -->
                         <?php
 
                         while ($row_category = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -80,6 +88,13 @@ if ($_POST) {
                             echo "<option value='{$cat_id}'>{$name}</option>";
                         } ?>
                     </select>
+                    <button 
+                        onclick='edit(event)'
+                        type='button'
+                        class='btn btn-info col-sm-2' data-toggle='modal' data-target='#exampleModalCenter' name='submit'>
+                            Add Cat
+                        </button>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -90,10 +105,40 @@ if ($_POST) {
             <tr>
                 <td></td>
                 <td>
-                    <button type='submit' class='btn btn-primary'>Create</button>
+                    <button type='submit' name="addProduct" class='btn btn-primary'>Create</button>
                     <button type="reset" class='btn btn-primary'>Reset</button>
                 </td>
             </tr>
 
         </table>
     </form>
+
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Add Categtory</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+        <form action="admin-addproduct" method="post">
+        <table class='table table-hover table-bordered'>
+            <tr>
+                <td>Name</td>
+                <td><input type='text' id="catName" name='catName' class='form-control' /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type='submit' name="addCat" class='btn btn-primary'>Add Category</button>
+                </td>
+            </tr>
+            </table>
+        </form>
+            </div>
+        </div>
+    </div>
+</div>
