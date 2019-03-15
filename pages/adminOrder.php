@@ -2,8 +2,12 @@
     include 'tempelates/adminNavbar.php' ;
     require_once('classes/db.php');
     $db = new DbManager() ;
-    if ($_SESSION['userName']!="admin")
-    header('Location: /');
+
+    // Check if user is admin or not
+   if ($_SESSION['userName']!="admin")
+   header('Location: /');
+
+
     if(isset($_GET["price"])){
         echo "<div style='background-color:red'> <p>".$_GET["price"]."</p> </div>";
     }
@@ -25,7 +29,7 @@
     ?>
 
     <section class = "container user-home">
-    <!-- Latest Product --> 
+    <!-- Latest Product -->
 
      <div class="row input-group input-group-lg">
      <div class="input-group-prepend">
