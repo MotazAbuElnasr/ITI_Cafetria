@@ -31,7 +31,7 @@
     {
         ?>
       <!-- <tr  data-toggle="collapse" data-target="<?php echo "#c".$order['o_id'] ?>" > -->
-      <tr>
+      <tr class="<?= $order['o_id'] ?>">
             <td><?php echo $order["time"]?></td>
             <td><?php echo $order["name"] ?></td>
             <td><?php echo $order["room"] ?></td>
@@ -44,7 +44,7 @@
             </select>
             </td>
         </tr>
-     <tr>
+     <tr class="<?= $order['o_id'] ?>">
     <td colspan="5">
         <!-- <div  id="<?php echo "#c".$order['o_id'] ?>" class="collapse"> -->
         <div>
@@ -88,16 +88,16 @@
 <script>
 
   function changeStatus(status, id) {
-       
         $.ajax({
         type: "POST",
-        url: 'controllers/actions.php',
+        url: 'actions',
         data: {status: status, ajax_type:"order_status",id:id},
         success: function(data){
-            alert("order status has been changed "+ data);
+            alert("order status has been changed ");
         }
         });
+        [...document.getElementsByClassName(`${id}`)].forEach((element)=>{
+            element.remove()
+        })
     }
-
-
 </script>

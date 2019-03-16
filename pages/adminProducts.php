@@ -228,28 +228,20 @@ const deleteUser = (event) => {
 function changeStatus(event){
     let status = event.target.innerHTML;
     const id = event.target.id;
-    if(status=='Available')
-      status="Unavailable";
-    else status="Available";
+    if(status=='Available'){
+        status="Unavailable";
+        event.target.innerHTML='Unavailable';
+        event.target.classList.remove('btn-success');
+        event.target.classList.add('btn-warning');
+    }
+    else {
+        status="Available";
+        event.target.innerHTML='Available';
+        event.target.classList.remove('btn-warning');
+        event.target.classList.add('btn-success');
+    }
     status=status.toLowerCase();
     let xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            if(this.responseText=='unavailable'){
-                event.target.innerHTML='Unavailable';
-                event.target.classList.remove('btn-success');
-                event.target.classList.add('btn-warning');
-            }
-            else if(this.responseText=='available'){
-                event.target.innerHTML='Available';
-                event.target.classList.remove('btn-warning');
-                event.target.classList.add('btn-success');
-            }
-        }
-    };
-    console.log(status);
     xmlhttp.open("GET", `/function?id=${id}&status=${status}`, true);
     xmlhttp.send();
-}
-</script>
+}</script>

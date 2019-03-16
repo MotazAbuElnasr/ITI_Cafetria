@@ -9,7 +9,7 @@
               <a class="nav-link" href="/admin" id="home">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin-addproduct"> Products </a>
+              <a class="nav-link" href="/admin-products"> Products </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/admin-users"> Users </a>

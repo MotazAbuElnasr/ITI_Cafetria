@@ -44,7 +44,7 @@ $db= new DbManager();
         </div>
 
         <hr>
-        <strong> <p class="h3">Total Price : </p> <span  ><input type="text" id="totalPrice" readonly value="0" name="price" /> EGP</span></strong>
+        <strong> <p class="h3">Total Price : </p> <span  ><input type="text" id="totalPrice" readonly value="0" name="totalPrice" /> EGP</span></strong>
         <input type="hidden" name="type" value="admin_add_order"/>
         <input type="submit" class="btn btn-primary" style="float: right"name="submit" value="Confirm">
    </form>

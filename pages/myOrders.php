@@ -3,6 +3,9 @@ require_once 'classes/db.php';
 include_once 'tempelates/user-navbar/user-navbar.php';
 require_once 'controllers/generateMyOrders.php';
 //include 'tempelates/userHeader.php';
+if(! isset($_SESSION['userName'])){
+    header('Location: /');
+}
 ?>
 <div id="headOrders">
     <div class="container-fluid" id="myOrders">

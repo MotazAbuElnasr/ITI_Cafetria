@@ -1,5 +1,6 @@
 <?php
-
+if ($_SESSION['userName']!="admin")
+    header('Location: /');
 // check if value was posted
 if ($_POST) {
     // include database and object file

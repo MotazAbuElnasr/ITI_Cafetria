@@ -10,7 +10,7 @@ class DbManager
   private $pass = 'yF4!iH7*';
   private $charset = 'utf8mb4';
   private $dsn = '';
-  private $pdo;
+  public $pdo;
     //    private $host = 'localhost';
     //    private $db = 'cafetria'; // iti_cafe
     //    private $user = 'root';
@@ -80,14 +80,14 @@ class DbManager
     //and p.p_id = po.product_id and o.user_id = 3
     public function userOrders($userId, $start, $end, $page)
     {
-        $dateCondition = " and o.time BETWEEN '$start 00:00:00' and  '$end 23:59:59' ";
+        $dateCondition = " and o.time BETWEEN '$start 00:00:00' and  '$end 23:59:59'";
         $offset = $page > 0 ? ($page - 1) * 4 : 0;
         $limitCondition = " LIMIT 4 OFFSET $offset ";
         $stmt = $this->pdo->prepare("SELECT o.o_id As oNum , o.time as OTime , o.total as total ,
                 o.status as status, po.price as PPrice , p.name as PName ,
                 po.number as PCount,p.img as img FROM
                 (SELECT ord.o_id, ord.time, ord.total ,
-                ord.status, ord.user_id FROM orders ord where ord.user_id = $userId limit 4 OFFSET $offset ) as o,
+                ord.status, ord.user_id FROM orders ord where ord.user_id = $userId limit 4 OFFSET $offset) as o,
                 products p,
                 products_orders po WHERE o.o_id = po.order_id
                 and p.p_id = po.product_id and o.user_id = $userId
@@ -278,7 +278,6 @@ class DbManager
             // use exec() because no results are returned
             $this->pdo->exec($sql);
             $order_id = $this->pdo->lastInsertId();
-            var_dump($sql);
             for($i=0;$i< count($params["product_id"]); $i++)
             {
                 try

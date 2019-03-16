@@ -41,24 +41,28 @@ if (isset($_POST["addProduct"])) {
     $product->name = $_POST['name'];
     $product->price = $_POST['price'];
     $product->category_id = $_POST['category_id'];
-    $image = !empty($_FILES['image']['name'])
-        ? sha1_file($_FILES['image']['tmp_name']).'-'.basename($_FILES['image']['name']) : '';
-    $product->image = $image;
+    if(!empty($_FILES['image']['name'])){
+        $img_name = $_FILES['image']['name'];
+        $img_type = $_FILES['image']['type'];
+        $img_size = $_FILES['image']['size'];
+        $img_tmp_name = $_FILES['image']['tmp_name'];
+        $img_store = "./assets/images/".$img_name;
+        $product->image = $img_store;
+        if(move_uploaded_file($img_tmp_name , $img_store)){
+            // echo "image uploaded successfully";
+        }else{
+            echo "No Image is Uploaded";
+        }
+    }
     // create the product
     if ($product->create()) {
         echo "<div class='alert alert-success'>Product was created.</div>";
-        // try to upload the submitted file
-        // uploadPhoto() method will return an error message, if any.
-        echo $product->uploadPhoto();
     }
-
-    // if unable to create the product, tell the user
     else {
         echo "<div class='alert alert-danger'>Unable to create product.</div>";
     }
 }
 ?>
-    <!-- HTML form for creating a product -->
     <form action="admin-addproduct" method="post" enctype="multipart/form-data" data-ajax='false'>
         <table class='table table-hover table-bordered'>
 
@@ -99,7 +103,7 @@ if (isset($_POST["addProduct"])) {
             </tr>
             <tr>
     <td>Photo</td>
-    <td><input type="file" name="image" /></td>
+    <td><input type="file" name="image" required /></td>
 </tr>
 
             <tr>

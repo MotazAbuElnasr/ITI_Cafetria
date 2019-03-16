@@ -52,9 +52,6 @@ switch ($request) {
         require __DIR__.'/pages/checks.php';
         break;
         //Alaa
-    case '/admin-orders':
-        require __DIR__.'/pages/adminReceivedOrders.php';
-        break;
         //khaled
     case '/admin-manual':
         require __DIR__.'/pages/adminOrder.php';
@@ -84,9 +81,6 @@ switch ($request) {
         require __DIR__.'/pages/delete_product.php';
         break;
 
-        case '/read_one.php':
-        require __DIR__.'/pages/read_one.php';
-        break;
 
     default:
         require __DIR__.'/pages/404.php';

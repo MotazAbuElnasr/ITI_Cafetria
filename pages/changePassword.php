@@ -4,6 +4,10 @@ $db= new DbManager();
 $passwordError ="";
 $error="";
 $done=false;
+if(! isset($_SESSION['userName'])){
+    header('Location: /');
+}
+
 if(isset($_POST['password'])) {
     $valid=true;
     if (empty($_POST["password"])) {
