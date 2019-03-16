@@ -11,6 +11,7 @@ include 'PHPMailer/src/PHPMailer.php';
 include 'PHPMailer/src/SMTP.php';
 $db= new DbManager();
 $emailError ="";
+$success = 0;
 function checkValid($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -48,7 +49,7 @@ $mail = new \PHPMailer\PHPMailer\PHPMailer(TRUE);
     $mail->setFrom('iti_cafe@outlook.com', 'ITI Cafe Admin');
     $mail->addAddress($userEmail);
     $mail->Subject = 'Your new password ITI cafe';
-    $mail->Body = "Hello, this is ITI cafe team. please use the following password for login \n
+    $mail->Body = "Hello, this is ITI cafe team. please use the following password for login then you can change it for later \n
      $generatedPassword";
     $mail->isSMTP();
 
@@ -72,6 +73,7 @@ $mail = new \PHPMailer\PHPMailer\PHPMailer(TRUE);
 
     /* Finally send the mail. */
     $mail->send();
+    $success=1;
 }
 catch (Exception $e)
 {
@@ -103,17 +105,23 @@ catch (\Exception $e)
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h5 class="card-title text-center">Forget password</h5>
-                    <form class="form-signin" method="post" action="forgetpassword">
+                    <form class="form" method="post" action="forgetpassword">
                         <div class="form-label-group text-center">
                             <label for="InputEmail">Email</label>
                             <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Enter email">
                             <h6 style="color: red"><?=$emailError?></h6>
+                            <? if ($success){ ?>
+                            <h6 style="color: green">we have sent you email with instrunctions</h6>
+                            <? } ?>
+
                             <input type="submit" class="btn btn-primary " value="Submit" name="submit">
 
                         </div>
                     </form>
+                    <a href="/"><input style="border-radius:20px" type="button" class="btn btn-primary " value="Log in" name="Home"></a>
+
                 </div>
             </div>
         </div>

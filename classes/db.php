@@ -87,7 +87,7 @@ class DbManager
                 o.status as status, po.price as PPrice , p.name as PName ,
                 po.number as PCount,p.img as img FROM
                 (SELECT ord.o_id, ord.time, ord.total ,
-                ord.status, ord.user_id FROM orders ord where ord.user_id = $userId limit 4 OFFSET $offset) as o,
+                ord.status, ord.user_id FROM orders ord where ord.user_id = $userId limit 4 OFFSET $offset ) as o,
                 products p,
                 products_orders po WHERE o.o_id = po.order_id
                 and p.p_id = po.product_id and o.user_id = $userId
