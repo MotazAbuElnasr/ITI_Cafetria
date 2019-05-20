@@ -4,13 +4,20 @@
 // require_once('order.php');
 class DbManager
 {
-  private $host = 'sql2.freemysqlhosting.net';
-  private $db = 'sql2283138';
-  private $user = 'sql2283138';
-  private $pass = 'yF4!iH7*';
+  private $host = 'remotemysql.com';
+  private $db = 'ZYQoYMYzrK';
+  private $user = 'ZYQoYMYzrK';
+  private $pass = 'uRp0Kci943';
   private $charset = 'utf8mb4';
   private $dsn = '';
   public $pdo;
+//   Username: ZYQoYMYzrK
+
+// Database name: ZYQoYMYzrK
+
+// Password: uRp0Kci943
+
+// Server: remotemysql.com
     //    private $host = 'localhost';
     //    private $db = 'cafetria'; // iti_cafe
     //    private $user = 'root';
